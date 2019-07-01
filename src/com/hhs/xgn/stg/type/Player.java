@@ -83,12 +83,12 @@ public class Player extends Entity{
 		float SPEED=Player.SPEED;
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			SPEED/=2;
+			SPEED/=2; //shift speed
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
 			y+=SPEED;
-			y=Math.min(y, VU.height);
+			y=Math.min(y, VU.height); 
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
 			y-=SPEED;
