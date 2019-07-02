@@ -22,6 +22,8 @@ public class ItemPower extends EntityItem {
 	public void collectItem() {
 		obj.p.atk+=value;
 		
+		obj.p.point+=10;
+		
 		Label l=VU.createLabel("+"+value+" Atk");
 		l.setFontScale(0.5f);
 		l.getStyle().fontColor=Color.YELLOW;

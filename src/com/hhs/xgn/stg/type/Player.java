@@ -20,6 +20,8 @@ public class Player extends Entity{
 
 	public int deadTime;
 	
+	public int graze,point;
+	
 	@Override
 	public void onHit(Entity ano) {
 		if(ano instanceof EntityEnemyBullet){
@@ -32,14 +34,17 @@ public class Player extends Entity{
 				obj.addItem(new ItemPower(obj, x+VU.easyRandom(-50, 50), y+30, Math.max(0.4f,(atk-1)/5-0.1f)));
 			}
 			atk=1;
-			x=VU.width/2;
-			y=0;
 			
+
 			Label hplost=VU.createLabel(realD+"");
 			hplost.getStyle().fontColor=Color.GREEN;
 			hplost.addAction(Actions.sequence(Actions.alpha(0,2),Actions.removeActor()));
 			hplost.setPosition(x+VU.easyRandom(-getCollision()/2,getCollision()/2), y+VU.easyRandom(-getCollision()/2,getCollision()/2),Align.center);
 			obj.instant.addActor(hplost);
+			
+			x=VU.width/2;
+			y=0;
+			
 		}
 	}
 	@Override

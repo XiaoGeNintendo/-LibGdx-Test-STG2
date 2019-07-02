@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
@@ -49,6 +50,8 @@ public class MainScreen implements Screen {
 	public Stage ui;
 	public Label everything;
 	public Group instant;
+	
+	public int renderMode;
 	
 	public void addPlayerBullet(float x,float y) {
 		EntityPlayerBullet epb=new EntityPlayerBullet(this);
@@ -154,21 +157,31 @@ public class MainScreen implements Screen {
 			VU.clear(1,1,1,1);	
 		}
 		
+		//Check Esc key
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			if(renderMode==1){
+				renderMode=0;
+			}else{
+				renderMode=1;
+			}
+		}
 		
 		//First frame everything
-		for(EntityEnemy ee:groupEnemy){
-			ee.onFrame();
+		if(renderMode==0){
+			for(EntityEnemy ee:groupEnemy){
+				ee.onFrame();
+			}
+			for(EntityPlayerBullet epb:groupPlayerBullet){
+				epb.onFrame();
+			}
+			for(EntityEnemyBullet eeb:groupEnemyBullet){
+				eeb.onFrame();
+			}
+			for(EntityItem eeb:groupItem){
+				eeb.onFrame();
+			}
+			p.onFrame();
 		}
-		for(EntityPlayerBullet epb:groupPlayerBullet){
-			epb.onFrame();
-		}
-		for(EntityEnemyBullet eeb:groupEnemyBullet){
-			eeb.onFrame();
-		}
-		for(EntityItem eeb:groupItem){
-			eeb.onFrame();
-		}
-		p.onFrame();
 		
 		//Then check collision
 		checkCol(groupEnemy,groupPlayerBullet);
@@ -183,23 +196,39 @@ public class MainScreen implements Screen {
 		checkDead(groupItem);
 		
 		//UI Component Update
-		String disText="HP:"+p.hp+"\nSpell:"+p.spell+"\n"+p.atk+"P"+p.def+"D";
+		String disText="HP:"+p.hp+"\nSpell:"+p.spell+"\n"+p.atk+"P"+p.def+"D\nGraze:"+p.graze+"\nPoint:"+p.point;
 		if(p.y>VU.height/3*2){
 			disText+="\n-=Auto Collect On=-";
 		}
 		everything.setText(disText);
 		everything.setPosition(0,90,Align.bottomLeft);
 		
-		
+		//Graze
+		for(EntityEnemyBullet eeb:groupEnemyBullet){
+			if(!eeb.grazed && getDist(eeb, p)<=p.getCollision()*2){
+				eeb.grazed=true;
+				
+				p.graze++;
+				p.point+=20;
+				
+				Label hplost=VU.createLabel("graze");
+				hplost.getStyle().fontColor=Color.GRAY;
+				hplost.setFontScale(0.5f);
+				hplost.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(0, 100,5),Actions.alpha(0,5)),Actions.removeActor()));
+				hplost.setPosition(eeb.x, eeb.y,Align.center);
+				instant.addActor(hplost); 
+			}
+		}
 		//Then draw
 		sb.begin();
 		
 		checkRen(groupEnemy);
 		checkRen(groupPlayerBullet);
-		checkRen(groupEnemyBullet);
-		checkRen(groupItem);
 		
 		sb.draw(am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
+		
+		checkRen(groupEnemyBullet);
+		checkRen(groupItem);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			sb.draw(am.get("heart.png",Texture.class), p.x-p.getCollision()/2, p.y-p.getCollision()/2,p.getCollision(),p.getCollision());
@@ -212,6 +241,13 @@ public class MainScreen implements Screen {
 		
 		ui.act();
 		ui.draw();
+		
+		if(renderMode==1){
+			//Esc
+			sb.begin();
+			sb.setColor(0.78f,0.78f,0.78f,0.78f);
+			sb.draw(am.get("pure.png",Texture.class), 0, 0,VU.width,VU.height);
+		}
 		
 		//Process Level Information
 		if(frameC>=120){

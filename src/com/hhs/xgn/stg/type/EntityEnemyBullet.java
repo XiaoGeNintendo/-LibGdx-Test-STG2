@@ -10,6 +10,7 @@ import com.hhs.xgn.stg.launcher.MainScreen;
 public class EntityEnemyBullet extends Entity{
 	
 	public float damage;
+	public boolean grazed;
 	
 	public EntityEnemyBullet(MainScreen ms){
 		super(ms);

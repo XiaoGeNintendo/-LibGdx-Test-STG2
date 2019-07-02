@@ -32,6 +32,8 @@ public class EntityEnemy extends Entity{
 		if(ano instanceof EntityPlayerBullet){
 			
 			hp-=obj.p.atk;
+			obj.p.point+=obj.p.atk;
+			
 			if(hp<=0){
 				dead=true;
 				onKill();
