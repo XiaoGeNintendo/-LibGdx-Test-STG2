@@ -119,7 +119,7 @@ public class Player extends Entity{
 					obj.addPlayerBullet(x+5*i, y);
 				}
 				
-				if(x%2==1){
+				if(xx%2==1){
 					obj.addPlayerBullet(x,y);
 				}
 			}

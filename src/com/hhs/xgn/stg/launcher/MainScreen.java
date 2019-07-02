@@ -82,7 +82,8 @@ public class MainScreen implements Screen {
 			"player3.png",
 			"playerbullet.png",
 			"heart.png",
-			"power.bmp"
+			"power.bmp",
+			"pure.png"
 	};
 	
 	public MainScreen(GameMain gm){
@@ -247,6 +248,8 @@ public class MainScreen implements Screen {
 			sb.begin();
 			sb.setColor(0.78f,0.78f,0.78f,0.78f);
 			sb.draw(am.get("pure.png",Texture.class), 0, 0,VU.width,VU.height);
+			sb.setColor(Color.WHITE);
+			sb.end();
 		}
 		
 		//Process Level Information
