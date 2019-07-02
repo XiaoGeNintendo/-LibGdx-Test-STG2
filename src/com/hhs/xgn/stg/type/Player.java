@@ -16,8 +16,10 @@ public class Player extends Entity{
 	
 	int nowframe=0;
 	
-	public float atk,def,hp,spell;
+	public float atk,def,hp;
 
+	public int spell;
+	
 	public int deadTime;
 	
 	public int graze,point;
@@ -122,6 +124,12 @@ public class Player extends Entity{
 				if(xx%2==1){
 					obj.addPlayerBullet(x,y);
 				}
+			}
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+			if(deadTime==0 && spell>0){
+				deadTime=180;
+				spell--;
 			}
 		}
 	}

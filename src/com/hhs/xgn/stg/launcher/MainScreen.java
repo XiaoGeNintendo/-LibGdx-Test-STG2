@@ -52,6 +52,8 @@ public class MainScreen implements Screen {
 	public Group instant;
 	
 	public int renderMode;
+	public Stage escMenu;
+	public Label escEv;
 	
 	public void addPlayerBullet(float x,float y) {
 		EntityPlayerBullet epb=new EntityPlayerBullet(this);
@@ -83,7 +85,8 @@ public class MainScreen implements Screen {
 			"playerbullet.png",
 			"heart.png",
 			"power.bmp",
-			"pure.png"
+			"pure.png",
+			"point.bmp"
 	};
 	
 	public MainScreen(GameMain gm){
@@ -111,6 +114,15 @@ public class MainScreen implements Screen {
 		
 		instant=new Group();
 		ui.addActor(instant);
+		
+		//Esc Menu
+		escMenu=new Stage();
+		escEv=VU.createLabel("Game is paused!\nPress Esc to continue!");
+		escEv.getStyle().fontColor=Color.GREEN;
+		
+		escEv.setFontScale(0.5f);
+		escEv.setPosition(0, 100);
+		escMenu.addActor(escEv);
 		
 		groupPlayer.add(p);
 	}
@@ -250,6 +262,8 @@ public class MainScreen implements Screen {
 			sb.draw(am.get("pure.png",Texture.class), 0, 0,VU.width,VU.height);
 			sb.setColor(Color.WHITE);
 			sb.end();
+			escMenu.act();
+			escMenu.draw();
 		}
 		
 		//Process Level Information

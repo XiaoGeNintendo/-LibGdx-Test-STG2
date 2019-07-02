@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
+import com.hhs.xgn.stg.game.ItemPoint;
 import com.hhs.xgn.stg.launcher.MainScreen;
 
 public class EntityEnemyBullet extends Entity{
@@ -23,6 +24,10 @@ public class EntityEnemyBullet extends Entity{
 		}
 	}
 	
+	public void onKill() {
+		obj.addItem(new ItemPoint(obj, x, y, 10f));
+		super.onKill();
+	}
 	@Override
 	public void onHit(Entity ano) {
 		if(ano instanceof Player){
