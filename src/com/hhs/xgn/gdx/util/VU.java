@@ -164,4 +164,12 @@ public class VU {
 		Random rad=new Random();
 		return rad.nextFloat()*(r-l)+l;
 	}
+
+	public static float getVX(float speed, float angle) {
+		return (float) (Math.cos(Math.toRadians(angle))*speed);
+	}
+	
+	public static float getVY(float speed, float angle) {
+		return (float) (Math.sin(Math.toRadians(angle))*speed);
+	}
 }

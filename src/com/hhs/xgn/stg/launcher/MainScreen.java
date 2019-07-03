@@ -26,6 +26,8 @@ import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.type.Player;
 import com.hhs.xgn.stg.game.EnemySelfAim;
 import com.hhs.xgn.stg.game.ItemPower;
+import com.hhs.xgn.stg.game.TestNonSpellCard;
+import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Entity;
 import com.hhs.xgn.stg.type.EntityEnemy;
 import com.hhs.xgn.stg.type.EntityEnemyBullet;
@@ -44,12 +46,16 @@ public class MainScreen implements Screen {
 	public ArrayList<Player> groupPlayer=new ArrayList<>();
 	public ArrayList<EntityItem> groupItem=new ArrayList<>();
 	
+	public Boss boss;
+	public boolean renderBoss;
+	
 	public Player p;
 	public SpriteBatch sb;
 	
 	public Stage ui;
 	public Label everything;
 	public Group instant;
+	public Label bossName;
 	
 	public int renderMode;
 	public Stage escMenu;
@@ -110,6 +116,11 @@ public class MainScreen implements Screen {
 		everything.getStyle().fontColor=new Color(1,0,0,0.5f);
 		everything.setFontScale(0.5f);
 		
+		bossName=VU.createLabel("Stage Test");
+		bossName.setPosition(0, VU.height,Align.topLeft);
+		bossName.setFontScale(0.5f);
+		
+		ui.addActor(bossName);
 		ui.addActor(everything);
 		
 		instant=new Group();
@@ -194,6 +205,10 @@ public class MainScreen implements Screen {
 				eeb.onFrame();
 			}
 			p.onFrame();
+			
+			if(renderBoss){
+				boss.onFrame();
+			}
 		}
 		
 		//Then check collision
@@ -208,6 +223,11 @@ public class MainScreen implements Screen {
 		checkDead(groupEnemyBullet);
 		checkDead(groupItem);
 		
+		if(renderBoss && boss.dead){
+			renderBoss=false;
+			boss=null;
+		}
+		
 		//UI Component Update
 		String disText="HP:"+p.hp+"\nSpell:"+p.spell+"\n"+p.atk+"P"+p.def+"D\nGraze:"+p.graze+"\nPoint:"+p.point;
 		if(p.y>VU.height/3*2){
@@ -218,7 +238,7 @@ public class MainScreen implements Screen {
 		
 		//Graze
 		for(EntityEnemyBullet eeb:groupEnemyBullet){
-			if(!eeb.grazed && getDist(eeb, p)<=p.getCollision()*2){
+			if(!eeb.grazed && getDist(eeb, p)<=p.getCollision()*4){
 				eeb.grazed=true;
 				
 				p.graze++;
@@ -232,21 +252,28 @@ public class MainScreen implements Screen {
 				instant.addActor(hplost); 
 			}
 		}
+		
 		//Then draw
 		sb.begin();
 		
 		checkRen(groupEnemy);
 		checkRen(groupPlayerBullet);
 		
+		if(renderBoss){
+			sb.draw(am.get(boss.texture,Texture.class), boss.x-boss.sx/2, boss.y-boss.sy/2,boss.sx,boss.sy);
+		}
 		sb.draw(am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
 		
 		checkRen(groupEnemyBullet);
 		checkRen(groupItem);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			sb.draw(am.get("heart.png",Texture.class), p.x-p.getCollision()/2, p.y-p.getCollision()/2,p.getCollision(),p.getCollision());
+			sb.draw(am.get("heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
 			for(Entity e:groupEnemy){
-				sb.draw(am.get("heart.png",Texture.class), e.x-e.getCollision()/2, e.y-e.getCollision()/2,e.getCollision(),e.getCollision());
+				sb.draw(am.get("heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
+			}
+			for(Entity e:groupEnemyBullet){
+				sb.draw(am.get("heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
 			}
 		}
 		
@@ -254,6 +281,22 @@ public class MainScreen implements Screen {
 		
 		ui.act();
 		ui.draw();
+		
+		if(renderBoss){
+			//render the boss name and bar
+			String td=boss.name;
+			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
+				td+=" [S] ";
+			}
+			td+=" !!!"+boss.currentTime/1000f+"!!!";
+			bossName.setText(td);
+			
+			sb.begin();
+			sb.setColor(0, 1, 0, 0.8f);
+			sb.draw(am.get("pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
+			sb.setColor(Color.WHITE);
+			sb.end();
+		}
 		
 		if(renderMode==1){
 			//Esc
@@ -267,11 +310,16 @@ public class MainScreen implements Screen {
 		}
 		
 		//Process Level Information
-		if(frameC>=120){
-			EnemySelfAim esa=new EnemySelfAim(this, p.x, VU.height+100);
-			addEnemy(esa);
-			frameC-=120;
+		if(renderBoss==false){
+			boss=new Boss(this, "enemy.png", 128, 64, "Test Boss",VU.width/2f,300,new TestNonSpellCard(this));
+			renderBoss=true;
 		}
+		
+//		if(frameC>=120){
+//			EnemySelfAim esa=new EnemySelfAim(this, p.x, VU.height+100);
+//			addEnemy(esa);
+//			frameC-=120;
+//		}
 	}
 
 	public void checkDead(ArrayList<? extends Entity> a){

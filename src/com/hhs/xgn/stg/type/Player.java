@@ -51,7 +51,7 @@ public class Player extends Entity{
 	}
 	@Override
 	public float getCollision() {
-		return 16;
+		return 4;
 	}
 	
 	public Player(MainScreen obj){
