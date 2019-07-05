@@ -22,13 +22,13 @@ public class ItemPoint extends EntityItem {
 	public void collectItem() {
 		obj.p.point+=value;
 		
-		Label l=VU.createLabel(value+"");
-		l.setFontScale(0.5f);
-		l.getStyle().fontColor=Color.BLUE;
-		l.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(0, 100,5),Actions.alpha(0,5)),Actions.removeActor()));
-		l.setPosition(x, y,Align.center);
-		
-		obj.instant.addActor(l);
+//		Label l=VU.createLabel(value+"");
+//		l.setFontScale(0.5f);
+//		l.getStyle().fontColor=Color.BLUE;
+//		l.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(0, 100,5),Actions.alpha(0,5)),Actions.removeActor()));
+//		l.setPosition(x, y,Align.center);
+//		
+//		obj.instant.addActor(l);
 		
 		super.collectItem();
 	}

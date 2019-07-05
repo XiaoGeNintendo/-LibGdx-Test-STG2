@@ -7,7 +7,7 @@ import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestNonSpellCard extends SpellCard {
 	public TestNonSpellCard(MainScreen ms){
-		super(ms,1000,60*1000,"");
+		super(ms,1000,6*1000,"");
 	}
 	
 	int frameC=0;

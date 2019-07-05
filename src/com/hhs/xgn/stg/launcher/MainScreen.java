@@ -177,6 +177,10 @@ public class MainScreen implements Screen {
 			
 			groupEnemy.clear();
 			
+			if(renderBoss && !boss.isAppearing()){
+				boss.currentHp-=p.atk;
+				
+			}
 		}else{
 			VU.clear(1,1,1,1);	
 		}
@@ -216,6 +220,19 @@ public class MainScreen implements Screen {
 		checkCol(groupEnemyBullet,groupPlayer);
 		checkCol(groupEnemy,groupPlayer);
 		checkCol(groupItem,groupPlayer);
+		
+		if(renderBoss && !boss.isAppearing()){
+			for(EntityPlayerBullet x:groupPlayerBullet){
+				if(x.dead || boss.dead){
+					continue;
+				}
+				
+				if(getDist(x,boss)<=x.getCollision()+boss.getCollision()){
+					x.onHit(boss);
+					boss.onHit(x);
+				}
+			}
+		}
 		
 		//check dead
 		checkDead(groupEnemy);
@@ -282,7 +299,7 @@ public class MainScreen implements Screen {
 		ui.act();
 		ui.draw();
 		
-		if(renderBoss){
+		if(renderBoss && !boss.isAppearing()){
 			//render the boss name and bar
 			String td=boss.name;
 			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
@@ -301,7 +318,12 @@ public class MainScreen implements Screen {
 		if(renderMode==1){
 			//Esc
 			sb.begin();
-			sb.setColor(0.78f,0.78f,0.78f,0.78f);
+			if(renderBoss){
+				sb.setColor(1,0,0,0.78f);
+			}else{
+				sb.setColor(0.78f,0.78f,0.78f,0.78f);
+			}
+			
 			sb.draw(am.get("pure.png",Texture.class), 0, 0,VU.width,VU.height);
 			sb.setColor(Color.WHITE);
 			sb.end();
