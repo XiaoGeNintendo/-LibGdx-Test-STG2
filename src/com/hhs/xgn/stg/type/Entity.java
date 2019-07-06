@@ -46,6 +46,15 @@ public class Entity {
 		vy+=ay;
 	}
 	
+	public void setPosition(float nx,float ny){
+		x=nx;
+		y=ny;
+	}
+	public void setPosition(double nx,double ny){
+		x=(float)nx;
+		y=(float)ny;
+	}
+	
 	public void onFrame(){
 		updateSpeed();
 		doFrame();

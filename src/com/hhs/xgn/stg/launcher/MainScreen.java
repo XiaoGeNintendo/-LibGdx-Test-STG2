@@ -27,6 +27,7 @@ import com.hhs.xgn.stg.type.Player;
 import com.hhs.xgn.stg.game.EnemySelfAim;
 import com.hhs.xgn.stg.game.ItemPower;
 import com.hhs.xgn.stg.game.TestNonSpellCard;
+import com.hhs.xgn.stg.game.TestSpellCard;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Entity;
 import com.hhs.xgn.stg.type.EntityEnemy;
@@ -92,7 +93,8 @@ public class MainScreen implements Screen {
 			"heart.png",
 			"power.bmp",
 			"pure.png",
-			"point.bmp"
+			"point.bmp",
+			"reimu.png"
 	};
 	
 	public MainScreen(GameMain gm){
@@ -166,17 +168,7 @@ public class MainScreen implements Screen {
 			VU.clear(0, 0, 0, 1);
 			p.deadTime--;
 			
-			for(EntityEnemyBullet eeb:groupEnemyBullet){
-				eeb.onKill();
-			}
-			
-			groupEnemyBullet.clear();
-			for(EntityEnemy ee:groupEnemy){
-				ee.onKill();
-			}
-			
-			groupEnemy.clear();
-			
+			clearBullet();
 			if(renderBoss && !boss.isAppearing()){
 				boss.currentHp-=p.atk;
 				
@@ -302,10 +294,12 @@ public class MainScreen implements Screen {
 		if(renderBoss && !boss.isAppearing()){
 			//render the boss name and bar
 			String td=boss.name;
-			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
-				td+=" [S] ";
-			}
 			td+=" !!!"+boss.currentTime/1000f+"!!!";
+			td+="\n";
+
+			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
+				td+="*";
+			}
 			bossName.setText(td);
 			
 			sb.begin();
@@ -313,6 +307,8 @@ public class MainScreen implements Screen {
 			sb.draw(am.get("pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
 			sb.setColor(Color.WHITE);
 			sb.end();
+		}else{
+			bossName.setText("Stage Test");
 		}
 		
 		if(renderMode==1){
@@ -333,7 +329,7 @@ public class MainScreen implements Screen {
 		
 		//Process Level Information
 		if(renderBoss==false){
-			boss=new Boss(this, "enemy.png", 128, 64, "Test Boss",VU.width/2f,300,new TestNonSpellCard(this));
+			boss=new Boss(this, "enemy.png", 128, 64, "reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this));
 			renderBoss=true;
 		}
 		
@@ -342,6 +338,21 @@ public class MainScreen implements Screen {
 //			addEnemy(esa);
 //			frameC-=120;
 //		}
+	}
+
+	//clear bullet and enemy
+	public void clearBullet() {
+		for(EntityEnemyBullet eeb:groupEnemyBullet){
+			eeb.onKill();
+		}
+		
+		groupEnemyBullet.clear();
+		for(EntityEnemy ee:groupEnemy){
+			ee.onKill();
+		}
+		
+		groupEnemy.clear();
+		
 	}
 
 	public void checkDead(ArrayList<? extends Entity> a){
@@ -406,6 +417,13 @@ public class MainScreen implements Screen {
 		}
 		
 		groupEnemy.remove(entityEnemy);
+	}
+
+	public void bonusFailed() {
+
+		if(renderBoss && !boss.isAppearing()){
+			boss.bonus=false;
+		}
 	}
 
 	

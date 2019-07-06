@@ -19,4 +19,9 @@ public class SpellCard {
 	public void onFrame(){
 		
 	}
+
+	public boolean isNonspell() {
+		// TODO Auto-generated method stub
+		return name.equals("");
+	}
 }

@@ -34,4 +34,5 @@ public class EntityEnemyBullet extends Entity{
 			dead=true;
 		}
 	}
+
 }

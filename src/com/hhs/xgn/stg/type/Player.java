@@ -36,8 +36,8 @@ public class Player extends Entity{
 				obj.addItem(new ItemPower(obj, x+VU.easyRandom(-50, 50), y+30, Math.max(0.4f,(atk-1)/5-0.1f)));
 			}
 			atk=1;
+			obj.bonusFailed();
 			
-
 			Label hplost=VU.createLabel(realD+"");
 			hplost.getStyle().fontColor=Color.GREEN;
 			hplost.addAction(Actions.sequence(Actions.alpha(0,2),Actions.removeActor()));
@@ -128,6 +128,8 @@ public class Player extends Entity{
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
 			if(deadTime==0 && spell>0){
+				obj.bonusFailed();
+				
 				deadTime=180;
 				spell--;
 			}
