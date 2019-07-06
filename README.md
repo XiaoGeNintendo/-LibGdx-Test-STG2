@@ -8,6 +8,14 @@ Source Code is in src folder.
 # Building
 Build using the Javac Command Line is Ok.
 
+# Extra Note
+used resources from Touhou Project.
+
+Any copyright problems, contact me.
 # Changelog
 
 - [0.2.0]Upload to Github 
+
+- [0.3.0]I forgot
+
+- [0.4.0]FX update
