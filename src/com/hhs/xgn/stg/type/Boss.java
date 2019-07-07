@@ -59,15 +59,14 @@ public class Boss extends Entity{
 		return 16;
 	}
 	public float currentHp;
-	public long currentTime;
+	public int currentTime;
 	
 	public void nextSpellCard(){
-		currentSpellPointer++;
-		
-		
-		
 		//do some animation
-		if(currentSpellPointer!=0){
+		
+		
+		if(currentSpellPointer!=-1){
+			getSpell().onEnd();
 			if(!getSpell().isNonspell()){
 				if(currentTime<=0 || bonus==false){
 					//bouns failed
@@ -78,15 +77,27 @@ public class Boss extends Entity{
 				}else{
 					//bonus ok
 
-					Label ok=VU.createLabel("Get Spellcard Bonus!!");
-					ok.setFontScale(0.8f);
-					ok.setPosition(20, VU.height/2);
+					Label ok=VU.createLabel("Get Spellcard Bonus!!\n");
+					ok.setFontScale(0.75f);
+					ok.getStyle().fontColor=Color.CYAN;
+					ok.setPosition(0, VU.height/2);
 					ok.addAction(Actions.sequence(Actions.alpha(0,5),Actions.removeActor()));
 					obj.instant.addActor(ok);
+					
+					float _bonus=(currentTime/(float)getSpell().time)*1e5f;
+					
+					obj.p.point+=_bonus;
+					Label ok2=VU.createLabel("Break time:"+(getSpell().time-currentTime)+"ms\nBonus:"+_bonus);
+					ok2.setFontScale(0.75f);
+					ok2.getStyle().fontColor=Color.PURPLE;
+					ok2.setPosition(0, VU.height/2-50);
+					ok2.addAction(Actions.sequence(Actions.alpha(0,5),Actions.removeActor()));
+					obj.instant.addActor(ok2);
 				}
 			}
 		}
 				
+		currentSpellPointer++;
 		bonus=true;
 		if(currentSpellPointer==spells.size()){
 			dead=true;
@@ -146,8 +157,8 @@ public class Boss extends Entity{
 			if(animTime%1==0){
 				//create new stuff
 				Image im=new Image(obj.am.get("pure.png",Texture.class));
-				im.setColor(Color.CYAN);
-				im.setPosition(VU.easyRandom(-300, 300), VU.easyRandom(-300, 300));
+				im.setColor(Color.BLACK);
+				im.setPosition(VU.easyRandom(-400, 400), VU.easyRandom(-400, 400));
 				im.addAction(Actions.sequence(
 							Actions.moveTo(x, y,VU.easyRandom(0.1f, animTime/60f)),
 							Actions.removeActor()));
@@ -166,9 +177,7 @@ public class Boss extends Entity{
 		
 //		System.out.println("Running"+currentTime);
 		getSpell().onFrame();
-		long now=System.currentTimeMillis();
-		currentTime-=now-last;
-		last=now;
+		currentTime--;
 		if(currentTime<=0){
 			nextSpellCard();
 		}

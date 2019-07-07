@@ -8,7 +8,7 @@ import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestSpellCard extends SpellCard {
 	public TestSpellCard(MainScreen ms){
-		super(ms,1000,20*1000,"Star Spell\n[HIDDEN STARS IN FOUR SEASONS]");
+		super(ms,1000,20*60,"Star Spell\n[HIDDEN STARS IN FOUR SEASONS]");
 	}
 	
 	int frameC=0;
@@ -16,8 +16,8 @@ public class TestSpellCard extends SpellCard {
 	public void onFrame() {
 //		System.out.println("Running SPell"+frameC);
 		frameC++;
-		if(frameC%60==0){
-			for(int i=0;i<=360;i+=2){
+		if(frameC%300==0){
+			for(int i=0;i<=360;i+=3){
 //				System.out.println("Created bullet");
 				EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
 				eeb.texture="bullet.png";
@@ -32,5 +32,11 @@ public class TestSpellCard extends SpellCard {
 			}
 		}
 		super.onFrame();
+	}
+	
+	@Override
+	public void onEnd(){
+		obj.addItem(new ItemPoint(obj, obj.boss.x-10, obj.boss.y, 5000));
+		obj.addItem(new ItemPoint(obj, obj.boss.x+10, obj.boss.y, 5000));
 	}
 }

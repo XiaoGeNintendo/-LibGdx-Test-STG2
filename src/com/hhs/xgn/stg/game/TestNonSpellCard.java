@@ -3,11 +3,12 @@ package com.hhs.xgn.stg.game;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityItem;
 import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestNonSpellCard extends SpellCard {
 	public TestNonSpellCard(MainScreen ms){
-		super(ms,1000,5*1000,"");
+		super(ms,1000,300,"");
 	}
 	
 	int frameC=0;
@@ -32,5 +33,10 @@ public class TestNonSpellCard extends SpellCard {
 			}
 		}
 		super.onFrame();
+	}
+	
+	@Override
+	public void onEnd(){
+		obj.addItem(new ItemPower(obj, obj.boss.x, obj.boss.y, 5));
 	}
 }

@@ -273,8 +273,9 @@ public class MainScreen implements Screen {
 		}
 		sb.draw(am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
 		
-		checkRen(groupEnemyBullet);
 		checkRen(groupItem);
+		checkRen(groupEnemyBullet);
+		
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			sb.draw(am.get("heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
@@ -288,13 +289,15 @@ public class MainScreen implements Screen {
 		
 		sb.end();
 		
-		ui.act();
+		if(renderMode==0){
+			ui.act();	
+		}
 		ui.draw();
 		
 		if(renderBoss && !boss.isAppearing()){
 			//render the boss name and bar
 			String td=boss.name;
-			td+=" !!!"+boss.currentTime/1000f+"!!!";
+			td+=String.format(" !!!%.1f sec!!!",boss.currentTime/60f );
 			td+="\n";
 
 			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
@@ -303,7 +306,8 @@ public class MainScreen implements Screen {
 			bossName.setText(td);
 			
 			sb.begin();
-			sb.setColor(0, 1, 0, 0.8f);
+			sb.setColor(0.9f,0.08f,0.05f,0.8f);
+			
 			sb.draw(am.get("pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
 			sb.setColor(Color.WHITE);
 			sb.end();
@@ -314,11 +318,9 @@ public class MainScreen implements Screen {
 		if(renderMode==1){
 			//Esc
 			sb.begin();
-			if(renderBoss){
-				sb.setColor(1,0,0,0.78f);
-			}else{
-				sb.setColor(0.78f,0.78f,0.78f,0.78f);
-			}
+			
+			sb.setColor(0.22f,0.22f,0.22f,0.78f);
+			
 			
 			sb.draw(am.get("pure.png",Texture.class), 0, 0,VU.width,VU.height);
 			sb.setColor(Color.WHITE);
