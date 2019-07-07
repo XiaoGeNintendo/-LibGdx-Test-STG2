@@ -141,6 +141,20 @@ public class Boss extends Entity{
 			
 			obj.instant.addActor(sn);
 			
+			//ten desires
+			for(float i=2f;i>=1.5f;i-=0.1f){
+				Label warn=VU.createLabel("Spell Card Attack");
+				warn.setPosition(VU.width-120,-300);
+				warn.getStyle().fontColor=new Color(1,0,0,1f);
+				warn.setFontScale(0.4f);
+				warn.addAction(Actions.sequence(
+							Actions.moveTo(VU.width-120, VU.height-100,i),
+							Actions.delay(2f-i),
+							Actions.moveBy(-300, 0,2),
+							Actions.removeActor()
+						));
+				obj.instant.addActor(warn);
+			}
 		}
 	}
 	

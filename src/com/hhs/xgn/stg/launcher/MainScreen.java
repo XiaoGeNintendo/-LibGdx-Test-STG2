@@ -57,6 +57,7 @@ public class MainScreen implements Screen {
 	public Label everything;
 	public Group instant;
 	public Label bossName;
+	public Label spellScroll;
 	
 	public int renderMode;
 	public Stage escMenu;
@@ -122,8 +123,14 @@ public class MainScreen implements Screen {
 		bossName.setPosition(0, VU.height,Align.topLeft);
 		bossName.setFontScale(0.5f);
 		
+		spellScroll=VU.createLabel("");
+		spellScroll.setPosition(0,VU.height-75);
+		spellScroll.getStyle().fontColor=new Color(0,0,1,0.8f);
+		spellScroll.setFontScale(0.4f);
+		
 		ui.addActor(bossName);
 		ui.addActor(everything);
+		ui.addActor(spellScroll);
 		
 		instant=new Group();
 		ui.addActor(instant);
@@ -294,6 +301,18 @@ public class MainScreen implements Screen {
 		}
 		ui.draw();
 		
+		if(!renderBoss || boss.isAppearing() || boss.getSpell().isNonspell()){
+			spellScroll.setVisible(false);
+		}else{
+			spellScroll.setVisible(true);
+			if(renderMode==0){
+				spellScroll.moveBy(-1, 0);
+				if(spellScroll.getX()+spellScroll.getText().length*8<0){
+					spellScroll.setX(VU.width+10);
+				}
+			}
+		}
+		
 		if(renderBoss && !boss.isAppearing()){
 			//render the boss name and bar
 			String td=boss.name;
@@ -304,6 +323,9 @@ public class MainScreen implements Screen {
 				td+="*";
 			}
 			bossName.setText(td);
+			
+			spellScroll.setText(boss.getSpell().name.replace("\n", ""));
+			
 			
 			sb.begin();
 			sb.setColor(0.9f,0.08f,0.05f,0.8f);
