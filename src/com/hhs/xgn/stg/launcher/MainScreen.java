@@ -95,8 +95,10 @@ public class MainScreen implements Screen {
 			"power.bmp",
 			"pure.png",
 			"point.bmp",
-			"reimu.png"
+			"reimu.png",
+			"background.png"
 	};
+	
 	
 	public MainScreen(GameMain gm){
 		this.gm=gm;
@@ -166,10 +168,16 @@ public class MainScreen implements Screen {
 
 	int frameC;
 	
+	int backgroundC;
+	
 	@Override
 	public void render(float arg0) {
 		
 		frameC++;
+		
+		if(renderMode==0){
+			backgroundC++;
+		}
 		
 		if(p.deadTime!=0){
 			VU.clear(0, 0, 0, 1);
@@ -183,6 +191,13 @@ public class MainScreen implements Screen {
 		}else{
 			VU.clear(1,1,1,1);	
 		}
+		
+		//render background
+		sb.begin();
+		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
+		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
+		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+		sb.end();
 		
 		//Check Esc key
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
