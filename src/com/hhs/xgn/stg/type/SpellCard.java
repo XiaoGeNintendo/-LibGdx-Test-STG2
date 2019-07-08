@@ -23,6 +23,14 @@ public class SpellCard {
 		
 	}
 
+	public float getX(){
+		return obj.boss.x;
+	}
+	
+	public float getY(){
+		return obj.boss.y;
+	}
+	
 	public boolean isNonspell() {
 		// TODO Auto-generated method stub
 		return name.equals("");

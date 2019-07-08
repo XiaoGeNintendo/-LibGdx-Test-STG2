@@ -27,6 +27,7 @@ import com.hhs.xgn.stg.type.Player;
 import com.hhs.xgn.stg.game.EnemySelfAim;
 import com.hhs.xgn.stg.game.ItemPower;
 import com.hhs.xgn.stg.game.TestNonSpellCard;
+import com.hhs.xgn.stg.game.TestRandomCard;
 import com.hhs.xgn.stg.game.TestSpellCard;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Entity;
@@ -118,7 +119,7 @@ public class MainScreen implements Screen {
 		
 		everything=VU.createLabel("");
 		everything.setPosition(0,0,Align.bottomLeft);
-		everything.getStyle().fontColor=new Color(1,0,0,0.5f);
+		everything.getStyle().fontColor=new Color(1,0,0,0.8f);
 		everything.setFontScale(0.5f);
 		
 		bossName=VU.createLabel("Stage Test");
@@ -368,7 +369,7 @@ public class MainScreen implements Screen {
 		
 		//Process Level Information
 		if(renderBoss==false){
-			boss=new Boss(this, "enemy.png", 128, 64, "reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this));
+			boss=new Boss(this, "enemy.png", 128, 64, "reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this),new TestRandomCard(this));
 			renderBoss=true;
 		}
 		
