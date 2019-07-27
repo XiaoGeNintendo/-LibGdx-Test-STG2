@@ -121,7 +121,7 @@ public class Boss extends Entity{
 			ta.addAction(Actions.sequence(
 							Actions.moveBy(200,0,1,Interpolation.circleIn),
 							Actions.moveBy(50,0,5),
-							Actions.moveBy(200, 0,1,Interpolation.circleOut),
+							Actions.moveBy(VU.width, 0,1,Interpolation.circleOut),
 							Actions.removeActor()
 						));
 			
@@ -135,7 +135,7 @@ public class Boss extends Entity{
 			sn.addAction(Actions.sequence(
 							Actions.moveBy(-200,0,1,Interpolation.circleIn),
 							Actions.moveBy(-50,0,5),
-							Actions.moveBy(-400, 0,1,Interpolation.circleOut),
+							Actions.moveBy(-VU.width, 0,1,Interpolation.circleOut),
 							Actions.removeActor()
 						));
 			

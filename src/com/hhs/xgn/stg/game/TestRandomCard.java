@@ -17,7 +17,7 @@ public class TestRandomCard extends SpellCard {
 	public void onFrame() {
 //		System.out.println("Running SPell"+frameC);
 		frameC++;
-		if(frameC%10==0){
+		if(frameC%1==0){
 		
 			EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
 			eeb.texture="bullet.png";

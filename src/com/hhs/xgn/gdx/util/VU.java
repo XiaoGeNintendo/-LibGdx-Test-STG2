@@ -29,9 +29,9 @@ import com.badlogic.gdx.utils.Disposable;
 public class VU {
 	
 	/**Global width*/
-	public static int width=256;
+	public static int width=512;
 	/**Global height*/
-	public static int height=384;
+	public static int height=512;
 	
 	public static void setMiddle(Actor a,int ww,int hh){
 		a.setSize(ww, hh);
