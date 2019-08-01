@@ -64,6 +64,8 @@ public class MainScreen implements Screen {
 	public Stage escMenu;
 	public Label escEv;
 	
+	public Stage rightUI;
+	
 	public ArrayList<Image> spells=new ArrayList<>();
 	
 	public void addPlayerBullet(float x,float y) {
@@ -120,11 +122,12 @@ public class MainScreen implements Screen {
 		
 		//Render UI
 		ui=new Stage();
+		rightUI=new Stage();
 		
 		everything=VU.createLabel("");
-		everything.setPosition(0,0,Align.bottomLeft);
+		everything.setPosition(VU.width,VU.height-90);
 		everything.getStyle().fontColor=new Color(1,0,0,0.8f);
-		everything.setFontScale(0.5f);
+//		everything.setFontScale(0.5f);
 		
 		bossName=VU.createLabel("Stage Test","ink.fnt");
 		bossName.getStyle().fontColor=Color.RED;
@@ -138,7 +141,7 @@ public class MainScreen implements Screen {
 		spellScroll.setFontScale(0.4f);
 		
 		ui.addActor(bossName);
-		ui.addActor(everything);
+		rightUI.addActor(everything);
 		ui.addActor(spellScroll);
 		
 		instant=new Group();
@@ -267,11 +270,11 @@ public class MainScreen implements Screen {
 		
 		//UI Component Update
 		String disText="HP:"+p.hp+"\nSpell:"+p.spell+"\n"+p.atk+"P"+p.def+"D\nGraze:"+p.graze+"\nPoint:"+p.point;
-		if(p.y>VU.height/3*2){
-			disText+="\n-=Auto Collect On=-";
-		}
+//		if(p.y>VU.height/3*2){
+//			disText+="\n-=Auto Collect On=-";
+//		}
 		everything.setText(disText);
-		everything.setPosition(0,90,Align.bottomLeft);
+		everything.setPosition(VU.width,VU.height-90,Align.bottomLeft);
 		
 		//Graze
 		for(EntityEnemyBullet eeb:groupEnemyBullet){
@@ -360,8 +363,11 @@ public class MainScreen implements Screen {
 		
 		//Draw UI Bg
 		sb.begin();
-		sb.draw(am.get("ui_bg.png",Texture.class), VU.width, 0, 200, VU.height);
+		sb.draw(am.get("ui_bg.png",Texture.class), VU.width, 0, VU.rightWidth, VU.height);
 		sb.end();
+		
+		rightUI.act();
+		rightUI.draw();
 		
 		if(renderMode==1){
 			//Esc

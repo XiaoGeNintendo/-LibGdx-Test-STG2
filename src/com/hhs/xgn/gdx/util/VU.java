@@ -32,6 +32,8 @@ public class VU {
 	public static int width=420;
 	/**Global height*/
 	public static int height=400;
+	/**RIght UI Width*/
+	public static int rightWidth=250;
 	
 	public static void setMiddle(Actor a,int ww,int hh){
 		a.setSize(ww, hh);
