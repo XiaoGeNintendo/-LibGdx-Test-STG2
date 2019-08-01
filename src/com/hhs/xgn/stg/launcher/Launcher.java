@@ -11,7 +11,7 @@ public class Launcher {
 	public static void main(String[] args) {
 		config=new LwjglApplicationConfiguration();
 		
-		config.width=VU.width;
+		config.width=VU.width+200;
 		config.height=VU.height;
 		
 		config.fullscreen=false;

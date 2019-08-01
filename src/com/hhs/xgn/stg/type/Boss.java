@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 
@@ -52,6 +53,18 @@ public class Boss extends Entity{
 		
 		sx=sy=0;
 		
+		for(Image s:obj.spells){
+			s.addAction(Actions.removeActor());
+		}
+		
+		for(int i=0;i<cards.length;i++){
+			Image im=new Image(obj.am.get("spells.png",Texture.class));
+			im.setOrigin(Align.center);
+			im.setPosition(i*16, VU.height-37);
+			im.setSize(16, 16);
+			obj.spells.add(im);
+			obj.instant.addActor(im);
+		}
 	}
 	
 	@Override
@@ -67,6 +80,16 @@ public class Boss extends Entity{
 		
 		if(currentSpellPointer!=-1){
 			getSpell().onEnd();
+			
+			obj.spells.get(obj.spells.size()-1).addAction(Actions.sequence(
+														  	Actions.parallel(
+															  Actions.alpha(0,1),
+															  Actions.scaleBy(5f, 5f,1f)
+														    ),
+														  	Actions.removeActor()
+														  ));
+			obj.spells.remove(obj.spells.size()-1);
+			
 			if(!getSpell().isNonspell()){
 				if(currentTime<=0 || bonus==false){
 					//bouns failed

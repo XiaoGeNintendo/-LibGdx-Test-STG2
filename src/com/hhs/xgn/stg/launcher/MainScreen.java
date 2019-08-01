@@ -64,6 +64,8 @@ public class MainScreen implements Screen {
 	public Stage escMenu;
 	public Label escEv;
 	
+	public ArrayList<Image> spells=new ArrayList<>();
+	
 	public void addPlayerBullet(float x,float y) {
 		EntityPlayerBullet epb=new EntityPlayerBullet(this);
 		epb.x=x;
@@ -97,7 +99,9 @@ public class MainScreen implements Screen {
 			"pure.png",
 			"point.bmp",
 			"reimu.png",
-			"background.png"
+			"background.png",
+			"ui_bg.png",
+			"spells.png"
 	};
 	
 	
@@ -335,9 +339,9 @@ public class MainScreen implements Screen {
 			td+=String.format(" !!!%.1f sec!!!",boss.currentTime/60f );
 			td+="\n";
 
-			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
-				td+="*";
-			}
+//			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
+//				td+="";
+//			}
 			bossName.setText(td);
 			
 			spellScroll.setText(boss.getSpell().name.replace("\n", ""));
@@ -350,8 +354,13 @@ public class MainScreen implements Screen {
 			sb.setColor(Color.WHITE);
 			sb.end();
 		}else{
-			bossName.setText("Stage Test");
+			bossName.setText("Stage Test\n");
 		}
+		
+		//Draw UI Bg
+		sb.begin();
+		sb.draw(am.get("ui_bg.png",Texture.class), VU.width, 0, 200, VU.height);
+		sb.end();
 		
 		if(renderMode==1){
 			//Esc
