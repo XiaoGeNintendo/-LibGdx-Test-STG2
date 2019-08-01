@@ -52,9 +52,13 @@ public class VU {
 	}
 	
 	public static Label createLabel(String s){
+		return createLabel(s,"zjs.fnt");
+	}
+	
+	public static Label createLabel(String s,String font){
 		LabelStyle ls=new LabelStyle();
 		
-		BitmapFont bf=new BitmapFont(Gdx.files.internal("font/zjs.fnt"));
+		BitmapFont bf=new BitmapFont(Gdx.files.internal("font/"+font));
 		ls.font=bf;
 		ls.fontColor=Color.BLACK;
 		Label lb=new Label(s,ls);

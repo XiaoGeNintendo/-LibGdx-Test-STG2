@@ -126,7 +126,9 @@ public class MainScreen implements Screen {
 		everything.getStyle().fontColor=new Color(1,0,0,0.8f);
 		everything.setFontScale(0.5f);
 		
-		bossName=VU.createLabel("Stage Test");
+		bossName=VU.createLabel("Stage Test","ink.fnt");
+		bossName.getStyle().fontColor=Color.RED;
+		
 		bossName.setPosition(0, VU.height,Align.topLeft);
 		bossName.setFontScale(0.5f);
 		
@@ -191,7 +193,6 @@ public class MainScreen implements Screen {
 			clearBullet();
 			if(renderBoss && !boss.isAppearing()){
 				boss.currentHp-=p.atk;
-				
 			}
 		}else{
 			VU.clear(1,1,1,1);	
