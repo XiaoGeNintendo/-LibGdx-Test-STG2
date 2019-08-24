@@ -8,7 +8,7 @@ import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestSpellCard extends SpellCard {
 	public TestSpellCard(MainScreen ms){
-		super(ms,1000,20*60,"Star Spell\n[HIDDEN STARS IN FOUR SEASONS]");
+		super(ms,1000,20*60,"Õ¡◊≈…Ò°∏•±•Ì§¡§„§ÛÔL”Í§Àÿì§±§∫°π");
 	}
 	
 	int frameC=0;

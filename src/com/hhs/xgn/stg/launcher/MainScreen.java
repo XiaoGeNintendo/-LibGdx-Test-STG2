@@ -136,10 +136,10 @@ public class MainScreen implements Screen {
 		bossName.setPosition(0, VU.height,Align.topLeft);
 		bossName.setFontScale(0.5f);
 		
-		spellScroll=VU.createLabel("");
+		spellScroll=VU.createLabel("","pixel.fnt");
 		spellScroll.setPosition(0,VU.height-75);
-		spellScroll.getStyle().fontColor=new Color(0,0,1,0.8f);
-		spellScroll.setFontScale(0.4f);
+//		spellScroll.getStyle().fontColor=new Color(0,0,1);
+		spellScroll.setFontScale(0.6f);
 		
 		ui.addActor(bossName);
 		rightUI.addActor(everything);
@@ -180,6 +180,8 @@ public class MainScreen implements Screen {
 	int frameC;
 	
 	int backgroundC;
+	
+	final float FONT_WIDTH=26;
 	
 	@Override
 	public void render(float arg0) {
@@ -332,7 +334,7 @@ public class MainScreen implements Screen {
 			spellScroll.setVisible(true);
 			if(renderMode==0){
 				spellScroll.moveBy(-1, 0);
-				if(spellScroll.getX()+spellScroll.getText().length*8<0){
+				if(spellScroll.getX()+spellScroll.getText().length*FONT_WIDTH<0){
 					spellScroll.setX(VU.width+10);
 				}
 			}

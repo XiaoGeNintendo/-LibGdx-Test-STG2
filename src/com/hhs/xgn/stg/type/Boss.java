@@ -152,7 +152,7 @@ public class Boss extends Entity{
 			
 			obj.instant.addActor(ta);
 			
-			Label sn=VU.createLabel(getSpell().name);
+			Label sn=VU.createLabel(getSpell().name,"pixel.fnt");
 			sn.setPosition(250, 50);
 			sn.setFontScale(0.4f);
 			sn.getStyle().fontColor=new Color(0,0,1,0.8f);

@@ -1,6 +1,7 @@
 package com.hhs.xgn.gdx.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -60,10 +61,17 @@ public class VU {
 		return createLabel(s,"zjs.fnt");
 	}
 	
+	static HashMap<String,BitmapFont> fontmap=new HashMap<>();
+	
 	public static Label createLabel(String s,String font){
 		LabelStyle ls=new LabelStyle();
 		
-		BitmapFont bf=new BitmapFont(Gdx.files.internal("font/"+font));
+		BitmapFont bf=fontmap.get(font);
+		
+		if(bf==null){
+			bf=new BitmapFont(Gdx.files.internal("font/"+font));
+			fontmap.put(font, bf);
+		}
 		ls.font=bf;
 		ls.fontColor=Color.BLACK;
 		Label lb=new Label(s,ls);
