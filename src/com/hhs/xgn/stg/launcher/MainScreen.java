@@ -58,6 +58,8 @@ public class MainScreen implements Screen {
 	public Label everything;
 	public Group instant;
 	public Label bossName;
+	public Label timeLeft;
+	
 	public Label spellScroll;
 	
 	public int renderMode;
@@ -136,6 +138,11 @@ public class MainScreen implements Screen {
 		bossName.setPosition(0, VU.height,Align.topLeft);
 		bossName.setFontScale(0.5f);
 		
+		timeLeft=VU.createLabel("000.0s","ink.fnt");
+		VU.setTo(timeLeft, 0.5f, 0.95f);
+		timeLeft.getStyle().fontColor=Color.RED;
+		
+		
 		spellScroll=VU.createLabel("","pixel.fnt");
 		spellScroll.setPosition(0,VU.height-75);
 //		spellScroll.getStyle().fontColor=new Color(0,0,1);
@@ -144,6 +151,7 @@ public class MainScreen implements Screen {
 		ui.addActor(bossName);
 		rightUI.addActor(everything);
 		ui.addActor(spellScroll);
+		ui.addActor(timeLeft);
 		
 		instant=new Group();
 		ui.addActor(instant);
@@ -342,14 +350,15 @@ public class MainScreen implements Screen {
 		
 		if(renderBoss && !boss.isAppearing()){
 			//render the boss name and bar
-			String td=boss.name;
-			td+=String.format(" !!!%.1f sec!!!",boss.currentTime/60f );
-			td+="\n";
+			String td=boss.name+"\n";
+			String ttd=String.format("%.1fs",boss.currentTime/60f );
 
 //			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
 //				td+="";
 //			}
 			bossName.setText(td);
+			
+			timeLeft.setText(ttd);
 			
 			spellScroll.setText(boss.getSpell().name.replace("\n", ""));
 			
@@ -362,6 +371,7 @@ public class MainScreen implements Screen {
 			sb.end();
 		}else{
 			bossName.setText("Stage Test\n");
+			timeLeft.setText("");
 		}
 		
 		//Draw UI Bg
