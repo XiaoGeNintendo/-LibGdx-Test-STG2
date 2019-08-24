@@ -98,7 +98,7 @@ public class Boss extends Entity{
 					
 					failed.setPosition(20, VU.height/2);
 					failed.setScale(0, 1);
-					failed.addAction(Actions.sequence(Actions.scaleTo(1, 1, 1),Actions.alpha(0,5),Actions.removeActor()));
+					failed.addAction(Actions.sequence(Actions.scaleTo(1, 1, 0.5f),Actions.alpha(0,5),Actions.removeActor()));
 					obj.instant.addActor(failed);
 				}else{
 					//bonus ok
@@ -106,7 +106,7 @@ public class Boss extends Entity{
 					
 					ok.setPosition(0, VU.height/2);
 					ok.setScale(0, 1);
-					ok.addAction(Actions.sequence(Actions.scaleTo(1, 1, 1),Actions.alpha(0,5),Actions.removeActor()));
+					ok.addAction(Actions.sequence(Actions.scaleTo(1, 1, 0.5f),Actions.alpha(0,5),Actions.removeActor()));
 					obj.instant.addActor(ok);
 					
 					float _bonus=(currentTime/(float)getSpell().time)*1e5f;
