@@ -1,14 +1,17 @@
 package com.hhs.xgn.gdx.util;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -178,4 +181,59 @@ public class VU {
 	public static float getVY(float speed, float angle) {
 		return (float) (Math.sin(Math.toRadians(angle))*speed);
 	}
+
+	public static ArrayList<RegionInfo> ris;
+	
+	/**
+	 * In order to fit LuaStg <br/>
+	 * uses Lua name scheme
+	 */
+	public static void LoadImage(String a,String b,int c,int d,int e,int f){
+		ris.add(new RegionInfo(b,a,c,d,e,f));
+	}
+	
+	public static void initRIS(){
+		ris=new ArrayList<>();
+		LoadImage("bonusfail","ui_com",0,64,256,64);
+		LoadImage("getbonus","ui_com",0,128,396,64);
+		LoadImage("extend","ui_com",0,192,160,64);
+		LoadImage("power","ui_com",0,12,84,32);
+		LoadImage("graze","ui_com",86,12,74,32);
+		LoadImage("point","ui_com",160,12,120,32);
+		LoadImage("life","ui_com",288,0,16,15);
+		LoadImage("lifeleft","ui_com",304,0,16,15);
+		LoadImage("bomb","ui_com",320,0,16,16);
+		LoadImage("bombleft","ui_com",336,0,16,16);
+		LoadImage("kill_time","ui_com",232,200,152,56);
+	}
+	
+	/**
+	 * Must be present!
+	 * @param base
+	 * @param name
+	 * @return
+	 */
+	public static RegionInfo searchForRegion(String base,String name){
+		for(RegionInfo ri:ris){
+			if(ri.belongs.equals(base) && ri.name.equals(name)){
+				return ri;
+			}
+		}
+		
+		throw new RuntimeException("Cannot find region");
+	}
+	
+	public static TextureRegion splitUI(AssetManager am, String string) {
+		if(ris==null){
+			initRIS();
+		}
+		
+		Texture t=am.get("ui_com.png",Texture.class);
+		
+		
+		RegionInfo ri=searchForRegion("ui_com",string);
+		
+		return new TextureRegion(t,ri.x,ri.y,ri.width,ri.height);
+	}
+	
 }

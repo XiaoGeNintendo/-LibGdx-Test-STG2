@@ -103,7 +103,8 @@ public class MainScreen implements Screen {
 			"reimu.png",
 			"background.png",
 			"ui_bg.png",
-			"spells.png"
+			"spells.png",
+			"ui_com.png"
 	};
 	
 	

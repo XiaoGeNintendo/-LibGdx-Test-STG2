@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -93,18 +94,19 @@ public class Boss extends Entity{
 			if(!getSpell().isNonspell()){
 				if(currentTime<=0 || bonus==false){
 					//bouns failed
-					Label failed=VU.createLabel("Bonus Failed");
+					Image failed=new Image(VU.splitUI(obj.am,"bonusfail"));
+					
 					failed.setPosition(20, VU.height/2);
-					failed.addAction(Actions.sequence(Actions.alpha(0,5),Actions.removeActor()));
+					failed.setScale(0, 1);
+					failed.addAction(Actions.sequence(Actions.scaleTo(1, 1, 1),Actions.alpha(0,5),Actions.removeActor()));
 					obj.instant.addActor(failed);
 				}else{
 					//bonus ok
-
-					Label ok=VU.createLabel("Get Spellcard Bonus!!\n");
-					ok.setFontScale(0.75f);
-					ok.getStyle().fontColor=Color.CYAN;
+					Image ok=new Image(VU.splitUI(obj.am, "getbonus"));
+					
 					ok.setPosition(0, VU.height/2);
-					ok.addAction(Actions.sequence(Actions.alpha(0,5),Actions.removeActor()));
+					ok.setScale(0, 1);
+					ok.addAction(Actions.sequence(Actions.scaleTo(1, 1, 1),Actions.alpha(0,5),Actions.removeActor()));
 					obj.instant.addActor(ok);
 					
 					float _bonus=(currentTime/(float)getSpell().time)*1e5f;
