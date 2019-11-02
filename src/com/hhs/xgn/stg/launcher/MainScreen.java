@@ -191,6 +191,33 @@ public class MainScreen implements Screen {
 	
 	final float FONT_WIDTH=26;
 	
+	public void checkInvisible(){
+		if(p.deadTime!=0){
+			VU.clear(0, 0, 0, 1);
+			p.deadTime--;
+			
+			clearBullet();
+			if(renderBoss && !boss.isAppearing()){
+//				for(int i=0;i<10;i++){
+//					boss.onHit(null);
+//				}
+//				boss.onHit(new Entity(this));
+//				boss.currentHp-=p.atk;
+			}
+		}else{
+			VU.clear(1,1,1,1);	
+		}
+	}
+	
+	public void renderBG(){
+		//render background
+		sb.begin();
+		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
+		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
+		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+		sb.end();
+	}
+	
 	@Override
 	public void render(float arg0) {
 		
@@ -200,25 +227,8 @@ public class MainScreen implements Screen {
 			backgroundC++;
 		}
 		
-		if(p.deadTime!=0){
-			VU.clear(0, 0, 0, 1);
-			p.deadTime--;
-			
-			clearBullet();
-			if(renderBoss && !boss.isAppearing()){
-				boss.currentHp-=p.atk;
-			}
-		}else{
-			VU.clear(1,1,1,1);	
-		}
-		
-		//render background
-		sb.begin();
-		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
-		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
-		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
-		sb.end();
-		
+		checkInvisible();
+		renderBG();
 		//Check Esc key
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 			if(renderMode==1){
@@ -281,9 +291,6 @@ public class MainScreen implements Screen {
 		
 		//UI Component Update
 		String disText="HP:"+p.hp+"\nSpell:"+p.spell+"\n"+p.atk+"P"+p.def+"D\nGraze:"+p.graze+"\nPoint:"+p.point;
-//		if(p.y>VU.height/3*2){
-//			disText+="\n-=Auto Collect On=-";
-//		}
 		everything.setText(disText);
 		everything.setPosition(VU.width,VU.height-90,Align.bottomLeft);
 		

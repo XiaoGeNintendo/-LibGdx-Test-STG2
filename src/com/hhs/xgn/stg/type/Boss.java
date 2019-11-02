@@ -82,6 +82,7 @@ public class Boss extends Entity{
 		if(currentSpellPointer!=-1){
 			getSpell().onEnd();
 			
+//			System.out.println(obj.spells+" "+currentSpellPointer);
 			obj.spells.get(obj.spells.size()-1).addAction(Actions.sequence(
 														  	Actions.parallel(
 															  Actions.alpha(0,1),
@@ -224,9 +225,9 @@ public class Boss extends Entity{
 	
 	@Override
 	public void onHit(Entity ano){
-		if(ano instanceof EntityPlayerBullet){
-			currentHp-=obj.p.atk;
-			obj.p.point+=obj.p.atk*1.2f;
+		if(ano instanceof EntityPlayerBullet || ano==null){ //for bomb=null
+			currentHp-=1;
+			obj.p.point+=12;
 			
 			if(currentHp<=0){
 				nextSpellCard();
