@@ -211,11 +211,17 @@ public class MainScreen implements Screen {
 	
 	public void renderBG(){
 		//render background
-		sb.begin();
-		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
-		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
-		sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
-		sb.end();
+		if(renderBoss && boss.getSpell().useSpecialRender){
+			sb.begin();
+			boss.getSpell().renderBg(sb);
+			sb.end();
+		}else{
+			sb.begin();
+			sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
+			sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
+			sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+			sb.end();
+		}	
 	}
 	
 	@Override

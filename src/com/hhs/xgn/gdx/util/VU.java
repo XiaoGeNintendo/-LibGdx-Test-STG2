@@ -243,5 +243,20 @@ public class VU {
 		
 		return new TextureRegion(t,ri.x,ri.y,ri.width,ri.height);
 	}
+
+	/**
+	 * Finds the angle between two points related to x axis <br/>
+	 * picture shown below:
+	 * <img src="https://img-blog.csdn.net/20180531100223674"/>
+	 * @param x - the original(p1) x
+	 * @param y - the original y
+	 * @param x2 - the another point(p2) x
+	 * @param y2 - the another point y
+	 * @return theta above x-axis
+	 */
+	public static float calcAngle(float x, float y, float x2, float y2) {
+		// TODO Auto-generated method stub
+		return -(float)Math.toDegrees(Math.atan2(y-y2, x2-x));
+	}
 	
 }

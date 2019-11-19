@@ -8,7 +8,7 @@ import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestSpellCard extends SpellCard {
 	public TestSpellCard(MainScreen ms){
-		super(ms,1000,20*60,"土着神「ケロちゃん風雨に負けず」");
+		super(ms,1000,20*60,"土着神「ケロちゃん風雨に負けず」",false);
 	}
 	
 	int frameC=0;

@@ -9,7 +9,7 @@ import com.hhs.xgn.stg.type.SpellCard;
 public class TestRandomCard extends SpellCard {
 	
 	public TestRandomCard(MainScreen ms){
-		super(ms,1000,20*60,"Flower Spell\n[Cannot Be Seen Forever]");
+		super(ms,1000,20*60,"Flower Spell\n[Cannot Be Seen Forever]",false);
 	}
 	
 	int frameC=0;
