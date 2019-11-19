@@ -45,6 +45,7 @@ public class EntityItem extends Entity {
 	
 	public void onHit(Entity e){
 		if(e instanceof Player){
+			obj.audio.playSound("collect",0.05f);
 			collectItem();
 		}
 	}

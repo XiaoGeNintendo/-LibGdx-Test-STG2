@@ -29,6 +29,7 @@ import com.hhs.xgn.stg.game.ItemPower;
 import com.hhs.xgn.stg.game.TestNonSpellCard;
 import com.hhs.xgn.stg.game.TestRandomCard;
 import com.hhs.xgn.stg.game.TestSpellCard;
+import com.hhs.xgn.stg.type.AudioSystem;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Entity;
 import com.hhs.xgn.stg.type.EntityEnemy;
@@ -69,6 +70,8 @@ public class MainScreen implements Screen {
 	public Stage rightUI;
 	
 	public ArrayList<Image> spells=new ArrayList<>();
+	
+	public AudioSystem audio;
 	
 	public void addPlayerBullet(float x,float y) {
 		EntityPlayerBullet epb=new EntityPlayerBullet(this);
@@ -123,6 +126,8 @@ public class MainScreen implements Screen {
 		sb=new SpriteBatch();
 		
 		p=new Player(this);
+		
+		audio=new AudioSystem();
 		
 		//Render UI
 		ui=new Stage();

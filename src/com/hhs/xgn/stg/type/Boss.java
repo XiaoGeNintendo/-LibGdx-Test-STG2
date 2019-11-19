@@ -82,6 +82,7 @@ public class Boss extends Entity{
 		if(currentSpellPointer!=-1){
 			getSpell().onEnd();
 			
+			obj.audio.playSound("explode");
 //			System.out.println(obj.spells+" "+currentSpellPointer);
 			obj.spells.get(obj.spells.size()-1).addAction(Actions.sequence(
 														  	Actions.parallel(
@@ -218,6 +219,9 @@ public class Boss extends Entity{
 //		System.out.println("Running"+currentTime);
 		getSpell().onFrame();
 		currentTime--;
+		if(currentTime<=300 && currentTime%60==0){
+			obj.audio.playSound("timeup",0.2f);
+		}
 		if(currentTime<=0){
 			nextSpellCard();
 		}

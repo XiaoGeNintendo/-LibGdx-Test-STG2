@@ -113,6 +113,8 @@ public class Player extends Entity{
 			if(wait>DELAY){
 				wait=0;
 				
+				obj.audio.playSound("shoot",0.01f);
+				
 				
 				int xx=(int) Math.floor(atk);
 				
