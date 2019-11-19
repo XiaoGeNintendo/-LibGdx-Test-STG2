@@ -26,7 +26,7 @@ public class TestNonSpellCard extends SpellCard {
 				eeb.vx=VU.getVX(1,i);
 				eeb.vy=VU.getVY(1,i);
 //				System.out.println(eeb.vx+" "+eeb.vy);
-				eeb.texture="bullet.png";
+				eeb.texture="entity/bullet.png";
 				eeb.sx=eeb.sy=8;
 				
 				obj.addEnemyBullet(eeb);

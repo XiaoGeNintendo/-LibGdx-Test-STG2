@@ -12,7 +12,7 @@ public class SpellCard {
 	
 	public boolean useSpecialRender;
 	
-	public void renderBg(SpriteBatch sb){
+	public void renderBg(SpriteBatch sb,int frame){
 		
 	}
 	

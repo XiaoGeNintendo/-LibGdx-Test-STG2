@@ -20,7 +20,7 @@ public class TestRandomCard extends SpellCard {
 		if(frameC%1==0){
 		
 			EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
-			eeb.texture="bullet.png";
+			eeb.texture="entity/bullet.png";
 			eeb.sx=10;
 			eeb.sy=10;
 			

@@ -5,7 +5,7 @@ import com.hhs.xgn.stg.launcher.MainScreen;
 
 public class EntityPlayerBullet extends Entity{
 	public EntityPlayerBullet(MainScreen obj){
-		super(obj,"playerbullet.png",obj.p.x,obj.p.y,10,10);
+		super(obj,"entity/playerbullet.png",obj.p.x,obj.p.y,10,10);
 		vy=5;
 	}
 	

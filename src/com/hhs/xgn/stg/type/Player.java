@@ -55,7 +55,7 @@ public class Player extends Entity{
 	}
 	
 	public Player(MainScreen obj){
-		super(obj,"player1.png",VU.width/2,VU.height/5,32,32);
+		super(obj,"player/player1.png",VU.width/2,VU.height/5,32,32);
 		hp=100;
 		atk=def=1;
 		spell=3;
@@ -72,7 +72,7 @@ public class Player extends Entity{
 				nowframe-=frameCount;
 			}
 			
-			texture="player"+(nowframe+1)+".png";
+			texture="player/player"+(nowframe+1)+".png";
 			curFrame=0;
 		}
 		

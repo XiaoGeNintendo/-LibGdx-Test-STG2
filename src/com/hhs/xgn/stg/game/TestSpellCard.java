@@ -1,5 +1,7 @@
 package com.hhs.xgn.stg.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 import com.hhs.xgn.stg.type.EntityEnemy;
@@ -7,8 +9,23 @@ import com.hhs.xgn.stg.type.EntityEnemyBullet;
 import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestSpellCard extends SpellCard {
+	
+	@Override
+	public void renderBg(SpriteBatch sb,int t) {
+		Texture txt=obj.am.get("bg/frogscbg.png");
+		
+		t=t%100;
+		for(int i=-20;i<=10;i++){
+			for(int j=-20;j<=10;j++){
+				float x=t+i*50;
+				float y=t+j*100;
+				sb.draw(txt, x, y,50,100);
+			}
+		}
+	}
+	
 	public TestSpellCard(MainScreen ms){
-		super(ms,1000,20*60,"土着神「ケロちゃん風雨に負けず」",false);
+		super(ms,1000,20*60,"土着神「ケロちゃん風雨に負けず」",true);
 	}
 	
 	int frameC=0;
@@ -20,7 +37,7 @@ public class TestSpellCard extends SpellCard {
 			for(int i=0;i<=360;i+=3){
 //				System.out.println("Created bullet");
 				EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
-				eeb.texture="bullet.png";
+				eeb.texture="entity/bullet.png";
 				eeb.sx=8;
 				eeb.sy=8;
 				

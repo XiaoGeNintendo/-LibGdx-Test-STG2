@@ -13,7 +13,7 @@ public class ItemPower extends EntityItem {
 	float value;
 	public ItemPower(MainScreen obj, float x, float y,float value) {
 		super(obj, x, y);
-		texture="power.bmp";
+		texture="entity/power.bmp";
 		sx=sy=16;
 		this.value=value;
 	}

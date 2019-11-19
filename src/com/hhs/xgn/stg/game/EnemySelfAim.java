@@ -6,7 +6,7 @@ import com.hhs.xgn.stg.type.EntityEnemy;
 public class EnemySelfAim extends EntityEnemy {
 
 	public EnemySelfAim(MainScreen obj,float x, float y) {
-		super(obj, "enemy.png", 40, x, y, 32,32);
+		super(obj, "entity/enemy.png", 40, x, y, 32,32);
 		vy=-1;
 	}
 

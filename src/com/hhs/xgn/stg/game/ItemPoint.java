@@ -13,7 +13,7 @@ public class ItemPoint extends EntityItem {
 	float value;
 	public ItemPoint(MainScreen obj, float x, float y,float value) {
 		super(obj, x, y);
-		texture="point.bmp";
+		texture="entity/point.bmp";
 		sx=sy=16;
 		this.value=value;
 	}

@@ -236,7 +236,7 @@ public class VU {
 			initRIS();
 		}
 		
-		Texture t=am.get("ui_com.png",Texture.class);
+		Texture t=am.get("ui/ui_com.png",Texture.class);
 		
 		
 		RegionInfo ri=searchForRegion("ui_com",string);

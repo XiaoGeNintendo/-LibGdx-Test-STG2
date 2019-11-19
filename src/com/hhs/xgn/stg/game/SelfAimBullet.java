@@ -8,7 +8,7 @@ public class SelfAimBullet extends EntityEnemyBullet{
 	float time;
 	public SelfAimBullet(MainScreen ms,float time,float x,float y) {
 		super(ms);
-		texture="bullet.png";
+		texture="entity/bullet.png";
 		sx=sy=16;
 		damage=10;
 		this.time=time;

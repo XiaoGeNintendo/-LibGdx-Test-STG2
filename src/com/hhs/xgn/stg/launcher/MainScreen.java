@@ -92,21 +92,22 @@ public class MainScreen implements Screen {
 
 	
 	String[] resources=new String[]{
-			"bullet.png",
-			"enemy.png",
-			"player1.png",
-			"player2.png",
-			"player3.png",
-			"playerbullet.png",
-			"heart.png",
-			"power.bmp",
-			"pure.png",
-			"point.bmp",
-			"reimu.png",
-			"background.png",
-			"ui_bg.png",
-			"spells.png",
-			"ui_com.png"
+			"entity/bullet.png",
+			"entity/enemy.png",
+			"player/player1.png",
+			"player/player2.png",
+			"player/player3.png",
+			"entity/playerbullet.png",
+			"ui/heart.png",
+			"entity/power.bmp",
+			"ui/pure.png",
+			"entity/point.bmp",
+			"art/reimu.png",
+			"bg/background.png",
+			"ui/ui_bg.png",
+			"ui/spells.png",
+			"ui/ui_com.png",
+			"bg/frogscbg.png"
 	};
 	
 	
@@ -213,13 +214,13 @@ public class MainScreen implements Screen {
 		//render background
 		if(renderBoss && boss.getSpell().useSpecialRender){
 			sb.begin();
-			boss.getSpell().renderBg(sb);
+			boss.getSpell().renderBg(sb,backgroundC);
 			sb.end();
 		}else{
 			sb.begin();
-			sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
-			sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
-			sb.draw(am.get("background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+			sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
+			sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
+			sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
 			sb.end();
 		}	
 	}
@@ -333,12 +334,12 @@ public class MainScreen implements Screen {
 		
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			sb.draw(am.get("heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
+			sb.draw(am.get("ui/heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
 			for(Entity e:groupEnemy){
-				sb.draw(am.get("heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
+				sb.draw(am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
 			}
 			for(Entity e:groupEnemyBullet){
-				sb.draw(am.get("heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
+				sb.draw(am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
 			}
 		}
 		
@@ -379,7 +380,7 @@ public class MainScreen implements Screen {
 			sb.begin();
 			sb.setColor(0.9f,0.08f,0.05f,0.8f);
 			
-			sb.draw(am.get("pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
+			sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
 			sb.setColor(Color.WHITE);
 			sb.end();
 		}else{
@@ -389,7 +390,7 @@ public class MainScreen implements Screen {
 		
 		//Draw UI Bg
 		sb.begin();
-		sb.draw(am.get("ui_bg.png",Texture.class), VU.width, 0, VU.rightWidth, VU.height);
+		sb.draw(am.get("ui/ui_bg.png",Texture.class), VU.width, 0, VU.rightWidth, VU.height);
 		sb.end();
 		
 		rightUI.act();
@@ -402,7 +403,7 @@ public class MainScreen implements Screen {
 			sb.setColor(0.22f,0.22f,0.22f,0.78f);
 			
 			
-			sb.draw(am.get("pure.png",Texture.class), 0, 0,VU.width,VU.height);
+			sb.draw(am.get("ui/pure.png",Texture.class), 0, 0,VU.width,VU.height);
 			sb.setColor(Color.WHITE);
 			sb.end();
 			escMenu.act();
@@ -411,7 +412,7 @@ public class MainScreen implements Screen {
 		
 		//Process Level Information
 		if(renderBoss==false){
-			boss=new Boss(this, "enemy.png", 128, 64, "reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this),new TestRandomCard(this));
+			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this),new TestRandomCard(this));
 			renderBoss=true;
 		}
 		

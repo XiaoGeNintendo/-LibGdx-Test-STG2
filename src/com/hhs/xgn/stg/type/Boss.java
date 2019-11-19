@@ -59,7 +59,7 @@ public class Boss extends Entity{
 		}
 		
 		for(int i=0;i<cards.length;i++){
-			Image im=new Image(obj.am.get("spells.png",Texture.class));
+			Image im=new Image(obj.am.get("ui/spells.png",Texture.class));
 			im.setOrigin(Align.center);
 			im.setPosition(i*16, VU.height-37);
 			im.setSize(16, 16);
@@ -196,7 +196,7 @@ public class Boss extends Entity{
 		if(animTime>0){
 			if(animTime%1==0){
 				//create new stuff
-				Image im=new Image(obj.am.get("pure.png",Texture.class));
+				Image im=new Image(obj.am.get("ui/pure.png",Texture.class));
 				im.setColor(Color.BLACK);
 				im.setPosition(VU.easyRandom(-400, 400), VU.easyRandom(-400, 400));
 				im.addAction(Actions.sequence(
