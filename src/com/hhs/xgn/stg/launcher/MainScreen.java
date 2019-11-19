@@ -176,7 +176,7 @@ public class MainScreen implements Screen {
 	
 	@Override
 	public void dispose() {
-		VU.disposeAll(sb,am,ui);
+		VU.disposeAll(sb,am,ui,audio);
 	}
 
 	@Override
@@ -416,6 +416,9 @@ public class MainScreen implements Screen {
 		}
 		
 		//Process Level Information
+		if(backgroundC==1){
+			audio.playBGM("boss",1f);
+		}
 		if(renderBoss==false){
 			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this),new TestRandomCard(this));
 			renderBoss=true;

@@ -4,14 +4,19 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.hhs.xgn.gdx.util.VU;
+import com.badlogic.gdx.utils.Disposable;
 
-public class AudioSystem {
+public class AudioSystem implements Disposable{
 	public float SEVolume;
 	public float BGMVolume;
 	
-	public HashMap<String,Sound> music=new HashMap<String,Sound>();
+	public HashMap<String,Sound> sound=new HashMap<String,Sound>();
+	
+	public HashMap<String,Music> music=new HashMap<String,Music>();
+	
+	Music nowPlaying;
 	
 	public AudioSystem(){
 		SEVolume=1;
@@ -35,16 +40,44 @@ public class AudioSystem {
 	 * Must be internal path
 	 */
 	public Sound loadSound(String path){
-		if(!music.containsKey(path)){
-			music.put(path, Gdx.audio.newSound(Gdx.files.internal(path)));
+		if(!sound.containsKey(path)){
+			sound.put(path, Gdx.audio.newSound(Gdx.files.internal(path)));
 		}
-		return music.get(path);
+		return sound.get(path);
 	}
 	
+	@Override
 	public void dispose(){
-		for(Entry<String,Sound> en:music.entrySet()){
+		for(Entry<String,Sound> en:sound.entrySet()){
+			en.getValue().dispose();
+		}
+		for(Entry<String,Music> en:music.entrySet()){
 			en.getValue().dispose();
 		}
 	}
 
+	/**
+	 * Play a bgm at "mus/"+name+".wav"
+	 * @param string
+	 */
+	public void playBGM(String name,float vol) {
+		if(nowPlaying!=null){
+			nowPlaying.stop();
+		}
+		
+		nowPlaying=loadMusic("mus/"+name+".wav");
+		nowPlaying.play();
+		nowPlaying.setLooping(true);
+		nowPlaying.setVolume(vol*BGMVolume);
+	}
+
+	/**
+	 * Must be internal path
+	 */
+	public Music loadMusic(String path){
+		if(!music.containsKey(path)){
+			music.put(path, Gdx.audio.newMusic(Gdx.files.internal(path)));
+		}
+		return music.get(path);
+	}
 }
