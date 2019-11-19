@@ -132,8 +132,10 @@ public class Player extends Entity{
 			if(deadTime==0 && spell>0){
 				obj.bonusFailed();
 				
+				obj.audio.playSound("bomb",1f);
 				deadTime=180;
 				spell--;
+				
 			}
 		}
 	}
