@@ -347,6 +347,18 @@ public class MainScreen implements Screen {
 			Dialog d=getDialog();
 			addDialog(d);
 		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.X)){
+			if(getAction().pointer==0){
+				audio.playSound("fail",0.1f);
+			}else{
+				getAction().pointer--;
+				audio.playSound("back",0.1f);
+
+				Dialog d=getDialog();
+				addDialog(d);
+			}
+		}
 	}
 	
 	@Override
