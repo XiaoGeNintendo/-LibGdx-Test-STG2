@@ -70,6 +70,8 @@ public class Boss extends Entity {
 			im.setOrigin(Align.center);
 			im.setPosition(has * 16, VU.height - 37);
 			im.setSize(16, 16);
+			im.getColor().a=0;
+			im.addAction(Actions.sequence(Actions.delay(5),Actions.fadeIn(0.3f)));
 			obj.spells.add(im);
 			obj.instant.addActor(im);
 			

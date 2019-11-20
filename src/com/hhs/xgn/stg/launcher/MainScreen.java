@@ -349,6 +349,7 @@ public class MainScreen implements Screen {
 		if(renderBoss){
 			sb.draw(am.get(boss.texture,Texture.class), boss.x-boss.sx/2, boss.y-boss.sy/2,boss.sx,boss.sy);
 		}
+		
 		sb.draw(am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
 		
 		checkRen(groupItem);
