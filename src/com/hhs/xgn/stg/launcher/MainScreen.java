@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -75,6 +76,8 @@ public class MainScreen implements Screen {
 	public ArrayList<Image> spells=new ArrayList<>();
 	
 	public AudioSystem audio;
+	
+	public ArrayList<Actor> dialogActors=new ArrayList<>();
 	
 	public void addPlayerBullet(float x,float y) {
 		EntityPlayerBullet epb=new EntityPlayerBullet(this);
@@ -269,8 +272,51 @@ public class MainScreen implements Screen {
 		return getAction().arr.get(getDialogPointer());
 	}
 	
+
+	final float dialog_time=0.5f;
+	public void clearDialog(){
+		if(dialogActors.size()==3){
+
+			dialogActors.get(0).addAction(Actions.sequence(Actions.moveTo(-200, 0,dialog_time),Actions.removeActor()));
+			dialogActors.get(1).addAction(Actions.sequence(Actions.moveTo(500, 0,dialog_time),Actions.removeActor()));
+			dialogActors.get(2).addAction(Actions.sequence(Actions.moveTo(500, 0,dialog_time),Actions.removeActor()));
+			dialogActors.clear();
+		}
+	}
+	
 	public void addDialog(Dialog d){
 		
+		//clear old actors
+		clearDialog();
+		
+		//add new actors
+		Image st=new Image(am.get(d.speaker,Texture.class));
+		st.setPosition(-200,0);
+		
+		Image box=new Image(am.get("ui/pure.png",Texture.class));
+		box.setColor(0.3f, 0.4f, 0.6f, 0.8f);
+		box.setHeight(100);
+		box.setWidth(VU.width);
+		box.setPosition(500,0);
+		
+		Label lb=VU.createLabel(d.word,"pixel.fnt");
+		lb.setPosition(500,0);
+		lb.setFontScale(0.5f);
+		lb.setWidth(VU.width);
+		lb.setWrap(true);
+		
+		//add animation
+		st.addAction(Actions.moveTo(0,0,dialog_time));
+		box.addAction(Actions.moveTo(0,0,dialog_time));
+		lb.addAction(Actions.moveTo(0,0,dialog_time));
+		
+		instant.addActor(st);
+		instant.addActor(box);
+		instant.addActor(lb);
+		
+		dialogActors.add(st);
+		dialogActors.add(box);
+		dialogActors.add(lb);
 	}
 	
 	/**
@@ -280,18 +326,26 @@ public class MainScreen implements Screen {
 		if(!isShowingDialog()){
 			return;
 		}
-		System.out.println("In dialog");
-		if(getDialogPointer()==0){
+//		System.out.println("In dialog");
+		if(getDialogPointer()==0 && getDialog().first){
 			Dialog d=getDialog();
 			addDialog(d);
+			getDialog().first=false;
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.Z)){
-			System.out.println("Press Z");
+//			System.out.println("Press Z");
 			getAction().pointer++;
+			audio.playSound("dialog",0.1f);
 			if(getAction().pointer==getAction().arr.size()){
 				boss.nextSpellCard();
+				
+				clearDialog();
+				return;
 			}
+			
+			Dialog d=getDialog();
+			addDialog(d);
 		}
 	}
 	
@@ -497,8 +551,9 @@ public class MainScreen implements Screen {
 			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
 					new SpellCardAction(this,
 										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", null),
-										new Dialog("bg/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null),
-										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss")
+										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null),
+										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss"),
+										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null)
 										),
 					new TestNonSpellCard(this),
 					new TestSpellCard(this),

@@ -22,11 +22,17 @@ public class Dialog {
 	 */
 	public String music;
 	
+	/**
+	 * Assist var
+	 */
+	public boolean first;
+	
 	
 	public Dialog(String speaker, String word, String music) {
 		this.speaker = speaker;
 		this.word = word;
 		this.music = music;
+		first=true;
 	}
 	
 	
