@@ -110,7 +110,8 @@ public class MainScreen implements Screen {
 			"ui/ui_bg.png",
 			"ui/spells.png",
 			"ui/ui_com.png",
-			"bg/frogscbg.png"
+			"bg/frogscbg.png",
+			"bg/bomb.png"
 	};
 	
 	
@@ -217,17 +218,33 @@ public class MainScreen implements Screen {
 	
 	public void renderBG(){
 		//render background
+		
+		//least priority
+		sb.begin();
+		sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
+		sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
+		sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+		sb.end();
+		
+		//priority 2
 		if(renderBoss && boss.getSpell().useSpecialRender){
 			sb.begin();
 			boss.getSpell().renderBg(sb,backgroundC);
 			sb.end();
-		}else{
+		}
+		
+		//max priority
+		if(p.deadTime>0){
 			sb.begin();
-			sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
-			sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
-			sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+			for(int i=-4;i<=50;i++){
+				for(int j=-4;j<=10;j++){
+					sb.draw(am.get("bg/bomb.png",Texture.class), backgroundC%100+i*100,j*50-backgroundC%100,100,50);
+				}
+			}
+			
 			sb.end();
-		}	
+		}
+		
 	}
 	
 	@Override
