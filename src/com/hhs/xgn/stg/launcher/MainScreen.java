@@ -7,6 +7,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.type.Player;
+import com.hhs.xgn.stg.type.SpellCardAction;
 import com.hhs.xgn.stg.game.EnemySelfAim;
 import com.hhs.xgn.stg.game.ItemPower;
 import com.hhs.xgn.stg.game.TestNonSpellCard;
@@ -31,6 +33,7 @@ import com.hhs.xgn.stg.game.TestRandomCard;
 import com.hhs.xgn.stg.game.TestSpellCard;
 import com.hhs.xgn.stg.type.AudioSystem;
 import com.hhs.xgn.stg.type.Boss;
+import com.hhs.xgn.stg.type.Dialog;
 import com.hhs.xgn.stg.type.Entity;
 import com.hhs.xgn.stg.type.EntityEnemy;
 import com.hhs.xgn.stg.type.EntityEnemyBullet;
@@ -247,6 +250,51 @@ public class MainScreen implements Screen {
 		
 	}
 	
+	public boolean isShowingDialog(){
+		return renderBoss && !boss.isAppearing() && boss.getSpell() instanceof SpellCardAction;
+	}
+	
+	public SpellCardAction getAction(){
+		if(!isShowingDialog()){
+			return null;
+		}
+		return ((SpellCardAction)boss.getSpell());
+	}
+	
+	public int getDialogPointer(){
+		return getAction().pointer;
+	}
+	
+	public Dialog getDialog(){
+		return getAction().arr.get(getDialogPointer());
+	}
+	
+	public void addDialog(Dialog d){
+		
+	}
+	
+	/**
+	 * Proceed dialog and all related information
+	 */
+	public void showDialog(){
+		if(!isShowingDialog()){
+			return;
+		}
+		System.out.println("In dialog");
+		if(getDialogPointer()==0){
+			Dialog d=getDialog();
+			addDialog(d);
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.Z)){
+			System.out.println("Press Z");
+			getAction().pointer++;
+			if(getAction().pointer==getAction().arr.size()){
+				boss.nextSpellCard();
+			}
+		}
+	}
+	
 	@Override
 	public void render(float arg0) {
 		
@@ -266,6 +314,9 @@ public class MainScreen implements Screen {
 				renderMode=1;
 			}
 		}
+		
+		//Show Dialog Block if Boss Action is present
+		showDialog();
 		
 		//First frame everything
 		if(renderMode==0){
@@ -373,7 +424,7 @@ public class MainScreen implements Screen {
 		}
 		ui.draw();
 		
-		if(!renderBoss || boss.isAppearing() || boss.getSpell().isNonspell()){
+		if(!renderBoss || boss.isAppearing() || boss.getSpell().isNonspell() || boss.getSpell() instanceof SpellCardAction){
 			spellScroll.setVisible(false);
 		}else{
 			spellScroll.setVisible(true);
@@ -395,17 +446,22 @@ public class MainScreen implements Screen {
 //			}
 			bossName.setText(td);
 			
-			timeLeft.setText(ttd);
+			if(boss.getSpell() instanceof SpellCardAction){
+				timeLeft.setText("vvv");
+				spellScroll.setText("");
+			}else{
+				timeLeft.setText(ttd);
+				
+				spellScroll.setText(boss.getSpell().name.replace("\n", ""));
+				
+				sb.begin();
+				sb.setColor(0.9f,0.08f,0.05f,0.8f);
+				
+				sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
+				sb.setColor(Color.WHITE);
+				sb.end();
+			}
 			
-			spellScroll.setText(boss.getSpell().name.replace("\n", ""));
-			
-			
-			sb.begin();
-			sb.setColor(0.9f,0.08f,0.05f,0.8f);
-			
-			sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
-			sb.setColor(Color.WHITE);
-			sb.end();
 		}else{
 			bossName.setText("Stage Test\n");
 			timeLeft.setText("");
@@ -438,7 +494,19 @@ public class MainScreen implements Screen {
 			audio.playBGM("boss",1f);
 		}
 		if(renderBoss==false){
-			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,new TestNonSpellCard(this),new TestSpellCard(this),new TestRandomCard(this));
+			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
+					new SpellCardAction(this,
+										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", null),
+										new Dialog("bg/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null),
+										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss")
+										),
+					new TestNonSpellCard(this),
+					new TestSpellCard(this),
+					new TestRandomCard(this),
+					new SpellCardAction(this,
+										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","-")
+									   )
+					);
 			renderBoss=true;
 		}
 		

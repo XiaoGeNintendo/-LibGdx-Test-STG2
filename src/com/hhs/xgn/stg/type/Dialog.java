@@ -15,7 +15,10 @@ public class Dialog {
 	 */
 	public String word="No message";
 	/**
-	 * Should change a BGM? null for no,any name for yes
+	 * Should change a BGM? <br/>
+	 * null - don't change music, <br/>
+	 * "-" - stop music, <br/>
+	 * anything else - play music <br/>
 	 */
 	public String music;
 	

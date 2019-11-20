@@ -20,4 +20,11 @@ public class SpellCardAction extends SpellCard {
 		super(obj, 0,0,"",false);
 	}
 	
+	public SpellCardAction(MainScreen obj,Dialog... dialogs){
+		super(obj, 0,0,"",false);
+		for(Dialog d:dialogs){
+			arr.add(d);
+		}
+		
+	}
 }

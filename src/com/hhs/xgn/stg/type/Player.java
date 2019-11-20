@@ -110,7 +110,8 @@ public class Player extends Entity{
 			x=Math.min(x, VU.width);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.Z)){
-			if(wait>DELAY){
+			
+			if(!obj.isShowingDialog() && wait>DELAY){
 				wait=0;
 				
 				obj.audio.playSound("shoot",0.05f);
@@ -129,7 +130,7 @@ public class Player extends Entity{
 			}
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
-			if(deadTime==0 && spell>0){
+			if(!obj.isShowingDialog() && deadTime==0 && spell>0){
 				obj.bonusFailed();
 				
 				obj.audio.playSound("bomb",1f);

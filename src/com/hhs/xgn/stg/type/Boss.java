@@ -221,21 +221,28 @@ public class Boss extends Entity {
 
 		// System.out.println("Running"+currentTime);
 		getSpell().onFrame();
-		currentTime--;
-		if (currentTime <= 300 && currentTime % 60 == 0) {
-			obj.audio.playSound("timeup", 0.2f);
+		
+		if(!(getSpell() instanceof SpellCardAction)){
+			currentTime--;
+			if (currentTime <= 300 && currentTime % 60 == 0) {
+				obj.audio.playSound("timeup", 0.2f);
+			}
+			if (currentTime <= 0) {
+				nextSpellCard();
+			}
 		}
-		if (currentTime <= 0) {
-			nextSpellCard();
-		}
+		
 	}
 
 	@Override
 	public void onHit(Entity ano) {
 		if (ano instanceof EntityPlayerBullet || ano == null) { // for bomb=null
+			if(getSpell() instanceof SpellCardAction || isAppearing()){
+				return;
+			}
 			currentHp -= 1;
 			obj.p.point += 12;
-
+				
 			if (currentHp <= 0) {
 				nextSpellCard();
 			}
