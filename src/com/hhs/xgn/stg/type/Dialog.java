@@ -17,7 +17,8 @@ public class Dialog {
 	/**
 	 * Should change a BGM? <br/>
 	 * null - don't change music, <br/>
-	 * "-" - stop music, <br/>
+	 * "-" - stop music, <br/> 
+	 * "<" - plays stage music <br/>
 	 * anything else - play music <br/>
 	 */
 	public String music;

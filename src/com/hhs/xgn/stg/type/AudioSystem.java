@@ -16,7 +16,7 @@ public class AudioSystem implements Disposable{
 	
 	public HashMap<String,Music> music=new HashMap<String,Music>();
 	
-	Music nowPlaying;
+	public Music nowPlaying;
 	
 	public AudioSystem(){
 		SEVolume=1;
@@ -56,14 +56,18 @@ public class AudioSystem implements Disposable{
 		}
 	}
 
+	public void stopMusic() {
+		if(nowPlaying!=null){
+			nowPlaying.stop();
+		}
+	}
+	
 	/**
 	 * Play a bgm at "mus/"+name+".wav"
 	 * @param string
 	 */
 	public void playBGM(String name,float vol) {
-		if(nowPlaying!=null){
-			nowPlaying.stop();
-		}
+		stopMusic();
 		
 		nowPlaying=loadMusic("mus/"+name+".wav");
 		nowPlaying.play();
@@ -80,4 +84,6 @@ public class AudioSystem implements Disposable{
 		}
 		return music.get(path);
 	}
+
+	
 }

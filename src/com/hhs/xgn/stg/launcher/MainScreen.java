@@ -43,6 +43,8 @@ import com.hhs.xgn.stg.type.EntityPlayerBullet;
 
 public class MainScreen implements Screen {
 
+	private static final String stageBGM = "normal";
+
 	public GameMain gm;
 	
 	public AssetManager am;
@@ -317,6 +319,18 @@ public class MainScreen implements Screen {
 		dialogActors.add(st);
 		dialogActors.add(box);
 		dialogActors.add(lb);
+		
+		//handle music
+		if(d.music!=null){
+			if(d.music.equals("-")){
+				audio.stopMusic();
+			}else if(d.music.equals("<")){
+				audio.playBGM(stageBGM,1f);
+			}else{
+				audio.playBGM(d.music, 1f);
+			}
+		}
+		
 	}
 	
 	/**
@@ -557,12 +571,12 @@ public class MainScreen implements Screen {
 		
 		//Process Level Information
 		if(backgroundC==1){
-			audio.playBGM("boss",1f);
+			audio.playBGM(stageBGM,1f);
 		}
 		if(renderBoss==false){
 			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
 					new SpellCardAction(this,
-										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", null),
+										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-"),
 										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null),
 										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss"),
 										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null)
@@ -571,7 +585,7 @@ public class MainScreen implements Screen {
 					new TestSpellCard(this),
 					new TestRandomCard(this),
 					new SpellCardAction(this,
-										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","-")
+										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","<")
 									   )
 					);
 			renderBoss=true;
