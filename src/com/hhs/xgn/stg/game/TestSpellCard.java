@@ -25,7 +25,7 @@ public class TestSpellCard extends SpellCard {
 	}
 	
 	public TestSpellCard(MainScreen ms){
-		super(ms,1000,20*60,"土着神「ケロちゃん風雨に負けず」",true);
+		super(ms,1000,20*60,"土着神「ケロちゃん風雨に負けず」",true,false,1e5f,200,400,600,800);
 	}
 	
 	int frameC=0;

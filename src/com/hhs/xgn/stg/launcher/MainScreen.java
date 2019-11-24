@@ -549,6 +549,15 @@ public class MainScreen implements Screen {
 					sb.setColor(0.9f,0.08f,0.05f,0.8f);
 					sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
 					sb.setColor(Color.WHITE);
+					
+					
+					//draw life piece
+					int len=boss.getSpell().splits.length;
+					for(int i=0;i<len;i++){
+						sb.setColor(0,i/1.0f/len,1-i/1.0f/len,1);
+						sb.draw(am.get("ui/pure.png",Texture.class), 50+(VU.width-100)*(boss.getSpell().splits[i]/boss.getSpell().hp), VU.height-50,3,10);
+					}
+					sb.setColor(Color.WHITE);
 					sb.end();
 				}
 				
