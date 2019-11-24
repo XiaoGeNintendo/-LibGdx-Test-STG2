@@ -543,12 +543,15 @@ public class MainScreen implements Screen {
 				
 				spellScroll.setText(boss.getSpell().name.replace("\n", ""));
 				
-				sb.begin();
-				sb.setColor(0.9f,0.08f,0.05f,0.8f);
+				//draw life bar
+				if(!boss.getSpell().isTimeSpell){
+					sb.begin();
+					sb.setColor(0.9f,0.08f,0.05f,0.8f);
+					sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
+					sb.setColor(Color.WHITE);
+					sb.end();
+				}
 				
-				sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
-				sb.setColor(Color.WHITE);
-				sb.end();
 			}
 			
 		}else{

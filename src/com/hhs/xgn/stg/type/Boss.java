@@ -103,7 +103,7 @@ public class Boss extends Entity {
 				obj.spells.remove(obj.spells.size() - 1);
 
 				if (!getSpell().isNonspell()) {
-					if (currentTime <= 0 || bonus == false) {
+					if ((currentTime <= 0 && !getSpell().isTimeSpell) || bonus == false) {
 						// bouns failed
 						Image failed = new Image(VU.splitUI(obj.am, "bonusfail"));
 
@@ -122,7 +122,7 @@ public class Boss extends Entity {
 								Actions.removeActor()));
 						obj.instant.addActor(ok);
 
-						float _bonus = (currentTime / (float) getSpell().time) * 1e5f;
+						float _bonus = ((getSpell().isTimeSpell?getSpell().time:currentTime) / (float) getSpell().time) * getSpell().maxBonus;
 
 						obj.p.point += _bonus;
 						Label ok2 = VU
@@ -237,7 +237,7 @@ public class Boss extends Entity {
 	@Override
 	public void onHit(Entity ano) {
 		if (ano instanceof EntityPlayerBullet || ano == null) { // for bomb=null
-			if(getSpell() instanceof SpellCardAction || isAppearing()){
+			if(getSpell() instanceof SpellCardAction || isAppearing() || getSpell().isTimeSpell){
 				return;
 			}
 			currentHp -= 1;
