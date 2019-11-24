@@ -126,7 +126,7 @@ public class Boss extends Entity {
 
 						obj.p.point += _bonus;
 						Label ok2 = VU
-								.createLabel("Break time:" + (getSpell().time - currentTime) + "ms\nBonus:" + _bonus);
+								.createLabel("Break time:" + (getSpell().time - currentTime)/60*1000 + "ms\nBonus:" + _bonus);
 						ok2.setFontScale(0.75f);
 						ok2.getStyle().fontColor = Color.PURPLE;
 						ok2.setPosition(0, VU.height / 2 - 50);

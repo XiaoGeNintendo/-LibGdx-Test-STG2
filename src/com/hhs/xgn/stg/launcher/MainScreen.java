@@ -554,6 +554,9 @@ public class MainScreen implements Screen {
 					//draw life piece
 					int len=boss.getSpell().splits.length;
 					for(int i=0;i<len;i++){
+						if(boss.getSpell().splits[i]>=boss.currentHp){
+							continue;
+						}
 						sb.setColor(0,i/1.0f/len,1-i/1.0f/len,1);
 						sb.draw(am.get("ui/pure.png",Texture.class), 50+(VU.width-100)*(boss.getSpell().splits[i]/boss.getSpell().hp), VU.height-50,3,10);
 					}
