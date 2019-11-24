@@ -32,7 +32,7 @@ public class EntityItem extends Entity {
 		if(x<-100 || y<-100 || x>VU.width+100 || y>VU.height+100){
 			dead=true;
 		}
-		if(obj.getDist(this, obj.p)<=50 || obj.p.y>VU.height/3*2){
+		if(obj.getDist(this, obj.p)<=50 || obj.p.y>VU.height/3*2 || obj.p.deadTime>0){
 			//change to player mode
 			
 			playerMode=true;
