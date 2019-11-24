@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -328,6 +330,9 @@ public class MainScreen implements Screen {
 				audio.playBGM(stageBGM,1f);
 			}else{
 				audio.playBGM(d.music, 1f);
+				if(d.musicName!=null){
+					displaySongName(d.musicName);
+				}
 			}
 		}
 		
@@ -347,6 +352,10 @@ public class MainScreen implements Screen {
 			getDialog().first=false;
 		}
 		
+		//in esc mode
+		if(renderMode==1){
+			return;
+		}
 		if(Gdx.input.isKeyJustPressed(Keys.Z)){
 //			System.out.println("Press Z");
 			getAction().pointer++;
@@ -572,20 +581,22 @@ public class MainScreen implements Screen {
 		//Process Level Information
 		if(backgroundC==1){
 			audio.playBGM(stageBGM,1f);
+			displaySongName("XZM Theme");
 		}
+		
 		if(renderBoss==false){
 			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
 					new SpellCardAction(this,
-										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-"),
-										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null),
-										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss"),
-										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null)
+										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),
+										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null,null),
+										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss","Battle Against A True Hero"),
+										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null,null)
 										),
 					new TestNonSpellCard(this),
 					new TestSpellCard(this),
 					new TestRandomCard(this),
 					new SpellCardAction(this,
-										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","<")
+										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","<","XZM Theme")
 									   )
 					);
 			renderBoss=true;
@@ -598,6 +609,41 @@ public class MainScreen implements Screen {
 //		}
 	}
 
+	/**
+	 * A full song name display using render method only
+	 * @param name
+	 */
+	public void displaySongName(String name){
+		name="MUSIC:"+name;
+		
+		float tot=0;
+		
+		for(int i=0;i<name.length();i++){
+			Label lb=VU.createLabel(name.charAt(i)+"","pixel.fnt");
+			lb.setPosition(-100, -100);
+			final float x=0.1f;
+			
+			float sz=0;
+			if(name.charAt(i)<=128){
+				sz=FONT_WIDTH/2;
+			}else{
+				sz=FONT_WIDTH;
+			}
+			
+			tot+=sz;
+			lb.addAction(Actions.sequence(
+						Actions.delay(x*i),
+						Actions.moveTo(tot, VU.height/2,x),
+						Actions.delay((name.length()-i)*x+1),
+						Actions.moveBy(-300, 0,0.2f),
+						Actions.delay(1),
+						Actions.moveBy(-300, 0,0.2f),
+						Actions.removeActor()));
+			
+			instant.addActor(lb);
+		}
+	}
+	
 	//clear bullet and enemy
 	public void clearBullet() {
 		for(EntityEnemyBullet eeb:groupEnemyBullet){

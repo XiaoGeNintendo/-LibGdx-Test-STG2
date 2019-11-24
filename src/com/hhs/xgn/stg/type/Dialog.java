@@ -22,18 +22,25 @@ public class Dialog {
 	 * anything else - play music <br/>
 	 */
 	public String music;
+
+	/**
+	 * Whether to show music Name <br/>
+	 * null for no
+	 */
+	public String musicName;
+	
 	
 	/**
 	 * Assist var
 	 */
 	public boolean first;
 	
-	
-	public Dialog(String speaker, String word, String music) {
+	public Dialog(String speaker, String word, String music,String musName) {
 		this.speaker = speaker;
 		this.word = word;
 		this.music = music;
 		first=true;
+		musicName=musName;
 	}
 	
 	

@@ -63,7 +63,7 @@ public class AudioSystem implements Disposable{
 	}
 	
 	/**
-	 * Play a bgm at "mus/"+name+".wav"
+	 * Play a bgm at "mus/"+name+".wav" <br/>
 	 * @param string
 	 */
 	public void playBGM(String name,float vol) {
