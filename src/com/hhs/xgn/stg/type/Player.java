@@ -36,6 +36,8 @@ public class Player extends Entity{
 				obj.addItem(new ItemPower(obj, x+VU.easyRandom(-50, 50), y+30, Math.max(0.4f,(atk-1)/5-0.1f)));
 			}
 			atk=1;
+			spell=3;
+			
 			obj.bonusFailed();
 			
 			Label hplost=VU.createLabel(realD+"");
