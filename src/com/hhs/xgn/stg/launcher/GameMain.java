@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.hhs.xgn.stg.game.TestStageBuilder;
 
 public class GameMain extends Game{
 
@@ -13,7 +14,7 @@ public class GameMain extends Game{
 	public void create() {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
-		mainScr=new MainScreen(this);
+		mainScr=new MainScreen(this,new TestStageBuilder());
 		
 		setScreen(mainScr);
 	}

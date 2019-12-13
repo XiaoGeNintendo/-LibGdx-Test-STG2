@@ -34,6 +34,7 @@ import com.hhs.xgn.stg.game.ItemPower;
 import com.hhs.xgn.stg.game.TestNonSpellCard;
 import com.hhs.xgn.stg.game.TestRandomCard;
 import com.hhs.xgn.stg.game.TestSpellCard;
+import com.hhs.xgn.stg.struct.StageBuilder;
 import com.hhs.xgn.stg.type.AudioSystem;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Dialog;
@@ -45,7 +46,7 @@ import com.hhs.xgn.stg.type.EntityPlayerBullet;
 
 public class MainScreen implements Screen {
 
-	private static final String stageBGM = "normal";
+	public final String stageBGM = "normal";
 
 	public GameMain gm;
 	
@@ -82,6 +83,8 @@ public class MainScreen implements Screen {
 	public AudioSystem audio;
 	
 	public ArrayList<Actor> dialogActors=new ArrayList<>();
+	
+	public StageBuilder builder;
 	
 	public void addPlayerBullet(float x,float y) {
 		EntityPlayerBullet epb=new EntityPlayerBullet(this);
@@ -125,7 +128,9 @@ public class MainScreen implements Screen {
 	};
 	
 	
-	public MainScreen(GameMain gm){
+	public MainScreen(GameMain gm,StageBuilder builder){
+		this.builder=builder;
+		
 		this.gm=gm;
 		
 		am=new AssetManager();
@@ -204,7 +209,7 @@ public class MainScreen implements Screen {
 
 	int frameC;
 	
-	int backgroundC;
+	public int backgroundC;
 	
 	final float FONT_WIDTH=26;
 	
@@ -459,7 +464,7 @@ public class MainScreen implements Screen {
 		}
 		
 		//UI Component Update
-		String disText="HP:"+p.hp+"\nSpell:"+p.spell+"\n"+p.atk+"P"+p.def+"D\nGraze:"+p.graze+"\nPoint:"+p.point;
+		String disText=String.format("HP:%.1f\nBomb:%d\nPower:%.1f\nGraze:%d\nPoint:%d", p.hp,p.spell,p.atk,p.graze,p.point);
 		everything.setText(disText);
 		everything.setPosition(VU.width,VU.height-90,Align.bottomLeft);
 		
@@ -567,7 +572,7 @@ public class MainScreen implements Screen {
 			}
 			
 		}else{
-			bossName.setText("Stage Test\n");
+			bossName.setText(builder.getStageName(this));
 			timeLeft.setText("");
 		}
 		
@@ -594,28 +599,9 @@ public class MainScreen implements Screen {
 		}
 		
 		//Process Level Information
-		if(backgroundC==1){
-			audio.playBGM(stageBGM,1f);
-			displaySongName("XZM Theme");
-		}
+		builder.onTick(this,arg0);
 		
-		if(renderBoss==false){
-			boss=new Boss(this, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
-					new SpellCardAction(this,
-										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),
-										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null,null),
-										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss","Battle Against A True Hero"),
-										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null,null)
-										),
-					new TestNonSpellCard(this),
-					new TestSpellCard(this),
-					new TestRandomCard(this),
-					new SpellCardAction(this,
-										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","<","XZM Theme")
-									   )
-					);
-			renderBoss=true;
-		}
+		
 		
 //		if(frameC>=120){
 //			EnemySelfAim esa=new EnemySelfAim(this, p.x, VU.height+100);
