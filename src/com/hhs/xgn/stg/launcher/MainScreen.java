@@ -46,7 +46,6 @@ import com.hhs.xgn.stg.type.EntityPlayerBullet;
 
 public class MainScreen implements Screen {
 
-	public final String stageBGM = "normal";
 
 	public GameMain gm;
 	
@@ -69,6 +68,7 @@ public class MainScreen implements Screen {
 	public Group instant;
 	public Label bossName;
 	public Label timeLeft;
+	public Label bonusLeft;
 	
 	public Label spellScroll;
 	
@@ -164,6 +164,10 @@ public class MainScreen implements Screen {
 		VU.setTo(timeLeft, 0.5f, 0.95f);
 		timeLeft.getStyle().fontColor=Color.RED;
 		
+		bonusLeft=VU.createLabel("Bonus: 00000000","ink.fnt");
+		VU.setTo(bonusLeft, 0.9f, 0.95f);
+		bonusLeft.getStyle().fontColor=Color.GREEN;
+		bonusLeft.setFontScale(0.5f);
 		
 		spellScroll=VU.createLabel("","pixel.fnt");
 		spellScroll.setPosition(0,VU.height-75);
@@ -174,6 +178,7 @@ public class MainScreen implements Screen {
 		rightUI.addActor(everything);
 		ui.addActor(spellScroll);
 		ui.addActor(timeLeft);
+		ui.addActor(bonusLeft);
 		
 		instant=new Group();
 		ui.addActor(instant);
@@ -332,7 +337,7 @@ public class MainScreen implements Screen {
 			if(d.music.equals("-")){
 				audio.stopMusic();
 			}else if(d.music.equals("<")){
-				audio.playBGM(stageBGM,1f);
+				audio.playBGM(builder.getStageMusic(),1f);
 			}else{
 				audio.playBGM(d.music, 1f);
 				if(d.musicName!=null){
@@ -534,10 +539,8 @@ public class MainScreen implements Screen {
 			//render the boss name and bar
 			String td=boss.name+"\n";
 			String ttd=String.format("%.1fs",boss.currentTime/60f );
-
-//			for(int i=0;i<boss.spells.size()-boss.currentSpellPointer;i++){
-//				td+="";
-//			}
+			String btd=String.format("Bonus:%08d",boss.calcCurrentBonus());
+			
 			bossName.setText(td);
 			
 			if(boss.getSpell() instanceof SpellCardAction){
@@ -547,6 +550,13 @@ public class MainScreen implements Screen {
 				timeLeft.setText(ttd);
 				
 				spellScroll.setText(boss.getSpell().name.replace("\n", ""));
+				
+				//set bonus text
+				if(boss.getSpell().isNonspell()){
+					bonusLeft.setText("");
+				}else{
+					bonusLeft.setText(btd);
+				}
 				
 				//draw life bar
 				if(!boss.getSpell().isTimeSpell){
@@ -574,6 +584,7 @@ public class MainScreen implements Screen {
 		}else{
 			bossName.setText(builder.getStageName(this));
 			timeLeft.setText("");
+			bonusLeft.setText("");
 		}
 		
 		//Draw UI Bg

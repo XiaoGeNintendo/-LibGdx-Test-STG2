@@ -12,7 +12,7 @@ public class TestStageBuilder extends StageBuilder {
 	@Override
 	public void onTick(MainScreen ms, float tt) {
 		if(ms.backgroundC==1){
-			ms.audio.playBGM(ms.stageBGM,1f);
+			ms.audio.playBGM("normal",1f);
 			ms.displaySongName("XZM Theme");
 		}
 		
@@ -39,6 +39,12 @@ public class TestStageBuilder extends StageBuilder {
 	public String getStageName(MainScreen ms) {
 		// TODO Auto-generated method stub
 		return "Test Stage "+ms.backgroundC;
+	}
+
+	@Override
+	public String getStageMusic() {
+		// TODO Auto-generated method stub
+		return "normal";
 	}
 
 }

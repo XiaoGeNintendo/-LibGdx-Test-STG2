@@ -102,6 +102,7 @@ public class Boss extends Entity {
 						Actions.parallel(Actions.alpha(0, 1), Actions.scaleBy(5f, 5f, 1f)), Actions.removeActor()));
 				obj.spells.remove(obj.spells.size() - 1);
 
+				//add bonus
 				if (!getSpell().isNonspell()) {
 					if ((currentTime <= 0 && !getSpell().isTimeSpell) || bonus == false) {
 						// bouns failed
@@ -248,5 +249,16 @@ public class Boss extends Entity {
 			}
 
 		}
+	}
+
+	/**
+	 * The current spell bonus at the given time
+	 * @return
+	 */
+	public int calcCurrentBonus() {
+		if(getSpell().isNonspell() || !bonus){
+			return 0;
+		}
+		return (int) (((getSpell().isTimeSpell?getSpell().time:currentTime) / (float) getSpell().time) * getSpell().maxBonus);
 	}
 }

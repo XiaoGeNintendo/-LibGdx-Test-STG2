@@ -17,4 +17,7 @@ public abstract class StageBuilder {
 	public abstract void onTick(MainScreen ms,float tt);
 	
 	public abstract String getStageName(MainScreen ms);
+	
+	public abstract String getStageMusic();
+	
 }
