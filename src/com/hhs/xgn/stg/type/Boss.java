@@ -31,7 +31,7 @@ public class Boss extends Entity {
 		return animTime > 0;
 	}
 
-	float kx, ky;
+	float kx, ky,initx,inity;
 
 	public String tachie;
 
@@ -44,6 +44,8 @@ public class Boss extends Entity {
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.initx=x;
+		this.inity=y;
 		this.tachie = tachie;
 
 		nowCard = null;
@@ -88,8 +90,13 @@ public class Boss extends Entity {
 	public int currentTime;
 
 	public void nextSpellCard() {
+		//restore
+		x=initx;
+		y=inity;
+		
 		// do some animation
 
+		
 		if (currentSpellPointer != -1) {
 			getSpell().onEnd();
 
@@ -123,7 +130,7 @@ public class Boss extends Entity {
 								Actions.removeActor()));
 						obj.instant.addActor(ok);
 
-						float _bonus = ((getSpell().isTimeSpell?getSpell().time:currentTime) / (float) getSpell().time) * getSpell().maxBonus;
+						float _bonus = calcCurrentBonus();
 
 						obj.p.point += _bonus;
 						Label ok2 = VU

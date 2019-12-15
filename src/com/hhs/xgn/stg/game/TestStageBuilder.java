@@ -9,6 +9,8 @@ import com.hhs.xgn.stg.type.SpellCardAction;
 
 public class TestStageBuilder extends StageBuilder {
 
+	int tick;
+	
 	@Override
 	public void onTick(MainScreen ms, float tt) {
 		if(ms.backgroundC==1){
@@ -16,7 +18,18 @@ public class TestStageBuilder extends StageBuilder {
 			ms.displaySongName("XZM Theme");
 		}
 		
-		if(ms.renderBoss==false){
+		tick++;
+		
+		//stage middle?? 
+		if(tick<=1200){
+			if(tick%120==0){
+				EnemySelfAim esa=new EnemySelfAim(ms, ms.p.x, VU.height+100);
+				ms.addEnemy(esa);
+			}
+		}else{
+			if(ms.renderBoss){
+				return;
+			}
 			ms.boss=new Boss(ms, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
 					new SpellCardAction(ms,
 										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),
@@ -26,9 +39,11 @@ public class TestStageBuilder extends StageBuilder {
 										),
 					new TestNonSpellCard(ms),
 					new TestSpellCard(ms),
+					new MovingNonSpell(ms),
 					new TestRandomCard(ms),
 					new SpellCardAction(ms,
-										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは","<","XZM Theme")
+										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは",null,"XZM Theme"),
+										new Dialog("art/reimu.png","TODO: Ending","<","XZM Theme")
 									   )
 					);
 			ms.renderBoss=true;

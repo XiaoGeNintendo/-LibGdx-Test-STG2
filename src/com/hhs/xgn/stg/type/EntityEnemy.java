@@ -39,12 +39,12 @@ public class EntityEnemy extends Entity{
 				onKill();
 			}
 			
-			Label hplost=VU.createLabel(hp+"");
-			hplost.setFontScale(0.5f,0.5f);
-			hplost.getStyle().fontColor=Color.RED;
-			hplost.addAction(Actions.sequence(Actions.alpha(0,2),Actions.removeActor()));
-			hplost.setPosition(x+VU.easyRandom(-getCollision()/2,getCollision()/2), y+VU.easyRandom(-getCollision()/2,getCollision()/2),Align.center);
-			obj.instant.addActor(hplost);
+//			Label hplost=VU.createLabel(hp+"");
+//			hplost.setFontScale(0.5f,0.5f);
+//			hplost.getStyle().fontColor=Color.RED;
+//			hplost.addAction(Actions.sequence(Actions.alpha(0,2),Actions.removeActor()));
+//			hplost.setPosition(x+VU.easyRandom(-getCollision()/2,getCollision()/2), y+VU.easyRandom(-getCollision()/2,getCollision()/2),Align.center);
+//			obj.instant.addActor(hplost);
 		}
 	}
 }
