@@ -20,18 +20,6 @@ public class TestStageBuilder extends StageBuilder {
 		
 		tick++;
 		
-		//debug
-		if(ms.renderBoss){
-			return;
-		}
-		ms.boss=new Boss(ms, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
-				new TestSpell2(ms)
-				);
-		ms.renderBoss=true;
-		
-		if(1==1){
-			return;
-		}
 		
 		//stage middle?? 
 		if(tick<=1200){
@@ -54,6 +42,7 @@ public class TestStageBuilder extends StageBuilder {
 					new TestSpellCard(ms),
 					new MovingNonSpell(ms),
 					new TestRandomCard(ms),
+					new TestSpell2(ms),
 					new SpellCardAction(ms,
 										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは",null,"XZM Theme"),
 										new Dialog("art/reimu.png","TODO: Ending","<","XZM Theme")

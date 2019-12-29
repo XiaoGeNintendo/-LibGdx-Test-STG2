@@ -1,8 +1,10 @@
 package com.hhs.xgn.stg.type;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
@@ -37,6 +39,18 @@ public class EntityEnemy extends Entity{
 			if(hp<=0){
 				dead=true;
 				onKill();
+				
+				int density=2;
+				for(int i=0;i<density;i++){
+					Image im=new Image(obj.am.get("ui/pure.png",Texture.class));
+					im.setPosition(x+VU.easyRandom(-10, 10), y+VU.easyRandom(-10, 10));
+					im.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(0, -VU.height,1),
+																   Actions.rotateBy(360*10, 1)
+																  ),
+												  Actions.removeActor()
+							));
+					obj.instant.addActor(im);
+				}
 			}
 			
 //			Label hplost=VU.createLabel(hp+"");

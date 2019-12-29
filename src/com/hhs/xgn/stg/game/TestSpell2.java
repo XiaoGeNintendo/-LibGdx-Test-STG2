@@ -25,7 +25,7 @@ public class TestSpell2 extends SpellCard {
 	}
 	
 	public TestSpell2(MainScreen ms){
-		super(ms,20000,120*60,"¡¸Placeholder¡¹",true,false,1e5f);
+		super(ms,20000,120*60,"	¡¸2020Äê¤Î²¨¼y¡¹",true,false,1e5f);
 	}
 	
 	int frameC=0;
