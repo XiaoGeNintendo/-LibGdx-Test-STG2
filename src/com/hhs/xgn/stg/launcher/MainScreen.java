@@ -221,6 +221,7 @@ public class MainScreen implements Screen {
 	public void checkInvisible(){
 		if(p.deadTime!=0){
 			VU.clear(0, 0, 0, 1);
+			
 			p.deadTime--;
 			
 			clearBullet();
@@ -403,7 +404,10 @@ public class MainScreen implements Screen {
 			backgroundC++;
 		}
 		
-		checkInvisible();
+		if(renderMode==0){
+			checkInvisible();
+		}
+		
 		renderBG();
 		//Check Esc key
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){

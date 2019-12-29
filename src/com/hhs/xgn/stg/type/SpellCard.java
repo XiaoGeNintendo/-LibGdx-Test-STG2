@@ -1,6 +1,10 @@
 package com.hhs.xgn.stg.type;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 
 public class SpellCard {
@@ -30,6 +34,41 @@ public class SpellCard {
 		
 	}
 	
+	/**
+	 * A function to cast a visual magic
+	 */
+	public void castMagic(){
+		int density=100;
+		obj.audio.playSound("enemybomb");
+		for(int i=0;i<density;i++){
+			Image im=new Image(obj.am.get("ui/pure.png",Texture.class));
+			im.setPosition(getX(), getY());
+			
+			im.addAction(Actions.sequence(Actions.moveTo(VU.easyRandom(0, VU.width), VU.easyRandom(0, VU.height),1),
+										  Actions.alpha(0,1),
+										  Actions.removeActor()));
+			
+			obj.instant.addActor(im);
+		}
+	}
+	
+	/**
+	 * A function to cast a visual magic warning
+	 */
+	public void castMagicWarning(){
+		int density=100;
+		obj.audio.playSound("enemybootup");
+		for(int i=0;i<density;i++){
+			Image im=new Image(obj.am.get("ui/pure.png",Texture.class));
+			im.setPosition(VU.easyRandom(0, VU.width), VU.easyRandom(0, VU.height));
+			
+			im.addAction(Actions.sequence(Actions.moveTo(getX(), getY(),1),
+										  Actions.alpha(0,1),
+										  Actions.removeActor()));
+			
+			obj.instant.addActor(im);
+		}
+	}
 	/**
 	 * Full Constructor V2
 	 */

@@ -20,6 +20,19 @@ public class TestStageBuilder extends StageBuilder {
 		
 		tick++;
 		
+		//debug
+		if(ms.renderBoss){
+			return;
+		}
+		ms.boss=new Boss(ms, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
+				new TestSpell2(ms)
+				);
+		ms.renderBoss=true;
+		
+		if(1==1){
+			return;
+		}
+		
 		//stage middle?? 
 		if(tick<=1200){
 			if(tick%120==0){
