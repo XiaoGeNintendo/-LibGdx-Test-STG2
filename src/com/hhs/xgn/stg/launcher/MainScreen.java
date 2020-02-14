@@ -34,15 +34,16 @@ import com.hhs.xgn.stg.game.ItemPower;
 import com.hhs.xgn.stg.game.TestNonSpellCard;
 import com.hhs.xgn.stg.game.TestRandomCard;
 import com.hhs.xgn.stg.game.TestSpellCard;
+import com.hhs.xgn.stg.struct.GameBuilder;
+import com.hhs.xgn.stg.struct.GameChosen;
 import com.hhs.xgn.stg.struct.StageBuilder;
 import com.hhs.xgn.stg.type.AudioSystem;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Dialog;
 import com.hhs.xgn.stg.type.Entity;
 import com.hhs.xgn.stg.type.EntityEnemy;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 import com.hhs.xgn.stg.type.EntityItem;
-import com.hhs.xgn.stg.type.EntityPlayerBullet;
 
 public class MainScreen implements Screen {
 
@@ -52,8 +53,8 @@ public class MainScreen implements Screen {
 	public AssetManager am;
 
 	public ArrayList<EntityEnemy> groupEnemy=new ArrayList<>();
-	public ArrayList<EntityPlayerBullet> groupPlayerBullet=new ArrayList<>();
-	public ArrayList<EntityEnemyBullet> groupEnemyBullet=new ArrayList<>();
+	public ArrayList<EntityBullet> groupPlayerBullet=new ArrayList<>();
+	public ArrayList<EntityBullet> groupEnemyBullet=new ArrayList<>();
 	public ArrayList<Player> groupPlayer=new ArrayList<>();
 	public ArrayList<EntityItem> groupItem=new ArrayList<>();
 	
@@ -61,6 +62,11 @@ public class MainScreen implements Screen {
 	public boolean renderBoss;
 	
 	public Player p;
+	/**
+	 * The difficulty and player setting.
+	 */
+	public GameChosen gc;
+	
 	public SpriteBatch sb;
 	
 	public Stage ui;
@@ -86,14 +92,13 @@ public class MainScreen implements Screen {
 	
 	public StageBuilder builder;
 	
-	public void addPlayerBullet(float x,float y) {
-		EntityPlayerBullet epb=new EntityPlayerBullet(this);
-		epb.x=x;
-		epb.y=y;
-		groupPlayerBullet.add(epb);
+	public void addPlayerBullet(float x,float y,EntityBullet obj){
+		obj.x=x;
+		obj.y=y;
+		groupPlayerBullet.add(obj);
 	}
-
-	public void addEnemyBullet(EntityEnemyBullet eeb){
+	
+	public void addEnemyBullet(EntityBullet eeb){
 		groupEnemyBullet.add(eeb);
 	}
 	
@@ -110,9 +115,9 @@ public class MainScreen implements Screen {
 	String[] resources=new String[]{
 			"entity/bullet.png",
 			"entity/enemy.png",
-			"player/player1.png",
-			"player/player2.png",
-			"player/player3.png",
+			"zyq/player1.png",
+			"zyq/player2.png",
+			"zyq/player3.png",
 			"entity/playerbullet.png",
 			"ui/heart.png",
 			"entity/power.bmp",
@@ -126,12 +131,15 @@ public class MainScreen implements Screen {
 			"bg/frogscbg.png",
 			"bg/bomb.png"
 	};
+
 	
 	
-	public MainScreen(GameMain gm,StageBuilder builder){
+	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc){
 		this.builder=builder;
 		
 		this.gm=gm;
+		
+		this.gc=gc;
 		
 		am=new AssetManager();
 		for(String res:resources){
@@ -141,7 +149,9 @@ public class MainScreen implements Screen {
 		
 		sb=new SpriteBatch();
 		
-		p=new Player(this);
+		p=gc.chosenPlayer;
+		
+		p.obj=this;
 		
 		audio=new AudioSystem();
 		
@@ -426,10 +436,10 @@ public class MainScreen implements Screen {
 			for(EntityEnemy ee:groupEnemy){
 				ee.onFrame();
 			}
-			for(EntityPlayerBullet epb:groupPlayerBullet){
+			for(EntityBullet epb:groupPlayerBullet){
 				epb.onFrame();
 			}
-			for(EntityEnemyBullet eeb:groupEnemyBullet){
+			for(EntityBullet eeb:groupEnemyBullet){
 				eeb.onFrame();
 			}
 			for(EntityItem eeb:groupItem){
@@ -449,7 +459,7 @@ public class MainScreen implements Screen {
 		checkCol(groupItem,groupPlayer);
 		
 		if(renderBoss && !boss.isAppearing()){
-			for(EntityPlayerBullet x:groupPlayerBullet){
+			for(EntityBullet x:groupPlayerBullet){
 				if(x.dead || boss.dead){
 					continue;
 				}
@@ -478,7 +488,7 @@ public class MainScreen implements Screen {
 		everything.setPosition(VU.width,VU.height-90,Align.bottomLeft);
 		
 		//Graze
-		for(EntityEnemyBullet eeb:groupEnemyBullet){
+		for(EntityBullet eeb:groupEnemyBullet){
 			if(!eeb.grazed && getDist(eeb, p)<=p.getCollision()*4){
 				eeb.grazed=true;
 				
@@ -662,7 +672,7 @@ public class MainScreen implements Screen {
 	
 	//clear bullet and enemy
 	public void clearBullet() {
-		for(EntityEnemyBullet eeb:groupEnemyBullet){
+		for(EntityBullet eeb:groupEnemyBullet){
 			eeb.onKill();
 		}
 		

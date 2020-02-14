@@ -3,7 +3,7 @@ package com.hhs.xgn.stg.game;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 import com.hhs.xgn.stg.type.EntityEnemy;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestRandomCard extends SpellCard {
@@ -19,7 +19,7 @@ public class TestRandomCard extends SpellCard {
 		frameC++;
 		if(frameC%1==0){
 		
-			EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
+			EntityBullet eeb=new EntityBullet(obj);
 			eeb.texture="entity/bullet.png";
 			eeb.sx=10;
 			eeb.sy=10;

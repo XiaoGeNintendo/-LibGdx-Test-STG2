@@ -8,12 +8,12 @@ import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.game.ItemPoint;
 import com.hhs.xgn.stg.launcher.MainScreen;
 
-public class EntityEnemyBullet extends Entity{
+public class EntityBullet extends Entity{
 	
 	public float damage;
 	public boolean grazed;
 	
-	public EntityEnemyBullet(MainScreen ms){
+	public EntityBullet(MainScreen ms){
 		super(ms);
 	}
 	
@@ -30,9 +30,7 @@ public class EntityEnemyBullet extends Entity{
 	}
 	@Override
 	public void onHit(Entity ano) {
-		if(ano instanceof Player){
-			dead=true;
-		}
+		dead=true;
 	}
 
 }

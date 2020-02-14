@@ -2,7 +2,7 @@ package com.hhs.xgn.stg.game;
 
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 import com.hhs.xgn.stg.type.EntityItem;
 import com.hhs.xgn.stg.type.SpellCard;
 
@@ -19,7 +19,7 @@ public class TestNonSpellCard extends SpellCard {
 		if(frameC%60==0){
 			for(int i=frameC/6;i<=frameC/6+360;i+=10){
 //				System.out.println("Created bullet");
-				EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
+				EntityBullet eeb=new EntityBullet(obj);
 				eeb.x=obj.boss.x;
 				eeb.y=obj.boss.y;
 				

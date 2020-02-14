@@ -1,9 +1,9 @@
 package com.hhs.xgn.stg.game;
 
 import com.hhs.xgn.stg.launcher.MainScreen;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 
-public class SelfAimBullet extends EntityEnemyBullet{
+public class SelfAimBullet extends EntityBullet{
 
 	float time;
 	public SelfAimBullet(MainScreen ms,float time,float x,float y) {

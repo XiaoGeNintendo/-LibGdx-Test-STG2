@@ -23,4 +23,7 @@ public abstract class GameBuilder {
 	 * Difficulties
 	 */
 	public ArrayList<String> diffs;
+	
+	public Player chosenPlayer;
+	public String chosenDifficulty;
 }

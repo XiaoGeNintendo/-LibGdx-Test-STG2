@@ -244,17 +244,14 @@ public class Boss extends Entity {
 
 	@Override
 	public void onHit(Entity ano) {
-		if (ano instanceof EntityPlayerBullet || ano == null) { // for bomb=null
-			if(getSpell() instanceof SpellCardAction || isAppearing() || getSpell().isTimeSpell){
-				return;
-			}
-			currentHp -= 1;
-			obj.p.point += 12;
-				
-			if (currentHp <= 0) {
-				nextSpellCard();
-			}
-
+		if(getSpell() instanceof SpellCardAction || isAppearing() || getSpell().isTimeSpell){
+			return;
+		}
+		currentHp -= 1;
+		obj.p.point += 12;
+			
+		if (currentHp <= 0) {
+			nextSpellCard();
 		}
 	}
 

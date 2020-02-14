@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 import com.hhs.xgn.stg.type.EntityEnemy;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestSpellCard extends SpellCard {
@@ -36,7 +36,7 @@ public class TestSpellCard extends SpellCard {
 		if(frameC%300==0){
 			for(int i=0;i<=360;i+=3){
 //				System.out.println("Created bullet");
-				EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
+				EntityBullet eeb=new EntityBullet(obj);
 				eeb.texture="entity/bullet.png";
 				eeb.sx=8;
 				eeb.sy=8;

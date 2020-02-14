@@ -2,7 +2,7 @@ package com.hhs.xgn.stg.game;
 
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 import com.hhs.xgn.stg.type.SpellCard;
 
 public class MovingNonSpell extends SpellCard {

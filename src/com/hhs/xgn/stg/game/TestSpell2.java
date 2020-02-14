@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
 import com.hhs.xgn.stg.type.EntityEnemy;
-import com.hhs.xgn.stg.type.EntityEnemyBullet;
+import com.hhs.xgn.stg.type.EntityBullet;
 import com.hhs.xgn.stg.type.SpellCard;
 
 public class TestSpell2 extends SpellCard {
@@ -35,7 +35,7 @@ public class TestSpell2 extends SpellCard {
 		frameC++;
 		
 		if(frameC%1==0){
-			EntityEnemyBullet eeb=new EntityEnemyBullet(obj);
+			EntityBullet eeb=new EntityBullet(obj);
 			
 			eeb.setPosition(getX(), getY());
 			float angle=VU.easyRandom(0, 360);
@@ -54,7 +54,7 @@ public class TestSpell2 extends SpellCard {
 		if(frameC%240==0){
 			castMagic();
 			
-			for(EntityEnemyBullet eeb:obj.groupEnemyBullet){
+			for(EntityBullet eeb:obj.groupEnemyBullet){
 				eeb.ax=-eeb.vx/100f;
 				eeb.ay=-eeb.vy/100f;
 				eeb.vx=eeb.vy=0;
