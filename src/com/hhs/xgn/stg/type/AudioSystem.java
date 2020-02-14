@@ -67,12 +67,7 @@ public class AudioSystem implements Disposable{
 	 * @param string
 	 */
 	public void playBGM(String name,float vol) {
-		stopMusic();
-		
-		nowPlaying=loadMusic("mus/"+name+".wav");
-		nowPlaying.play();
-		nowPlaying.setLooping(true);
-		nowPlaying.setVolume(vol*BGMVolume);
+		playBGMPrimitive("mus/"+name+".wav", vol);
 	}
 
 	/**
@@ -83,6 +78,15 @@ public class AudioSystem implements Disposable{
 			music.put(path, Gdx.audio.newMusic(Gdx.files.internal(path)));
 		}
 		return music.get(path);
+	}
+
+	public void playBGMPrimitive(String name, float vol) {
+		stopMusic();
+		nowPlaying=loadMusic(name);
+		nowPlaying.play();
+		nowPlaying.setLooping(true);
+		nowPlaying.setVolume(vol*BGMVolume);
+		
 	}
 
 	

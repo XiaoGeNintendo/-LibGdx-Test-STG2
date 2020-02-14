@@ -24,6 +24,10 @@ public abstract class GameBuilder {
 	 */
 	public ArrayList<String> diffs;
 	
-	public Player chosenPlayer;
-	public String chosenDifficulty;
+	public GameBuilder(){
+		stage=new ArrayList<>();
+		self=new ArrayList<>();
+		diffs=new ArrayList<>();
+		
+	}
 }
