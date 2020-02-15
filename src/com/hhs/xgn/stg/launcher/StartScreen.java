@@ -51,10 +51,11 @@ public class StartScreen implements Screen{
 	Image tachi;
 	Label descL;
 	
+	
 	AudioSystem as;
 	
 	String[] option=new String[]{"Start Game","Credits","Exit"};
-	int opId=0;
+	int opId=0,diffId=0;
 	
 	public StartScreen(GameMain gm,GameBuilder gb){
 		this.gm=gm;
@@ -103,6 +104,12 @@ public class StartScreen implements Screen{
 		st.addActor(descL);
 	}
 	
+	public void refreshDiffOption(){
+		descL.clearActions();
+		descL.setText(gb.diffs.get(diffId));
+		descL.setPosition(VU.width, 500);
+		descL.addAction(Actions.moveTo(VU.width, VU.height/2f,0.5f));
+	}
 	
 	public void refreshCharOption(){
 		Player pn=gb.self.get(opId);
@@ -177,8 +184,8 @@ public class StartScreen implements Screen{
 		}else{
 			title.setVisible(false);
 			textgroup.setVisible(false);
-			tachi.setVisible(false);
-			descL.setVisible(false);
+			tachi.setVisible(true);
+			descL.setVisible(true);
 		}
 		
 		//key mapping
@@ -189,14 +196,24 @@ public class StartScreen implements Screen{
 				opId%=gb.self.size();
 				refreshCharOption();
 				as.playSound("dialog");
+			}else if(state==2){
+				diffId++;
+				diffId%=gb.diffs.size();
+				refreshDiffOption();
+				as.playSound("dialog");
 			}
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.RIGHT)){
 			if(state==1){
-				opId--;
+				opId+=gb.self.size()-1;
 				opId%=gb.self.size();
 				refreshCharOption();
+				as.playSound("dialog");
+			}else if(state==2){
+				diffId+=gb.diffs.size()-1;
+				diffId%=gb.diffs.size();
+				refreshDiffOption();
 				as.playSound("dialog");
 			}
 		}
@@ -242,14 +259,20 @@ public class StartScreen implements Screen{
 				as.playSound("explode");
 				gm.gc.chosenPlayer=gb.self.get(opId);
 				state=2;
-				opId=0;
+				diffId=0;
+				refreshDiffOption();
 			}
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.X)){
 			if(state!=0){
 				state--;
-				opId=0;
+				if(state!=1){
+					opId=0;
+				}else{
+					refreshCharOption();
+				}
+				
 				as.playSound("back");
 			}
 			
