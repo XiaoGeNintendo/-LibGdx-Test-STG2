@@ -70,7 +70,7 @@ public class StartScreen implements Screen{
 		title.setColor(1,1,1,0);
 		title.setOrigin(Align.center);
 		
-		Action forever=Actions.sequence(Actions.delay(0.4f),Actions.scaleTo(1.2f, 1.2f,0.05f),Actions.scaleTo(1, 1,0.05f));
+		Action forever=Actions.sequence(Actions.delay(60/140f-0.1f),Actions.scaleTo(1.2f, 1.2f,0.05f),Actions.scaleTo(1, 1,0.05f));
 		
 		title.addAction(Actions.sequence(Actions.fadeIn(2f),Actions.run(new Runnable(){
 
