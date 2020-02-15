@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.struct.GameBuilder;
 import com.hhs.xgn.stg.type.AudioSystem;
+import com.hhs.xgn.stg.type.Player;
 
 public class StartScreen implements Screen{
 
@@ -39,10 +42,14 @@ public class StartScreen implements Screen{
 	String[] resources=new String[]{
 			"start/bg.jpg",
 			"start/title.png",
+			"zyq/front.png"
 	};
 	
 	Image bg,title;
 	Group textgroup;
+	
+	Image tachi;
+	Label descL;
 	
 	AudioSystem as;
 	
@@ -80,12 +87,38 @@ public class StartScreen implements Screen{
 			}
 		
 		}),Actions.forever(forever)));
-		
 		refreshOption();
+		
+		tachi=new Image(am.get("start/bg.jpg",Texture.class));
+		descL=VU.createLabel("Description!!");
+		descL.getStyle().fontColor=Color.GREEN;
+		descL.setAlignment(Align.topLeft);
+		descL.setFontScale(0.5f);
+		refreshCharOption();
 		
 		st.addActor(bg);
 		st.addActor(title);
 		st.addActor(textgroup);
+		st.addActor(tachi);
+		st.addActor(descL);
+	}
+	
+	
+	public void refreshCharOption(){
+		Player pn=gb.self.get(opId);
+		
+		tachi.clearActions();
+		descL.clearActions();
+		
+		tachi.setDrawable(new TextureRegionDrawable(new TextureRegion(am.get(pn.in+"/front.png",Texture.class))));
+		tachi.setBounds(100, 100, VU.width-200, VU.height-200);
+		tachi.setScaleX(0);
+		tachi.addAction(Actions.scaleTo(1, 1,0.5f));
+		
+		descL.setText(pn.dn+"\n\n"+pn.desc);
+		descL.setPosition(-1000, VU.height-100);
+		descL.addAction(Actions.moveTo(VU.width-100, VU.height-100,0.5f));
+		
 	}
 	
 	public void refreshOption(){
@@ -128,15 +161,44 @@ public class StartScreen implements Screen{
 
 	@Override
 	public void render(float arg0) {
-		// TODO Auto-generated method stub
 		VU.render(st);
 		
-		if(state!=0){
-			title.setVisible(false);
-			textgroup.setVisible(false);
-		}else{
+		//toggle render state
+		if(state==0){
 			title.setVisible(true);
 			textgroup.setVisible(true);
+			tachi.setVisible(false);
+			descL.setVisible(false);
+		}else if(state==1){
+			title.setVisible(false);
+			textgroup.setVisible(false);
+			tachi.setVisible(true);
+			descL.setVisible(true);
+		}else{
+			title.setVisible(false);
+			textgroup.setVisible(false);
+			tachi.setVisible(false);
+			descL.setVisible(false);
+		}
+		
+		//key mapping
+		
+		if(Gdx.input.isKeyJustPressed(Keys.LEFT)){
+			if(state==1){
+				opId++;
+				opId%=gb.self.size();
+				refreshCharOption();
+				as.playSound("dialog");
+			}
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.RIGHT)){
+			if(state==1){
+				opId--;
+				opId%=gb.self.size();
+				refreshCharOption();
+				as.playSound("dialog");
+			}
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.DOWN)){
@@ -161,7 +223,6 @@ public class StartScreen implements Screen{
 		
 		if(Gdx.input.isKeyJustPressed(Keys.Z)){
 			if(state==0){
-
 				as.playSound("explode");
 				if(opId==2){
 					Launcher.game.exit();
@@ -174,10 +235,14 @@ public class StartScreen implements Screen{
 							+ "This project is a open-source project\n"
 							+ "The author believes all the resources this project includes are of fair use.");
 				}else{
-					//TODO choose character
 					opId=0;
 					state=1;
 				}
+			}else if(state==1){
+				as.playSound("explode");
+				gm.gc.chosenPlayer=gb.self.get(opId);
+				state=2;
+				opId=0;
 			}
 		}
 		
