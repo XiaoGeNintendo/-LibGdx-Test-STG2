@@ -8,7 +8,7 @@ public class TestGameBuilder extends GameBuilder {
 		self.add(new PlayerZJS(null));
 		diffs.add("Easy");
 		diffs.add("Lunatic");
-//		stage.add(new TestStageBuilder());
+		stage.add(new TestStageBuilder());
 		stage.add(new TestEndingBuilder());
 	}
 }
