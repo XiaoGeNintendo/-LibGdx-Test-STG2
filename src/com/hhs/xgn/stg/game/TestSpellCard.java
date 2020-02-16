@@ -34,7 +34,11 @@ public class TestSpellCard extends SpellCard {
 	public void onFrame() {
 //		System.out.println("Running SPell"+frameC);
 		frameC++;
-		if(frameC%300==0){
+		
+		//An example of difficulty change
+		int v=(obj.gc.chosenDifficulty.equals("Lunatic")?30:300);
+		
+		if(frameC%v==0){
 			for(int i=0;i<=360;i+=3){
 //				System.out.println("Created bullet");
 				EntityBullet eeb=new EntityBullet(obj);

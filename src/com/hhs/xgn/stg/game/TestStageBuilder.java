@@ -23,7 +23,7 @@ public class TestStageBuilder extends StageBuilder {
 		
 		
 		//stage middle?? 
-		if(tick<=0){
+		if(tick<=1200){
 			if(tick%120==0){
 				EnemySelfAim esa=new EnemySelfAim(ms, ms.p.x, VU.height+100);
 				ms.addEnemy(esa);
