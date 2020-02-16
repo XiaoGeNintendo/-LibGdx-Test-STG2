@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.struct.GameBuilder;
-import com.hhs.xgn.stg.type.AudioSystem;
 import com.hhs.xgn.stg.type.Player;
 
 public class StartScreen implements Screen{
@@ -37,22 +35,12 @@ public class StartScreen implements Screen{
 	int state=0;
 	
 	Stage st;
-	AssetManager am;
-	
-	String[] resources=new String[]{
-			"start/bg.jpg",
-			"start/title.png",
-			"zyq/front.png"
-	};
 	
 	Image bg,title;
 	Group textgroup;
 	
 	Image tachi;
 	Label descL;
-	
-	
-	AudioSystem as;
 	
 	String[] option=new String[]{"Start Game","Credits","Exit"};
 	int opId=0,diffId=0;
@@ -62,18 +50,11 @@ public class StartScreen implements Screen{
 		this.gb=gb;
 		
 		st=new Stage();
-		am=new AssetManager();
-		as=new AudioSystem();
 		textgroup=new Group();
 		
-		for(String path:resources){
-			am.load(path,Texture.class);
-		}
-		am.finishLoading();
-		
-		bg=new Image(am.get("start/bg.jpg",Texture.class));
+		bg=new Image(gm.am.get("start/bg.jpg",Texture.class));
 		bg.setBounds(0, 0, VU.width+VU.rightWidth, VU.height);
-		title=new Image(am.get("start/title.png",Texture.class));
+		title=new Image(gm.am.get("start/title.png",Texture.class));
 		VU.setTo(title, 0.5f, 0.5f);
 		title.setColor(1,1,1,0);
 		title.setOrigin(Align.center);
@@ -84,13 +65,13 @@ public class StartScreen implements Screen{
 
 			@Override
 			public void run() {
-				as.playBGMPrimitive("mus/title.mp3", 1);
+				gm.as.playBGMPrimitive("mus/title.mp3", 1);
 			}
 		
 		}),Actions.forever(forever)));
 		refreshOption();
 		
-		tachi=new Image(am.get("start/bg.jpg",Texture.class));
+		tachi=new Image(gm.am.get("start/bg.jpg",Texture.class));
 		descL=VU.createLabel("Description!!");
 		descL.getStyle().fontColor=Color.GREEN;
 		descL.setAlignment(Align.topLeft);
@@ -117,7 +98,7 @@ public class StartScreen implements Screen{
 		tachi.clearActions();
 		descL.clearActions();
 		
-		tachi.setDrawable(new TextureRegionDrawable(new TextureRegion(am.get(pn.in+"/front.png",Texture.class))));
+		tachi.setDrawable(new TextureRegionDrawable(new TextureRegion(gm.am.get(pn.in+"/front.png",Texture.class))));
 		tachi.setBounds(100, 100, VU.width-200, VU.height-200);
 		tachi.setScaleX(0);
 		tachi.addAction(Actions.scaleTo(1, 1,0.5f));
@@ -151,7 +132,7 @@ public class StartScreen implements Screen{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		VU.disposeAll(st,as);
+		VU.disposeAll(st,gm.as);
 	}
 
 	@Override
@@ -195,12 +176,12 @@ public class StartScreen implements Screen{
 				opId++;
 				opId%=gb.self.size();
 				refreshCharOption();
-				as.playSound("dialog");
+				gm.as.playSound("dialog");
 			}else if(state==2){
 				diffId++;
 				diffId%=gb.diffs.size();
 				refreshDiffOption();
-				as.playSound("dialog");
+				gm.as.playSound("dialog");
 			}
 		}
 		
@@ -209,12 +190,12 @@ public class StartScreen implements Screen{
 				opId+=gb.self.size()-1;
 				opId%=gb.self.size();
 				refreshCharOption();
-				as.playSound("dialog");
+				gm.as.playSound("dialog");
 			}else if(state==2){
 				diffId+=gb.diffs.size()-1;
 				diffId%=gb.diffs.size();
 				refreshDiffOption();
-				as.playSound("dialog");
+				gm.as.playSound("dialog");
 			}
 		}
 		
@@ -224,7 +205,7 @@ public class StartScreen implements Screen{
 				opId++;
 				opId%=option.length;
 				refreshOption();
-				as.playSound("dialog");
+				gm.as.playSound("dialog");
 			}
 		}
 		
@@ -234,13 +215,13 @@ public class StartScreen implements Screen{
 				opId+=option.length-1;
 				opId%=option.length;
 				refreshOption();
-				as.playSound("dialog");
+				gm.as.playSound("dialog");
 			}
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.Z)){
 			if(state==0){
-				as.playSound("explode");
+				gm.as.playSound("explode");
 				if(opId==2){
 					Launcher.game.exit();
 				}else if(opId==1){
@@ -256,11 +237,15 @@ public class StartScreen implements Screen{
 					state=1;
 				}
 			}else if(state==1){
-				as.playSound("explode");
+				gm.as.playSound("explode");
 				gm.gc.chosenPlayer=gb.self.get(opId);
 				state=2;
 				diffId=0;
 				refreshDiffOption();
+			}else if(state==2){
+				gm.as.playSound("explode");
+				gm.gc.chosenDifficulty=gb.diffs.get(diffId);
+				gm.setStage(gb.stage.get(0));
 			}
 		}
 		
@@ -273,7 +258,7 @@ public class StartScreen implements Screen{
 					refreshCharOption();
 				}
 				
-				as.playSound("back");
+				gm.as.playSound("back");
 			}
 			
 		}

@@ -53,7 +53,7 @@ public class PlayerZYQ extends Player{
 			if(!obj.isShowingDialog() && wait>DELAY){
 				wait=0;
 				
-				obj.audio.playSound("shoot",0.05f);
+				obj.gm.as.playSound("shoot",0.05f);
 				
 				if(ss){
 					int xx=(int) Math.floor(atk);
@@ -78,7 +78,7 @@ public class PlayerZYQ extends Player{
 			if(!obj.isShowingDialog() && deadTime==0 && spell>0){
 				obj.bonusFailed();
 				
-				obj.audio.playSound("bomb",1f);
+				obj.gm.as.playSound("bomb",1f);
 				deadTime=180;
 				spell--;
 				

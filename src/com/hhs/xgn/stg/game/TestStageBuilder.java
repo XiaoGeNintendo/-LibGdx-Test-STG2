@@ -14,7 +14,7 @@ public class TestStageBuilder extends StageBuilder {
 	@Override
 	public void onTick(MainScreen ms, float tt) {
 		if(ms.backgroundC==1){
-			ms.audio.playBGM("normal",1f);
+			ms.gm.as.playBGM("normal",1f);
 			ms.displaySongName("XZM Theme");
 		}
 		

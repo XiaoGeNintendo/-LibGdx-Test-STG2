@@ -1,26 +1,15 @@
 package com.hhs.xgn.stg.launcher;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-
-import javax.swing.text.StyledEditorKit.ForegroundAction;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,15 +18,8 @@ import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.type.Player;
 import com.hhs.xgn.stg.type.SpellCardAction;
-import com.hhs.xgn.stg.game.EnemySelfAim;
-import com.hhs.xgn.stg.game.ItemPower;
-import com.hhs.xgn.stg.game.TestNonSpellCard;
-import com.hhs.xgn.stg.game.TestRandomCard;
-import com.hhs.xgn.stg.game.TestSpellCard;
-import com.hhs.xgn.stg.struct.GameBuilder;
 import com.hhs.xgn.stg.struct.GameChosen;
 import com.hhs.xgn.stg.struct.StageBuilder;
-import com.hhs.xgn.stg.type.AudioSystem;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Dialog;
 import com.hhs.xgn.stg.type.Entity;
@@ -47,10 +29,7 @@ import com.hhs.xgn.stg.type.EntityItem;
 
 public class MainScreen implements Screen {
 
-
 	public GameMain gm;
-	
-	public AssetManager am;
 
 	public ArrayList<EntityEnemy> groupEnemy=new ArrayList<>();
 	public ArrayList<EntityBullet> groupPlayerBullet=new ArrayList<>();
@@ -86,8 +65,6 @@ public class MainScreen implements Screen {
 	
 	public ArrayList<Image> spells=new ArrayList<>();
 	
-	public AudioSystem audio;
-	
 	public ArrayList<Actor> dialogActors=new ArrayList<>();
 	
 	public StageBuilder builder;
@@ -111,29 +88,6 @@ public class MainScreen implements Screen {
 		groupItem.add(item);
 	}
 
-	
-	String[] resources=new String[]{
-			"entity/bullet.png",
-			"entity/enemy.png",
-			"zyq/player1.png",
-			"zyq/player2.png",
-			"zyq/player3.png",
-			"entity/playerbullet.png",
-			"ui/heart.png",
-			"entity/power.bmp",
-			"ui/pure.png",
-			"entity/point.bmp",
-			"art/reimu.png",
-			"bg/background.png",
-			"ui/ui_bg.png",
-			"ui/spells.png",
-			"ui/ui_com.png",
-			"bg/frogscbg.png",
-			"bg/bomb.png"
-	};
-
-	
-	
 	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc){
 		this.builder=builder;
 		
@@ -141,19 +95,12 @@ public class MainScreen implements Screen {
 		
 		this.gc=gc;
 		
-		am=new AssetManager();
-		for(String res:resources){
-			am.load(res,Texture.class);
-		}
-		am.finishLoading();
 		
 		sb=new SpriteBatch();
 		
 		p=gc.chosenPlayer;
 		
 		p.obj=this;
-		
-		audio=new AudioSystem();
 		
 		//Render UI
 		ui=new Stage();
@@ -207,7 +154,7 @@ public class MainScreen implements Screen {
 	
 	@Override
 	public void dispose() {
-		VU.disposeAll(sb,am,ui,audio);
+		VU.disposeAll(sb,gm.am,ui,gm.as);
 	}
 
 	@Override
@@ -252,9 +199,9 @@ public class MainScreen implements Screen {
 		
 		//least priority
 		sb.begin();
-		sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
-		sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
-		sb.draw(am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
+		sb.draw(gm.am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height,VU.width,VU.height);
+		sb.draw(gm.am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height-VU.height,VU.width,VU.height);
+		sb.draw(gm.am.get("bg/background.png",Texture.class), 0,-backgroundC%VU.height+VU.height,VU.width,VU.height);
 		sb.end();
 		
 		//priority 2
@@ -269,7 +216,7 @@ public class MainScreen implements Screen {
 			sb.begin();
 			for(int i=-4;i<=50;i++){
 				for(int j=-4;j<=10;j++){
-					sb.draw(am.get("bg/bomb.png",Texture.class), backgroundC%100+i*100,j*50-backgroundC%100,100,50);
+					sb.draw(gm.am.get("bg/bomb.png",Texture.class), backgroundC%100+i*100,j*50-backgroundC%100,100,50);
 				}
 			}
 			
@@ -315,10 +262,10 @@ public class MainScreen implements Screen {
 		clearDialog();
 		
 		//add new actors
-		Image st=new Image(am.get(d.speaker,Texture.class));
+		Image st=new Image(gm.am.get(d.speaker,Texture.class));
 		st.setPosition(-200,0);
 		
-		Image box=new Image(am.get("ui/pure.png",Texture.class));
+		Image box=new Image(gm.am.get("ui/pure.png",Texture.class));
 		box.setColor(0.3f, 0.4f, 0.6f, 0.8f);
 		box.setHeight(100);
 		box.setWidth(VU.width);
@@ -346,11 +293,11 @@ public class MainScreen implements Screen {
 		//handle music
 		if(d.music!=null){
 			if(d.music.equals("-")){
-				audio.stopMusic();
+				gm.as.stopMusic();
 			}else if(d.music.equals("<")){
-				audio.playBGM(builder.getStageMusic(),1f);
+				gm.as.playBGM(builder.getStageMusic(),1f);
 			}else{
-				audio.playBGM(d.music, 1f);
+				gm.as.playBGM(d.music, 1f);
 				if(d.musicName!=null){
 					displaySongName(d.musicName);
 				}
@@ -380,7 +327,7 @@ public class MainScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.Z)){
 //			System.out.println("Press Z");
 			getAction().pointer++;
-			audio.playSound("dialog",0.1f);
+			gm.as.playSound("dialog",0.1f);
 			if(getAction().pointer==getAction().arr.size()){
 				boss.nextSpellCard();
 				
@@ -394,10 +341,10 @@ public class MainScreen implements Screen {
 		
 		if(Gdx.input.isKeyJustPressed(Keys.X)){
 			if(getAction().pointer==0){
-				audio.playSound("fail",0.1f);
+				gm.as.playSound("fail",0.1f);
 			}else{
 				getAction().pointer--;
-				audio.playSound("back",0.1f);
+				gm.as.playSound("back",0.1f);
 
 				Dialog d=getDialog();
 				addDialog(d);
@@ -511,22 +458,22 @@ public class MainScreen implements Screen {
 		checkRen(groupPlayerBullet);
 		
 		if(renderBoss){
-			sb.draw(am.get(boss.texture,Texture.class), boss.x-boss.sx/2, boss.y-boss.sy/2,boss.sx,boss.sy);
+			sb.draw(gm.am.get(boss.texture,Texture.class), boss.x-boss.sx/2, boss.y-boss.sy/2,boss.sx,boss.sy);
 		}
 		
-		sb.draw(am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
+		sb.draw(gm.am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
 		
 		checkRen(groupItem);
 		checkRen(groupEnemyBullet);
 		
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			sb.draw(am.get("ui/heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
+			sb.draw(gm.am.get("ui/heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
 			for(Entity e:groupEnemy){
-				sb.draw(am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
+				sb.draw(gm.am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
 			}
 			for(Entity e:groupEnemyBullet){
-				sb.draw(am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
+				sb.draw(gm.am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);
 			}
 		}
 		
@@ -576,7 +523,7 @@ public class MainScreen implements Screen {
 				if(!boss.getSpell().isTimeSpell){
 					sb.begin();
 					sb.setColor(0.9f,0.08f,0.05f,0.8f);
-					sb.draw(am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
+					sb.draw(gm.am.get("ui/pure.png",Texture.class), 50, VU.height-50,(VU.width-100)*(boss.currentHp/boss.getSpell().hp),10);
 					sb.setColor(Color.WHITE);
 					
 					
@@ -587,7 +534,7 @@ public class MainScreen implements Screen {
 							continue;
 						}
 						sb.setColor(0,i/1.0f/len,1-i/1.0f/len,1);
-						sb.draw(am.get("ui/pure.png",Texture.class), 50+(VU.width-100)*(boss.getSpell().splits[i]/boss.getSpell().hp), VU.height-50,3,10);
+						sb.draw(gm.am.get("ui/pure.png",Texture.class), 50+(VU.width-100)*(boss.getSpell().splits[i]/boss.getSpell().hp), VU.height-50,3,10);
 					}
 					sb.setColor(Color.WHITE);
 					sb.end();
@@ -603,7 +550,7 @@ public class MainScreen implements Screen {
 		
 		//Draw UI Bg
 		sb.begin();
-		sb.draw(am.get("ui/ui_bg.png",Texture.class), VU.width, 0, VU.rightWidth, VU.height);
+		sb.draw(gm.am.get("ui/ui_bg.png",Texture.class), VU.width, 0, VU.rightWidth, VU.height);
 		sb.end();
 		
 		rightUI.act();
@@ -616,7 +563,7 @@ public class MainScreen implements Screen {
 			sb.setColor(0.22f,0.22f,0.22f,0.78f);
 			
 			
-			sb.draw(am.get("ui/pure.png",Texture.class), 0, 0,VU.width,VU.height);
+			sb.draw(gm.am.get("ui/pure.png",Texture.class), 0, 0,VU.width,VU.height);
 			sb.setColor(Color.WHITE);
 			sb.end();
 			escMenu.act();
@@ -696,7 +643,7 @@ public class MainScreen implements Screen {
 	
 	public void checkRen(ArrayList<? extends Entity> a){
 		for(Entity p:a){
-			sb.draw(am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
+			sb.draw(gm.am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);
 		}
 	}
 	

@@ -68,7 +68,7 @@ public class Boss extends Entity {
 				continue;
 			}
 
-			Image im = new Image(obj.am.get("ui/spells.png", Texture.class));
+			Image im = new Image(obj.gm.am.get("ui/spells.png", Texture.class));
 			im.setOrigin(Align.center);
 			im.setPosition(has * 16, VU.height - 37);
 			im.setSize(16, 16);
@@ -100,7 +100,7 @@ public class Boss extends Entity {
 		if (currentSpellPointer != -1) {
 			getSpell().onEnd();
 
-			obj.audio.playSound("explode");
+			obj.gm.as.playSound("explode");
 			// System.out.println(obj.spells+" "+currentSpellPointer);
 			if (getSpell().isNonspell() || getSpell() instanceof SpellCardAction) {
 
@@ -113,7 +113,7 @@ public class Boss extends Entity {
 				if (!getSpell().isNonspell()) {
 					if ((currentTime <= 0 && !getSpell().isTimeSpell) || bonus == false) {
 						// bouns failed
-						Image failed = new Image(VU.splitUI(obj.am, "bonusfail"));
+						Image failed = new Image(VU.splitUI(obj.gm.am, "bonusfail"));
 
 						failed.setPosition(20, VU.height / 2);
 						failed.setScale(0, 1);
@@ -122,7 +122,7 @@ public class Boss extends Entity {
 						obj.instant.addActor(failed);
 					} else {
 						// bonus ok
-						Image ok = new Image(VU.splitUI(obj.am, "getbonus"));
+						Image ok = new Image(VU.splitUI(obj.gm.am, "getbonus"));
 
 						ok.setPosition(0, VU.height / 2);
 						ok.setScale(0, 1);
@@ -161,7 +161,7 @@ public class Boss extends Entity {
 
 		if (!getSpell().isNonspell()) {
 			// is a spell, we need to display information
-			Image ta = new Image(obj.am.get(tachie, Texture.class));
+			Image ta = new Image(obj.gm.am.get(tachie, Texture.class));
 			ta.setPosition(-200, 0);
 			ta.setWidth(200);
 			// ta.setColor(0,0,0,0.5f);
@@ -210,7 +210,7 @@ public class Boss extends Entity {
 		if (animTime > 0) {
 			if (animTime % 1 == 0) {
 				// create new stuff
-				Image im = new Image(obj.am.get("ui/pure.png", Texture.class));
+				Image im = new Image(obj.gm.am.get("ui/pure.png", Texture.class));
 				im.setColor(Color.BLACK);
 				im.setPosition(VU.easyRandom(-400, 400), VU.easyRandom(-400, 400));
 				im.addAction(Actions.sequence(Actions.moveTo(x, y, VU.easyRandom(0.1f, animTime / 60f)),
@@ -233,7 +233,7 @@ public class Boss extends Entity {
 		if(!(getSpell() instanceof SpellCardAction)){
 			currentTime--;
 			if (currentTime <= 300 && currentTime % 60 == 0) {
-				obj.audio.playSound("timeup", 0.2f);
+				obj.gm.as.playSound("timeup", 0.2f);
 			}
 			if (currentTime <= 0) {
 				nextSpellCard();

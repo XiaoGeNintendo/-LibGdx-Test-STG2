@@ -39,9 +39,9 @@ public class SpellCard {
 	 */
 	public void castMagic(){
 		int density=100;
-		obj.audio.playSound("enemybomb");
+		obj.gm.as.playSound("enemybomb");
 		for(int i=0;i<density;i++){
-			Image im=new Image(obj.am.get("ui/pure.png",Texture.class));
+			Image im=new Image(obj.gm.am.get("ui/pure.png",Texture.class));
 			im.setPosition(getX(), getY());
 			
 			im.addAction(Actions.sequence(Actions.moveTo(VU.easyRandom(0, VU.width), VU.easyRandom(0, VU.height),1),
@@ -57,9 +57,9 @@ public class SpellCard {
 	 */
 	public void castMagicWarning(){
 		int density=100;
-		obj.audio.playSound("enemybootup");
+		obj.gm.as.playSound("enemybootup");
 		for(int i=0;i<density;i++){
-			Image im=new Image(obj.am.get("ui/pure.png",Texture.class));
+			Image im=new Image(obj.gm.am.get("ui/pure.png",Texture.class));
 			im.setPosition(VU.easyRandom(0, VU.width), VU.easyRandom(0, VU.height));
 			
 			im.addAction(Actions.sequence(Actions.moveTo(getX(), getY(),1),

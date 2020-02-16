@@ -12,7 +12,7 @@ public class TestSpell2 extends SpellCard {
 	
 	@Override
 	public void renderBg(SpriteBatch sb,int t) {
-		Texture txt=obj.am.get("bg/frogscbg.png");
+		Texture txt=obj.gm.am.get("bg/frogscbg.png");
 		
 		t=t%100;
 		for(int i=-20;i<=10;i++){
