@@ -36,7 +36,8 @@ public class TestSpellCard extends SpellCard {
 		frameC++;
 		
 		//An example of difficulty change
-		int v=(obj.gc.chosenDifficulty.equals("Lunatic")?30:300);
+		boolean isL=obj.gc.chosenDifficulty.equals("Lunatic"); 
+		int v=(isL?30:300);
 		
 		if(frameC%v==0){
 			for(int i=0;i<=360;i+=3){
@@ -48,8 +49,8 @@ public class TestSpellCard extends SpellCard {
 				
 				double r=Math.abs(Math.sin(Math.toRadians(5*i+frameC/60*11)))*50;
 				eeb.setPosition(Math.sin(Math.toRadians(i))*r+obj.boss.x,Math.cos(Math.toRadians(i))*r+obj.boss.y);
-				eeb.vx=VU.getVX(0.2f, 270-i+180);
-				eeb.vy=VU.getVY(0.2f, 270-i+180);
+				eeb.vx=VU.getVX((isL?4f:0.2f), 270-i+180);
+				eeb.vy=VU.getVY((isL?4f:0.2f), 270-i+180);
 				obj.addEnemyBullet(eeb);
 			}
 		}

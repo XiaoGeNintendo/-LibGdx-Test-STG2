@@ -20,7 +20,7 @@ public class ItemPower extends EntityItem {
 
 	@Override
 	public void collectItem() {
-		obj.p.atk+=value;
+		obj.p.atk=Math.max(obj.p.atk+value,5); //example of setting the max power
 		
 		obj.p.point+=10;
 		
