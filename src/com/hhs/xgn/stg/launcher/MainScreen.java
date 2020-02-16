@@ -93,7 +93,7 @@ public class MainScreen implements Screen {
 		groupItem.add(item);
 	}
 
-	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc,int sId){
+	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc,int sId,Player inherit){
 		this.builder=builder;
 		
 		this.gm=gm;
@@ -102,7 +102,7 @@ public class MainScreen implements Screen {
 		
 		sb=new SpriteBatch();
 		
-		p=gc.chosenPlayer;
+		p=(inherit==null?gc.chosenPlayer.clone():inherit); 
 		
 		p.obj=this;
 		
@@ -146,7 +146,7 @@ public class MainScreen implements Screen {
 		
 		//Esc Menu
 		escMenu=new Stage();
-		escEv=VU.createLabel("Game is paused!\nPress Esc to continue!");
+		escEv=VU.createLabel("Game is paused!\nPress Esc to continue!\nR to back to main menu!");
 		escEv.getStyle().fontColor=Color.GREEN;
 		
 		escEv.setFontScale(0.5f);
@@ -158,7 +158,7 @@ public class MainScreen implements Screen {
 	
 	@Override
 	public void dispose() {
-		VU.disposeAll(sb,gm.am,ui,gm.as);
+		VU.disposeAll(sb,ui);
 	}
 
 	@Override
@@ -470,8 +470,13 @@ public class MainScreen implements Screen {
 		checkRen(groupItem);
 		checkRen(groupEnemyBullet);
 		
+		if(Gdx.input.isKeyJustPressed(Keys.R)){
+			if(renderMode==1){
+				gm.returnToMenu();
+			}
+		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+		if(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
 			sb.draw(gm.am.get("ui/heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
 			for(Entity e:groupEnemy){
 				sb.draw(gm.am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);

@@ -9,14 +9,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.game.TestGameBuilder;
+import com.hhs.xgn.stg.struct.EndingBuilder;
 import com.hhs.xgn.stg.struct.GameBuilder;
 import com.hhs.xgn.stg.struct.GameChosen;
 import com.hhs.xgn.stg.struct.StageBuilder;
 import com.hhs.xgn.stg.type.AudioSystem;
+import com.hhs.xgn.stg.type.Player;
 
 public class GameMain extends Game{
 
-	public Screen mainScr,stScr;
+	public Screen mainScr,stScr,edScr;
 	public GameBuilder gb;
 	public GameChosen gc=new GameChosen();
 
@@ -71,21 +73,32 @@ public class GameMain extends Game{
 		
 		gb=new TestGameBuilder();
 		
-		stScr=new StartScreen(this,gb);
-		
-		setScreen(stScr);
+		returnToMenu();
 		
 //		setStage(new TestStageBuilder(),new GameChosen(new PlayerZYQ(null), "Debug"));
 	}
 	
-	public void setStage(int id){
+	public void setStage(int id,Player inherit){
 		if(mainScr!=null){
 			mainScr.dispose();
 		}
 		
-		mainScr=new MainScreen(this, gb.stage.get(id),gc,id);
-		setScreen(mainScr);
+		as.stopMusic();
+		
+		StageBuilder sb=gb.stage.get(id);
+		if(sb instanceof EndingBuilder){
+			edScr=new EndingScreen(this,(EndingBuilder)sb,inherit);
+			setScreen(edScr);
+		}else{
+			mainScr=new MainScreen(this, sb,gc,id,inherit);
+			setScreen(mainScr);
+		}
 	}
+	
+	public void setStage(int id){
+		setStage(id,null);
+	}
+	
 	
 	@Override
 	public void dispose() {
@@ -94,6 +107,22 @@ public class GameMain extends Game{
 		super.dispose();
 		
 		VU.disposeAll(mainScr,stScr);
+		VU.disposeAll(am,as);
+	}
+	
+	public void returnToMenu() {
+		if(stScr!=null){
+			stScr.dispose();
+		}
+		if(mainScr!=null){
+			mainScr.dispose();
+		}
+		if(edScr!=null){
+			edScr.dispose();
+		}
 		
+		as.stopMusic();
+		stScr=new StartScreen(this, gb);
+		setScreen(stScr);
 	}
 }

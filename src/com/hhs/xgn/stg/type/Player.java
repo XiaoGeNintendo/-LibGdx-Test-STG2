@@ -15,7 +15,7 @@ import com.hhs.xgn.stg.launcher.MainScreen;
  * @author XGN
  *
  */
-public class Player extends Entity{
+public class Player extends Entity implements Cloneable{
 	
 	/**
 	 * The number of frames Player have. <br/>
@@ -42,6 +42,11 @@ public class Player extends Entity{
 	 */
 	public String dn,desc;
 	
+	/**
+	 * Did the character use XuGuan(credit)
+	 */
+	public boolean xu;
+	
 	@Override
 	public void onHit(Entity ano) {
 		if(ano instanceof EntityBullet){
@@ -61,6 +66,15 @@ public class Player extends Entity{
 			x=VU.width/2;
 			y=0;
 			
+		}
+	}
+	
+	@Override
+	public Player clone(){
+		try{
+			return (Player)super.clone();
+		}catch(Exception e){
+			return null;
 		}
 	}
 	

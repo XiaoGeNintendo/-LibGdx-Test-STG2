@@ -132,7 +132,7 @@ public class StartScreen implements Screen{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		VU.disposeAll(st,gm.as);
+		VU.disposeAll(st);
 	}
 
 	@Override
