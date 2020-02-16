@@ -229,9 +229,11 @@ public class Boss extends Entity {
 	public boolean flip;
 	
 	/**
-	 * Multi-using variable
+	 * The last mode
 	 */
 	private int animDelta=0;
+	
+	private int animDelta2=1;
 	
 	public int calcAnimDelta(){
 		if(lastx-x>=1e-2){
@@ -284,10 +286,10 @@ public class Boss extends Entity {
 				animDelay=ANIMDELAY;
 				if(animStatus==2){
 					//this is cast
-					animCount+=animDelta;
+					animCount+=animDelta2;
 					if(animCount==ANIMMAX[animStatus] || animCount==-1){
-						animCount-=animDelta;
-						animDelta=-animDelta;
+						animCount-=animDelta2;
+						animDelta2=-animDelta2;
 					}
 				}else if(animStatus==0){
 					//this is standing

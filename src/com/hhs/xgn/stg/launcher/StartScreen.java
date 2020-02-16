@@ -245,7 +245,7 @@ public class StartScreen implements Screen{
 			}else if(state==2){
 				gm.as.playSound("explode");
 				gm.gc.chosenDifficulty=gb.diffs.get(diffId);
-				gm.setStage(gb.stage.get(0));
+				gm.setStage(0);
 			}
 		}
 		

@@ -10,7 +10,7 @@ import com.hhs.xgn.stg.type.SpellCardAction;
 
 public class TestStageBuilder extends StageBuilder {
 
-	int tick;
+	int tick,bossc;
 	
 	@Override
 	public void onTick(MainScreen ms, float tt) {
@@ -32,6 +32,12 @@ public class TestStageBuilder extends StageBuilder {
 			if(ms.renderBoss){
 				return;
 			}
+			bossc++;
+			if(bossc==2){
+				ms.gm.setStage(1);
+				return;
+			}
+			
 			ms.boss=new Boss(ms, "test_boss", 64, 79, 8,new int[]{4,4,4},RenderMode.STOP_MOVES_CAST,"Test Boss",VU.width/2f,300,
 					new SpellCardAction(ms,
 										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),

@@ -69,6 +69,11 @@ public class MainScreen implements Screen {
 	
 	public StageBuilder builder;
 	
+	/**
+	 * Used to generate next stage
+	 */
+	public int sId;
+	
 	public void addPlayerBullet(float x,float y,EntityBullet obj){
 		obj.x=x;
 		obj.y=y;
@@ -88,13 +93,12 @@ public class MainScreen implements Screen {
 		groupItem.add(item);
 	}
 
-	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc){
+	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc,int sId){
 		this.builder=builder;
 		
 		this.gm=gm;
-		
 		this.gc=gc;
-		
+		this.sId=sId;
 		
 		sb=new SpriteBatch();
 		
@@ -571,7 +575,9 @@ public class MainScreen implements Screen {
 		}
 		
 		//Process Level Information
-		builder.onTick(this,arg0);
+		if(renderMode==0){
+			builder.onTick(this,arg0);
+		}
 		
 		
 		

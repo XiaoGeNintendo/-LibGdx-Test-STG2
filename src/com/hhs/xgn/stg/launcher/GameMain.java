@@ -78,8 +78,12 @@ public class GameMain extends Game{
 //		setStage(new TestStageBuilder(),new GameChosen(new PlayerZYQ(null), "Debug"));
 	}
 	
-	public void setStage(StageBuilder sb){
-		mainScr=new MainScreen(this, sb,gc);
+	public void setStage(int id){
+		if(mainScr!=null){
+			mainScr.dispose();
+		}
+		
+		mainScr=new MainScreen(this, gb.stage.get(id),gc,id);
 		setScreen(mainScr);
 	}
 	
