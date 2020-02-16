@@ -17,6 +17,14 @@ public class EntityBullet extends Entity{
 		super(ms);
 	}
 	
+	public EntityBullet(MainScreen ms,String texture,float sx,float sy){
+		super(ms);
+		this.texture=texture;
+		this.sx=sx;
+		this.sy=sy;
+		damage=10f;
+	}
+	
 	@Override
 	public void doFrame() {
 		if(x<-100 || x>VU.width+100 || y<-100 || y>VU.height+100){

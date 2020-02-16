@@ -373,10 +373,24 @@ public class MainScreen implements Screen {
 		//Check Esc key
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 			if(renderMode==1){
+				if(p.hp<=0){
+					p.hp=100;
+					p.xu++;
+				}
 				renderMode=0;
 			}else{
 				renderMode=1;
 			}
+		}
+		
+		//Check Death Render Mode
+		if(p.hp<=0){
+			renderMode=1;
+			escEv.setText("You are dead!\nPress Esc to continue(*may lead to worse ending)!\nR to back to main menu!");
+			escEv.getStyle().fontColor=Color.RED;
+		}else{
+			escEv.setText("Game is paused!\nPress Esc to continue!\nR to back to main menu!");
+			escEv.getStyle().fontColor=Color.GREEN;
 		}
 		
 		//Show Dialog Block if Boss Action is present

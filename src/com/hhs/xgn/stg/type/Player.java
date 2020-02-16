@@ -45,7 +45,7 @@ public class Player extends Entity implements Cloneable{
 	/**
 	 * Did the character use XuGuan(credit)
 	 */
-	public boolean xu;
+	public int xu;
 	
 	@Override
 	public void onHit(Entity ano) {

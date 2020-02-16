@@ -48,14 +48,16 @@ public class GameMain extends Game{
 	};
 	
 	void loadRes(FileHandle fh){
-		System.out.println("Now at:"+fh);
+		Gdx.app.log("LoadAsset", "Now at:"+fh);
+		
 		if(fh.isDirectory()){
 			for(FileHandle s:fh.list()){
 				loadRes(s);
 			}
 		}else{
 			if(fh.extension().matches("jpg|png|bmp")){
-				System.out.println("Loading:"+(fh+"").substring(7));
+				Gdx.app.log("LoadAsset", "Loading:"+(fh+"").substring(7));
+				
 				am.load((fh+"").substring(7),Texture.class);
 			}
 		}

@@ -8,11 +8,11 @@ public class TestEndingBuilder extends EndingBuilder {
 
 	@Override
 	public String[] getText(Player p) {
-		if(p.xu){
+		if(p.xu>0){
 			return new String[]{
 				"!bg/ending.png",
 				"~mus/ending.wav",
-				"Boss: You are too xun!",
+				"Boss: You are too xun!You used credits "+p.xu+" times",
 				"",
 				"Try completing the level without using credit!"
 			};
@@ -20,7 +20,7 @@ public class TestEndingBuilder extends EndingBuilder {
 			return new String[]{
 				"!bg/ending.png",
 				"~mus/ending.wav",
-				"Boss: too strong!",
+				"Boss: too strong! Let me tell you, this is long time and this is current time:"+System.currentTimeMillis(),
 				"",
 				"Congratulation!\nYou cleared the game!",
 				"~mus/title.mp3",

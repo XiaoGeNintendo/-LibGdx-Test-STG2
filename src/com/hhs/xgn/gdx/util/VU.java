@@ -133,7 +133,11 @@ public class VU {
 		for(Screen s:ss){
 			//System.out.println("DisposeAll:"+s);
 			if(s!=null){
-				s.dispose();
+				try{
+					s.dispose();
+				}catch(Exception e){
+					Gdx.app.error("disposeAll(Screen)", "Warning:something cannot be disposed due to "+e);
+				}
 			}
 		}
 	}
@@ -142,7 +146,11 @@ public class VU {
 		for(Disposable s:ss){
 			//System.out.println("DisposeAll:"+s);
 			if(s!=null){
-				s.dispose();
+				try{
+					s.dispose();
+				}catch(Exception e){
+					Gdx.app.error("disposeAll(Disposable)", "Warning:something cannot be disposed due to "+e);
+				}
 			}
 		}
 	}

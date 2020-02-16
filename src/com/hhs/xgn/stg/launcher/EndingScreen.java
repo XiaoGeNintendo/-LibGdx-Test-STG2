@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.struct.EndingBuilder;
 import com.hhs.xgn.stg.type.Player;
@@ -39,8 +40,11 @@ public class EndingScreen implements Screen {
 		st=new Stage();
 		
 		lb=VU.createLabel("","pixel.fnt");
-		lb.setPosition(150, 300);
+		lb.setAlignment(Align.topLeft);
+		lb.setPosition(50, 400);
+		lb.setWidth(500);
 		lb.getStyle().fontColor=Color.WHITE;
+		lb.setWrap(true);
 		
 		bg=new Image(gm.am.get("ui/pure.png",Texture.class));
 		bg.setBounds(0, 0, VU.width+VU.rightWidth, VU.height);
