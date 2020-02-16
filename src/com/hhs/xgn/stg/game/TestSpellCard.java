@@ -26,6 +26,7 @@ public class TestSpellCard extends SpellCard {
 	
 	public TestSpellCard(MainScreen ms){
 		super(ms,1000,20*60,"ÍÁ×ÅÉñ¡¸¥±¥í¤Á¤ã¤óïLÓê¤ËØ“¤±¤º¡¹",true,false,1e5f,200,400,600,800);
+		declareCastAnimation=true;
 	}
 	
 	int frameC=0;

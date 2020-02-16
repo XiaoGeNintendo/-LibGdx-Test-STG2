@@ -2,6 +2,7 @@ package com.hhs.xgn.stg.game;
 
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
+import com.hhs.xgn.stg.struct.RenderMode;
 import com.hhs.xgn.stg.struct.StageBuilder;
 import com.hhs.xgn.stg.type.Boss;
 import com.hhs.xgn.stg.type.Dialog;
@@ -22,7 +23,7 @@ public class TestStageBuilder extends StageBuilder {
 		
 		
 		//stage middle?? 
-		if(tick<=1200){
+		if(tick<=0){
 			if(tick%120==0){
 				EnemySelfAim esa=new EnemySelfAim(ms, ms.p.x, VU.height+100);
 				ms.addEnemy(esa);
@@ -31,7 +32,7 @@ public class TestStageBuilder extends StageBuilder {
 			if(ms.renderBoss){
 				return;
 			}
-			ms.boss=new Boss(ms, "entity/enemy.png", 128, 64, "art/reimu.png","Test Boss",VU.width/2f,300,
+			ms.boss=new Boss(ms, "test_boss", 64, 79, 8,new int[]{4,4,4},RenderMode.STOP_MOVES_CAST,"Test Boss",VU.width/2f,300,
 					new SpellCardAction(ms,
 										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),
 										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null,null),

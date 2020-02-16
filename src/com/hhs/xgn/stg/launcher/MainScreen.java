@@ -458,7 +458,7 @@ public class MainScreen implements Screen {
 		checkRen(groupPlayerBullet);
 		
 		if(renderBoss){
-			sb.draw(gm.am.get(boss.texture,Texture.class), boss.x-boss.sx/2, boss.y-boss.sy/2,boss.sx,boss.sy);
+			sb.draw(gm.am.get(boss.texture,Texture.class),boss.x-boss.sx/2, boss.y-boss.sy/2,boss.sx,boss.sy,0,0,(int)boss.sx,(int)boss.sy,boss.flip,false);
 		}
 		
 		sb.draw(gm.am.get(p.texture,Texture.class), p.x-p.sx/2, p.y-p.sy/2,p.sx,p.sy);

@@ -1,5 +1,6 @@
 package com.hhs.xgn.stg.type;
 
+import java.lang.annotation.AnnotationTypeMismatchException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
+import com.hhs.xgn.stg.struct.RenderMode;
 
 public class Boss extends Entity {
 
@@ -33,21 +35,23 @@ public class Boss extends Entity {
 
 	float kx, ky,initx,inity;
 
-	public String tachie;
-
-	public Boss(MainScreen obj, String texture, float sx, float sy, String tachie, String name, float x, float y,
+	public String in;
+	
+	public Boss(MainScreen obj, String internalName, float sx, float sy,int ANIMDELAY,int[] ANIMMAX, int ANIMMODE,String name, float x, float y,
 			SpellCard... cards) {
 		super(obj);
 		this.kx = sx;
 		this.ky = sy;
-		this.texture = texture;
+		this.in = internalName;
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.initx=x;
 		this.inity=y;
-		this.tachie = tachie;
-
+		this.ANIMDELAY=ANIMDELAY;
+		this.ANIMMAX=ANIMMAX;
+		this.ANIMMODE=ANIMMODE;
+		
 		nowCard = null;
 		currentSpellPointer = -1;
 		for (SpellCard sc : cards) {
@@ -161,7 +165,7 @@ public class Boss extends Entity {
 
 		if (!getSpell().isNonspell()) {
 			// is a spell, we need to display information
-			Image ta = new Image(obj.gm.am.get(tachie, Texture.class));
+			Image ta = new Image(obj.gm.am.get(in+"/tachie.png", Texture.class));
 			ta.setPosition(-200, 0);
 			ta.setWidth(200);
 			// ta.setColor(0,0,0,0.5f);
@@ -181,20 +185,6 @@ public class Boss extends Entity {
 
 			obj.instant.addActor(sn);
 
-			// //ten desires
-			// for(float i=2f;i>=1.5f;i-=0.1f){
-			// Label warn=VU.createLabel("Spell Card Attack");
-			// warn.setPosition(VU.width-120,-300);
-			// warn.getStyle().fontColor=new Color(1,0,0,1f);
-			// warn.setFontScale(0.4f);
-			// warn.addAction(Actions.sequence(
-			// Actions.moveTo(VU.width-120, VU.height-100,i),
-			// Actions.delay(2f-i),
-			// Actions.moveBy(-300, 0,2),
-			// Actions.removeActor()
-			// ));
-			// obj.instant.addActor(warn);
-			// }
 		}
 	}
 
@@ -204,8 +194,130 @@ public class Boss extends Entity {
 
 	public long last;
 
+	/**
+	 * Current Animation Status. As Touhou tradition: <br/>
+	 * 0 = standing still <br/>
+	 * 1 = moving left <br/>
+	 * 2 = moving right/cast 
+	 */
+	public int animStatus;
+	public int animCount;
+	/**
+	 * A constant. How many frames between texture change. <br/>
+	 * But can be changed as like.
+	 */
+	public int ANIMDELAY=8;
+	/**
+	 * A constant. The Total Number of Animations this has.
+	 */
+	public int[] ANIMMAX=new int[]{};
+	
+	/**
+	 * @see com.hhs.xgn.stg.struct.RenderMode
+	 */
+	public int ANIMMODE=0;
+	public int animDelay=ANIMDELAY;
+	
+	/**
+	 * Used for moving detection
+	 */
+	public float lastx,lasty;
+	
+	/**
+	 * Indicates if a X-flip is needed
+	 */
+	public boolean flip;
+	
+	/**
+	 * Multi-using variable
+	 */
+	private int animDelta=0;
+	
+	public int calcAnimDelta(){
+		if(lastx-x>=1e-2){
+			return 1;
+		}else if(x-lastx>=1e-2){
+			return 2;
+		}else{
+			return 0;
+		}
+	}
+	
+	/**
+	 * Animation Control
+	 */
+	public void doAnime(){
+		
+		//change animation status
+		flip=false;
+		
+		if(animDelta!=calcAnimDelta()){
+			animCount=0;
+		}
+		
+		animDelta=calcAnimDelta();
+		
+//		System.out.println(lastx+" "+x+" "+(lastx-x));
+		if(ANIMMODE==RenderMode.STOP_MOVES_CAST){
+			if(getSpell()!=null && getSpell().declareCastAnimation){
+				animStatus=2;
+			}else{
+				if(lastx-x>=1e-2){
+					animStatus=1;
+					flip=true;
+				}else if(x-lastx>=1e-2){
+					animStatus=1;
+					flip=false;
+				}else{
+					animStatus=0;
+					flip=false;
+				}
+			}
+			
+			if(animStatus==2 && !(getSpell()!=null && getSpell().declareCastAnimation)){
+				animStatus=0;
+			}
+				
+//			System.out.println(animStatus+" "+animCount);
+			animDelay--;
+			if(animDelay==0){
+				animDelay=ANIMDELAY;
+				if(animStatus==2){
+					//this is cast
+					animCount+=animDelta;
+					if(animCount==ANIMMAX[animStatus] || animCount==-1){
+						animCount-=animDelta;
+						animDelta=-animDelta;
+					}
+				}else if(animStatus==0){
+					//this is standing
+					animCount++;
+					if(animCount==ANIMMAX[animStatus]){
+						animCount=0;
+					}
+				}else{
+					//this is moving
+					animCount++;
+					if(animCount==ANIMMAX[animStatus]){
+						animCount--;
+					}
+				}
+			}
+		}
+		
+		
+		
+		texture=in+"/enemy"+animStatus+"_"+animCount+".png";
+	}
+	
 	@Override
 	public void doFrame() {
+		
+		doAnime();
+
+		lastx=x;
+		lasty=y;
+		
 		animTime--;
 		if (animTime > 0) {
 			if (animTime % 1 == 0) {

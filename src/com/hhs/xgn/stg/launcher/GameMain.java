@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.game.TestGameBuilder;
@@ -44,14 +45,27 @@ public class GameMain extends Game{
 			"bg/bomb.png"
 	};
 	
+	void loadRes(FileHandle fh){
+		System.out.println("Now at:"+fh);
+		if(fh.isDirectory()){
+			for(FileHandle s:fh.list()){
+				loadRes(s);
+			}
+		}else{
+			if(fh.extension().matches("jpg|png|bmp")){
+				System.out.println("Loading:"+(fh+"").substring(7));
+				am.load((fh+"").substring(7),Texture.class);
+			}
+		}
+	}
 	@Override
 	public void create() {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		am=new AssetManager();
-		for(String s:resources){
-			am.load(s,Texture.class);
-		}
+		
+		loadRes(Gdx.files.internal("assets"));
+		
 		am.finishLoading();
 		as=new AudioSystem();
 		

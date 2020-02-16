@@ -29,6 +29,10 @@ public class SpellCard {
 	 * The bonus player will get if breaks in 0ms
 	 */
 	public float maxBonus=1e5f;
+	/**
+	 * Set to true if the boss should be in cast animation
+	 */
+	public boolean declareCastAnimation;
 	
 	public void renderBg(SpriteBatch sb,int frame){
 		
