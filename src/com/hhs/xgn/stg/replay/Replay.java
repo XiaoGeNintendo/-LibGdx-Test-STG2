@@ -105,7 +105,7 @@ public class Replay {
 	 * All randomness related to danmuku should use inherit random
 	 */
 	public long rng;
-	public Random rnd;
+	public transient Random rnd;
 	
 	public void registerRNG(long seed) {
 		if(isReplay){
