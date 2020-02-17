@@ -9,3 +9,5 @@ Source Code is in src folder.
 GPL 3.0
 
 We used LibGdx which is Apache 2.0
+
+We also used Gson which is Apache 2.0 too
