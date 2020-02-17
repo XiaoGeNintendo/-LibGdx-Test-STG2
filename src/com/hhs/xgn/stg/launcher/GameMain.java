@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.google.gson.Gson;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.game.TestGameBuilder;
 import com.hhs.xgn.stg.struct.EndingBuilder;
@@ -24,6 +25,9 @@ public class GameMain extends Game{
 
 	public AssetManager am;
 	public AudioSystem as;
+	
+	public Gson gs=new Gson();
+	
 	String[] resources=new String[]{
 			"start/bg.jpg",
 			"start/title.png",
@@ -81,9 +85,9 @@ public class GameMain extends Game{
 	}
 	
 	public void setStage(int id,Player inherit){
-		if(mainScr!=null){
-			mainScr.dispose();
-		}
+//		if(mainScr!=null){
+//			mainScr.dispose();
+//		}
 		
 		as.stopMusic();
 		
@@ -113,16 +117,16 @@ public class GameMain extends Game{
 	}
 	
 	public void returnToMenu() {
-		if(stScr!=null){
-			stScr.dispose();
-		}
-		if(mainScr!=null){
-			mainScr.dispose();
-		}
-		if(edScr!=null){
-			edScr.dispose();
-		}
-		
+//		if(stScr!=null){
+//			stScr.dispose();
+//		}
+//		if(mainScr!=null){
+//			mainScr.dispose();
+//		}
+//		if(edScr!=null){
+//			edScr.dispose();
+//		}
+//		
 		as.stopMusic();
 		stScr=new StartScreen(this, gb);
 		setScreen(stScr);

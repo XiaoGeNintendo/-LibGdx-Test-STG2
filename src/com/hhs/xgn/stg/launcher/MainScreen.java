@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.type.Player;
 import com.hhs.xgn.stg.type.SpellCardAction;
+import com.hhs.xgn.stg.replay.Replay;
 import com.hhs.xgn.stg.struct.GameChosen;
 import com.hhs.xgn.stg.struct.StageBuilder;
 import com.hhs.xgn.stg.type.Boss;
@@ -69,6 +71,8 @@ public class MainScreen implements Screen {
 	
 	public StageBuilder builder;
 	
+	public Replay rep;
+	
 	/**
 	 * Used to generate next stage
 	 */
@@ -103,6 +107,8 @@ public class MainScreen implements Screen {
 		sb=new SpriteBatch();
 		
 		p=(inherit==null?gc.chosenPlayer.clone():inherit); 
+		
+		this.rep=new Replay(p);
 		
 		p.obj=this;
 		
@@ -356,6 +362,34 @@ public class MainScreen implements Screen {
 		}
 	}
 	
+	/**
+	 * Call this instead of sm.gm.setStage <br/>
+	 * Cuz this will save replay
+	 * @param sId
+	 */
+	public void setStage(int sId,Player inherit){
+		if(!rep.fail){
+			Gdx.app.log("setStage(MainScreen)", "Saving replay...");
+			rep.time=System.currentTimeMillis();
+			rep.sId=sId;
+			
+			String repJs=gm.gs.toJson(rep);
+			
+			FileHandle fh=Gdx.files.local("replay/");
+			
+			if(!fh.exists()){
+				fh.mkdirs();
+				Gdx.app.log("setStage(MainScreen)", "Cannot find replay folder... Creating");
+			}
+			
+			FileHandle fh2=Gdx.files.local("replay/"+rep.time+".json");
+			fh2.writeString(repJs, false);
+			
+		}
+		
+		gm.setStage(sId,inherit);
+	}
+	
 	@Override
 	public void render(float arg0) {
 		
@@ -367,6 +401,11 @@ public class MainScreen implements Screen {
 		
 		if(renderMode==0){
 			checkInvisible();
+		}
+		
+		if(renderMode==0){
+			rep.update(backgroundC);
+			rep.record();
 		}
 		
 		renderBG();
@@ -385,6 +424,8 @@ public class MainScreen implements Screen {
 		
 		//Check Death Render Mode
 		if(p.hp<=0){
+			rep.fail=true;
+			
 			renderMode=1;
 			escEv.setText("You are dead!\nPress Esc to continue(*may lead to worse ending)!\nR to back to main menu!");
 			escEv.getStyle().fontColor=Color.RED;

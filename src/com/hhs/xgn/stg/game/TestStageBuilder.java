@@ -34,7 +34,8 @@ public class TestStageBuilder extends StageBuilder {
 			}
 			bossc++;
 			if(bossc==2){
-				ms.gm.setStage(1,ms.p);
+				
+				ms.setStage(1,ms.p);
 				return;
 			}
 			
