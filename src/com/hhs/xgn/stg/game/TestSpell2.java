@@ -38,7 +38,7 @@ public class TestSpell2 extends SpellCard {
 			EntityBullet eeb=new EntityBullet(obj);
 			
 			eeb.setPosition(getX(), getY());
-			float angle=VU.easyRandom(0, 360);
+			float angle=obj.randomF(0, 360);
 			eeb.vx=VU.getVX(1, angle);
 			eeb.vy=VU.getVY(1, angle);
 			eeb.texture="entity/bullet.png";

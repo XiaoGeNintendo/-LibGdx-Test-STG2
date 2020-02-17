@@ -24,7 +24,7 @@ public class TestRandomCard extends SpellCard {
 			eeb.sx=10;
 			eeb.sy=10;
 			
-			float angle=VU.easyRandom(0, 360);
+			float angle=obj.randomF(0, 360);
 			eeb.vx=VU.getVX(3, angle);
 			eeb.vy=VU.getVY(3, angle);
 			eeb.setPosition(getX(),getY());

@@ -1,6 +1,7 @@
 package com.hhs.xgn.stg.replay;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -97,5 +98,38 @@ public class Replay {
 		}else{
 			return Gdx.input.isKeyJustPressed(tgc[kCode]); 
 		}
+	}
+	
+	/**
+	 * The RNG seed <br/>
+	 * All randomness related to danmuku should use inherit random
+	 */
+	public long rng;
+	public Random rnd;
+	
+	public void registerRNG(long seed) {
+		if(isReplay){
+			return;
+		}
+		Gdx.app.log("Replay", "RNG seed set to "+seed);
+		rnd=new Random(seed);
+		rng=seed;
+	}
+	
+	public int callRNG(int bound){
+		int val=rnd.nextInt(bound);
+		Gdx.app.debug("RNG", "A new int was drawn:"+val+" in bound "+bound);
+		return val;
+	}
+	
+	/**
+	 * Returns a double rnd althought it's name is called callRNGFloat
+	 * @param f
+	 * @return
+	 */
+	public double callRNGF(double f) {
+		double val=rnd.nextDouble()*f;
+		Gdx.app.debug("RNG-Double", "A new double was drawn:"+val+" in bound "+f);
+		return val;
 	}
 }

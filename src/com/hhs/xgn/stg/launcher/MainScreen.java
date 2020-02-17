@@ -97,6 +97,18 @@ public class MainScreen implements Screen {
 		groupItem.add(item);
 	}
 
+	
+	public int random(int l,int r){
+		return rep.callRNG(r-l)+l;
+	}
+	
+	public float randomF(double l,double r){
+		return (float)randomD(l,r);
+	}
+	public double randomD(double l,double r){
+		return rep.callRNGF(r-l)+l;
+	}
+	
 	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc,int sId,Player inherit){
 		this.builder=builder;
 		
@@ -109,6 +121,7 @@ public class MainScreen implements Screen {
 		p=(inherit==null?gc.chosenPlayer.clone():inherit); 
 		
 		this.rep=new Replay(p);
+		rep.registerRNG(System.currentTimeMillis());
 		
 		p.obj=this;
 		

@@ -11,7 +11,7 @@ public class ZYQBullet extends EntityBullet {
 		texture="entity/playerbullet.png";
 		sx=sy=8;
 		if(!lowspeed){
-			float rng= VU.easyRandom(0, 180);
+			float rng=ms.randomF(0, 180);
 			vx=VU.getVX(5,rng);
 			vy=VU.getVY(5, rng);
 		}else{
