@@ -118,7 +118,7 @@ public class Replay {
 	
 	public int callRNG(int bound){
 		int val=rnd.nextInt(bound);
-		Gdx.app.debug("RNG", "A new int was drawn:"+val+" in bound "+bound);
+//		Gdx.app.debug("RNG", "A new int was drawn:"+val+" in bound "+bound);
 		return val;
 	}
 	
@@ -129,7 +129,7 @@ public class Replay {
 	 */
 	public double callRNGF(double f) {
 		double val=rnd.nextDouble()*f;
-		Gdx.app.debug("RNG-Double", "A new double was drawn:"+val+" in bound "+f);
+//		Gdx.app.debug("RNG-Double", "A new double was drawn:"+val+" in bound "+f);
 		return val;
 	}
 }
