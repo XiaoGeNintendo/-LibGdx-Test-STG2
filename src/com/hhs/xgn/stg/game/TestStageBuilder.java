@@ -23,7 +23,7 @@ public class TestStageBuilder extends StageBuilder {
 		
 		
 		//stage middle?? 
-		if(tick<=1200){
+		if(tick<=0){
 			if(tick%120==0){
 				EnemySelfAim esa=new EnemySelfAim(ms, ms.p.x, VU.height+100);
 				ms.addEnemy(esa);
@@ -40,21 +40,21 @@ public class TestStageBuilder extends StageBuilder {
 			}
 			
 			ms.boss=new Boss(ms, "test_boss", 64, 79, 8,new int[]{4,4,4},RenderMode.STOP_MOVES_CAST,"Test Boss",VU.width/2f,300,
-					new SpellCardAction(ms,
-										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),
-										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null,null),
-										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss","Battle Against A True Hero"),
-										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null,null)
-										),
-					new TestNonSpellCard(ms),
-					new TestSpellCard(ms),
-					new MovingNonSpell(ms),
-					new TestRandomCard(ms),
-					new TestSpell2(ms),
-					new SpellCardAction(ms,
-										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは",null,"XZM Theme"),
-										new Dialog("art/reimu.png","TODO: Ending","<","XZM Theme")
-									   )
+//					new SpellCardAction(ms,
+//										new Dialog("bg/frogscbg.png", "何言ってるのよ早苗とも神奈子とも遊んだんでしょ？\n私だけ無視して巫女が務まるとでも思ってるの？", "-",null),
+//										new Dialog("art/reimu.png", "もしかして、前に早苗や神奈子と戦ったりしたのって……", null,null),
+//										new Dialog("bg/frogscbg.png","そう、ただの神遊び、つまりお祭り\n今日は私の弾幕お祭りの番よ！","boss","Battle Against A True Hero"),
+//										new Dialog("art/reimu.png","もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……もしかして、前に早苗や神奈子と戦ったりしたのって……",null,null)
+//										),
+					new TestNonSpellCard(ms)
+////					new TestSpellCard(ms),
+////					new MovingNonSpell(ms),
+////					new TestRandomCard(ms),
+////					new TestSpell2(ms),
+//					new SpellCardAction(ms,
+//										new Dialog("bg/frogscbg.png","あはははは。天晴れだわ一王国を築いたこの私が、人間に負けるとは",null,"XZM Theme"),
+//										new Dialog("art/reimu.png","TODO: Ending","<","XZM Theme")
+//									   )
 					);
 			ms.renderBoss=true;
 		}

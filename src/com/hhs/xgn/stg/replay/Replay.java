@@ -37,8 +37,11 @@ public class Replay {
 	
 	public int sId;
 	
+	public Replay(){
+		
+	}
 	public Replay(Player p) {
-		this.player=p;
+//		this.player=p;
 		this.isReplay=false;
 	}
 
@@ -57,21 +60,25 @@ public class Replay {
 			return;
 		}
 		
+		System.out.print("REC "+gameTick+":");
 		int x=0;
 		for(int i=0;i<tgc.length;i++){
 			int y=(Gdx.input.isKeyPressed(tgc[i])?1:0);
-			x|=(1<<i)&y;
+			System.out.print(y);
+			x|=(1<<i)*y;
 		}
-		
+		System.out.println("=>"+x);
 		keys.set(gameTick, x);
 	}
+	
 	public static final int Z=0;
 	public static final int UP=1;
 	public static final int DOWN=2;
 	public static final int LEFT=3;
 	public static final int RIGHT=4;
 	public static final int X=5;
-	public static final int[] tgc=new int[]{Keys.Z,Keys.UP,Keys.DOWN,Keys.LEFT,Keys.RIGHT,Keys.X};
+	public static final int SHIFT=6;
+	public static final int[] tgc=new int[]{Keys.Z,Keys.UP,Keys.DOWN,Keys.LEFT,Keys.RIGHT,Keys.X,Keys.SHIFT_LEFT};
 	
 	public boolean isKeyPressed(int kCode){
 		if(isReplay){

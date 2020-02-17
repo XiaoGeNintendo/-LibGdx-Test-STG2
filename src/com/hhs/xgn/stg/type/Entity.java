@@ -14,7 +14,7 @@ public class Entity {
 	
 	public String texture;
 	
-	public MainScreen obj;
+	public transient MainScreen obj;
 	
 	public boolean dead;
 	

@@ -371,7 +371,7 @@ public class MainScreen implements Screen {
 		if(!rep.fail){
 			Gdx.app.log("setStage(MainScreen)", "Saving replay...");
 			rep.time=System.currentTimeMillis();
-			rep.sId=sId;
+			rep.sId=this.sId;
 			
 			String repJs=gm.gs.toJson(rep);
 			
