@@ -60,14 +60,14 @@ public class Replay {
 			return;
 		}
 		
-		System.out.print("REC "+gameTick+":");
+//		System.out.print("REC "+gameTick+":");
 		int x=0;
 		for(int i=0;i<tgc.length;i++){
 			int y=(Gdx.input.isKeyPressed(tgc[i])?1:0);
-			System.out.print(y);
+//			System.out.print(y);
 			x|=(1<<i)*y;
 		}
-		System.out.println("=>"+x);
+//		System.out.println("=>"+x);
 		keys.set(gameTick, x);
 	}
 	

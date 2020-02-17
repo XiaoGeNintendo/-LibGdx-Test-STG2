@@ -85,7 +85,6 @@ public class EndingScreen implements Screen {
 			return;
 		}
 		
-		gm.as.playSound("dialog");
 		String s=txt[tid];
 		if(s.startsWith("!")){
 			bg.clearActions();
@@ -106,6 +105,8 @@ public class EndingScreen implements Screen {
 			tid+=delta;
 			processText(delta);
 		}else{
+
+			gm.as.playSound("dialog");
 			lb.clearActions();
 			lb.addAction(Actions.sequence(
 					Actions.fadeOut(1),
