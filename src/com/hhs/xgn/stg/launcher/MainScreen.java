@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.type.Player;
 import com.hhs.xgn.stg.type.SpellCardAction;
+import com.hhs.xgn.stg.game.PlayerZYQ;
 import com.hhs.xgn.stg.replay.Replay;
 import com.hhs.xgn.stg.struct.GameChosen;
 import com.hhs.xgn.stg.struct.StageBuilder;
@@ -109,7 +110,7 @@ public class MainScreen implements Screen {
 		return rep.callRNGF(r-l)+l;
 	}
 	
-	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc,int sId,Player inherit){
+	public MainScreen(GameMain gm,StageBuilder builder,GameChosen gc,int sId,Replay rep){
 		this.builder=builder;
 		
 		this.gm=gm;
@@ -118,10 +119,34 @@ public class MainScreen implements Screen {
 		
 		sb=new SpriteBatch();
 		
-		p=(inherit==null?gc.chosenPlayer.clone():inherit); 
-		
-		this.rep=new Replay(p);
-		rep.registerRNG(System.currentTimeMillis());
+		if(rep.isReplay){
+			this.rep=rep;
+			p=rep.player;
+			for(Player pl:gm.gb.self){
+				if(p.in.equals(pl.in)){
+					//copy data
+					Player clone=pl.clone();
+					clone.atk=p.atk;
+					clone.graze=p.graze;
+					clone.def=p.def;
+					clone.point=p.point;
+					clone.x=p.x;
+					clone.y=p.y;
+					clone.spell=p.spell;
+					clone.hp=p.hp;
+					
+					p=clone;
+					break;
+				}
+			}
+			this.rep.registerRNG();
+			Gdx.app.log("MainScreen", "A replay is in session!");
+		}else{
+			Player inherit=rep.player;
+			p=(inherit==null?gc.chosenPlayer.clone():inherit);
+			this.rep=new Replay(p.clone());
+			this.rep.registerRNG(System.currentTimeMillis());
+		}
 		
 		p.obj=this;
 		
@@ -347,7 +372,7 @@ public class MainScreen implements Screen {
 		if(renderMode==1){
 			return;
 		}
-		if(Gdx.input.isKeyJustPressed(Keys.Z)){
+		if(rep.isKeyJustPressed(Replay.Z)){
 //			System.out.println("Press Z");
 			getAction().pointer++;
 			gm.as.playSound("dialog",0.1f);
@@ -362,7 +387,7 @@ public class MainScreen implements Screen {
 			addDialog(d);
 		}
 		
-		if(Gdx.input.isKeyJustPressed(Keys.X)){
+		if(rep.isKeyJustPressed(Replay.X)){
 			if(getAction().pointer==0){
 				gm.as.playSound("fail",0.1f);
 			}else{
@@ -381,6 +406,13 @@ public class MainScreen implements Screen {
 	 * @param sId
 	 */
 	public void setStage(int sId,Player inherit){
+//		System.out.println("Called to stop!!"+rep.isReplay);
+		if(rep.isReplay){
+			Gdx.app.log("setStage(MainScreen)", "Replay ended gracefully");
+			gm.returnToMenu();
+			return;
+		}
+		
 		if(!rep.fail){
 			Gdx.app.log("setStage(MainScreen)", "Saving replay...");
 			rep.time=System.currentTimeMillis();
@@ -400,11 +432,21 @@ public class MainScreen implements Screen {
 			
 		}
 		
-		gm.setStage(sId,inherit);
+		gm.setStageP(sId,inherit);
 	}
 	
+	boolean isKeyFrame;
 	@Override
 	public void render(float arg0) {
+		
+		if( Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)){
+			if(isKeyFrame){
+				isKeyFrame=false;
+				render(0);
+			}
+		}
+		
+		isKeyFrame=true;
 		
 		frameC++;
 		
@@ -420,6 +462,8 @@ public class MainScreen implements Screen {
 			rep.update(backgroundC);
 			rep.record();
 		}
+		
+		
 		
 		renderBG();
 		//Check Esc key
@@ -544,7 +588,7 @@ public class MainScreen implements Screen {
 			}
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
+		if(rep.isKeyPressed(Replay.SHIFT)){
 			sb.draw(gm.am.get("ui/heart.png",Texture.class), p.x-p.getCollision(), p.y-p.getCollision(),p.getCollision()*2,p.getCollision()*2);
 			for(Entity e:groupEnemy){
 				sb.draw(gm.am.get("ui/heart.png",Texture.class), e.x-e.getCollision(), e.y-e.getCollision(),e.getCollision()*2,e.getCollision()*2);

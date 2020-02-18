@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.launcher.MainScreen;
+import com.hhs.xgn.stg.replay.Replay;
 import com.hhs.xgn.stg.type.Player;
 
 public class PlayerZJS extends Player{
@@ -29,28 +30,28 @@ public class PlayerZJS extends Player{
 		
 		float SPEED=PlayerZJS.SPEED;
 		
-		boolean ss=Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+		boolean ss=obj.rep.isKeyPressed(Replay.SHIFT);
 		if(ss){
 			SPEED/=2; //shift speed
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+		if(obj.rep.isKeyPressed(Replay.UP)){
 			y+=SPEED;
 			y=Math.min(y, VU.height); 
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+		if(obj.rep.isKeyPressed(Replay.DOWN)){
 			y-=SPEED;
 			y=Math.max(y, 0);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+		if(obj.rep.isKeyPressed(Replay.LEFT)){
 			x-=SPEED;
 			x=Math.max(x, 0);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+		if(obj.rep.isKeyPressed(Replay.RIGHT)){
 			x+=SPEED;
 			x=Math.min(x, VU.width);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.Z)){
+		if(obj.rep.isKeyPressed(Replay.Z)){
 			
 			if(!obj.isShowingDialog() && wait>DELAY){
 				wait=0;
@@ -74,7 +75,7 @@ public class PlayerZJS extends Player{
 				
 			}
 		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+		if(obj.rep.isKeyJustPressed(Replay.X)){
 			if(!obj.isShowingDialog() && deadTime==0 && spell>0){
 				obj.bonusFailed();
 				

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.hhs.xgn.gdx.util.VU;
+import com.hhs.xgn.stg.replay.Replay;
 import com.hhs.xgn.stg.struct.EndingBuilder;
 import com.hhs.xgn.stg.type.Player;
 
@@ -29,11 +30,17 @@ public class EndingScreen implements Screen {
 	
 	public int tid;
 	
-	public EndingScreen(GameMain gm,EndingBuilder eb,Player pl) {
+	public EndingScreen(GameMain gm,EndingBuilder eb,Replay rep) {
 		this.gm=gm;
 		this.eb=eb;
-//		System.out.println(gm.gc.chosenPlayer);
-		this.pl=(pl==null?gm.gc.chosenPlayer.clone():pl);
+		
+		if(rep.isReplay){
+			Gdx.app.error("EndingScree", "[FATAL]Why a replay will come here?");
+			Launcher.game.exit();
+		}else{
+			this.pl=(rep.player==null?gm.gc.chosenPlayer.clone():rep.player);
+		}
+		
 		
 		this.txt=eb.getText(this.pl);
 		
@@ -89,7 +96,7 @@ public class EndingScreen implements Screen {
 		if(s.startsWith("!")){
 			bg.clearActions();
 			bg.addAction(Actions.sequence(
-					Actions.fadeOut(1),
+					Actions.fadeOut(0.5f),
 					Actions.run(new Runnable() {
 						
 						@Override
@@ -97,7 +104,7 @@ public class EndingScreen implements Screen {
 							bg.setDrawable(new TextureRegionDrawable(new TextureRegion(gm.am.get(s.substring(1),Texture.class))));
 						}
 					}),
-					Actions.fadeIn(1)));
+					Actions.fadeIn(0.5f)));
 			tid+=delta;
 			processText(delta);
 		}else if(s.startsWith("~")){
@@ -109,7 +116,7 @@ public class EndingScreen implements Screen {
 			gm.as.playSound("dialog");
 			lb.clearActions();
 			lb.addAction(Actions.sequence(
-					Actions.fadeOut(1),
+					Actions.fadeOut(0.5f),
 					Actions.run(new Runnable() {
 						
 						@Override
@@ -117,7 +124,7 @@ public class EndingScreen implements Screen {
 							lb.setText(s);
 						}
 					}),
-					Actions.fadeIn(1)));
+					Actions.fadeIn(0.5f)));
 		}
 	}
 	

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.google.gson.Gson;
 import com.hhs.xgn.gdx.util.VU;
 import com.hhs.xgn.stg.game.TestGameBuilder;
+import com.hhs.xgn.stg.replay.Replay;
 import com.hhs.xgn.stg.struct.EndingBuilder;
 import com.hhs.xgn.stg.struct.GameBuilder;
 import com.hhs.xgn.stg.struct.GameChosen;
@@ -27,29 +28,7 @@ public class GameMain extends Game{
 	public AudioSystem as;
 	
 	public Gson gs=new Gson();
-	
-	String[] resources=new String[]{
-			"start/bg.jpg",
-			"start/title.png",
-			"zyq/front.png",
-			"entity/bullet.png",
-			"entity/enemy.png",
-			"zyq/player1.png",
-			"zyq/player2.png",
-			"zyq/player3.png",
-			"entity/playerbullet.png",
-			"ui/heart.png",
-			"entity/power.bmp",
-			"ui/pure.png",
-			"entity/point.bmp",
-			"art/reimu.png",
-			"bg/background.png",
-			"ui/ui_bg.png",
-			"ui/spells.png",
-			"ui/ui_com.png",
-			"bg/frogscbg.png",
-			"bg/bomb.png"
-	};
+
 	
 	void loadRes(FileHandle fh){
 		Gdx.app.log("LoadAsset", "Now at:"+fh);
@@ -84,27 +63,28 @@ public class GameMain extends Game{
 //		setStage(new TestStageBuilder(),new GameChosen(new PlayerZYQ(null), "Debug"));
 	}
 	
-	public void setStage(int id,Player inherit){
-//		if(mainScr!=null){
-//			mainScr.dispose();
-//		}
+	public void setStageP(int id,Player inherit){
+		setStage(id,new Replay(inherit));
 		
-		as.stopMusic();
-		
-		StageBuilder sb=gb.stage.get(id);
-		if(sb instanceof EndingBuilder){
-			edScr=new EndingScreen(this,(EndingBuilder)sb,inherit);
-			setScreen(edScr);
-		}else{
-			mainScr=new MainScreen(this, sb,gc,id,inherit);
-			setScreen(mainScr);
-		}
 	}
 	
 	public void setStage(int id){
-		setStage(id,null);
+		setStageP(id,null);
 	}
 	
+
+	public void setStage(int id, Replay rep) {
+		as.stopMusic();
+		
+		StageBuilder sb=gb.stage.get(id).clone();
+		if(sb instanceof EndingBuilder){
+			edScr=new EndingScreen(this,(EndingBuilder)sb,rep);
+			setScreen(edScr);
+		}else{
+			mainScr=new MainScreen(this, sb,gc,id,rep);
+			setScreen(mainScr);
+		}
+	}
 	
 	@Override
 	public void dispose() {
@@ -117,18 +97,9 @@ public class GameMain extends Game{
 	}
 	
 	public void returnToMenu() {
-//		if(stScr!=null){
-//			stScr.dispose();
-//		}
-//		if(mainScr!=null){
-//			mainScr.dispose();
-//		}
-//		if(edScr!=null){
-//			edScr.dispose();
-//		}
-//		
 		as.stopMusic();
 		stScr=new StartScreen(this, gb);
 		setScreen(stScr);
 	}
+	
 }

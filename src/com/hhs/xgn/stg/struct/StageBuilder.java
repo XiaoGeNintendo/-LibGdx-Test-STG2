@@ -7,7 +7,7 @@ import com.hhs.xgn.stg.launcher.MainScreen;
  * @author XGN
  *
  */
-public abstract class StageBuilder {
+public abstract class StageBuilder implements Cloneable{
 	
 	/**
 	 * Need to be implemented. <br/>
@@ -20,4 +20,12 @@ public abstract class StageBuilder {
 	
 	public abstract String getStageMusic();
 	
+	@Override
+	public StageBuilder clone() {
+		try{
+			return (StageBuilder)super.clone();
+		}catch(Exception e){
+			return null;
+		}
+	}
 }

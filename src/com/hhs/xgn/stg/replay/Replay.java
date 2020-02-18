@@ -42,7 +42,7 @@ public class Replay {
 		
 	}
 	public Replay(Player p) {
-//		this.player=p;
+		this.player=p;
 		this.isReplay=false;
 	}
 
@@ -83,7 +83,7 @@ public class Replay {
 	
 	public boolean isKeyPressed(int kCode){
 		if(isReplay){
-			return (keys.get(gameTick)&(1<<kCode))==0;
+			return (keys.get(gameTick)&(1<<kCode))!=0;
 		}else{
 			return Gdx.input.isKeyPressed(tgc[kCode]); 
 		}
@@ -91,8 +91,8 @@ public class Replay {
 	
 	public boolean isKeyJustPressed(int kCode){
 		if(isReplay){
-			boolean b1=(keys.get(gameTick)&(1<<kCode))==0;
-			boolean b2=gameTick==0 || (keys.get(gameTick-1)&(1<<kCode))==0;
+			boolean b1=(keys.get(gameTick)&(1<<kCode))!=0;
+			boolean b2=(keys.get(gameTick-1)&(1<<kCode))!=0;
 			
 			return (b1&&!b2);
 		}else{
@@ -111,11 +111,15 @@ public class Replay {
 		if(isReplay){
 			return;
 		}
-		Gdx.app.log("Replay", "RNG seed set to "+seed);
-		rnd=new Random(seed);
 		rng=seed;
+		registerRNG();
 	}
 	
+	public void registerRNG() {
+		Gdx.app.log("Replay", "RNG seed set to "+rng);
+		rnd=new Random(rng);
+	}
+
 	public int callRNG(int bound){
 		int val=rnd.nextInt(bound);
 //		Gdx.app.debug("RNG", "A new int was drawn:"+val+" in bound "+bound);
@@ -132,4 +136,5 @@ public class Replay {
 //		Gdx.app.debug("RNG-Double", "A new double was drawn:"+val+" in bound "+f);
 		return val;
 	}
+	
 }
