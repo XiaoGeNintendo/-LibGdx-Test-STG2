@@ -38,6 +38,8 @@ public class Replay {
 	
 	public int sId;
 	
+	public String difficulty;
+	
 	public Replay(){
 		
 	}
@@ -49,6 +51,9 @@ public class Replay {
 	public void update(int gt){ 
 		this.gameTick=gt;
 		while(keys.size()<=gt){
+			if(isReplay){
+				Gdx.app.error("Replay::update", "Replay out of bounds!!? Due to 2x speed or something else?");
+			}
 			keys.add(0);
 		}
 	}

@@ -140,11 +140,13 @@ public class MainScreen implements Screen {
 				}
 			}
 			this.rep.registerRNG();
+			gc.chosenDifficulty=this.rep.difficulty;
 			Gdx.app.log("MainScreen", "A replay is in session!");
 		}else{
 			Player inherit=rep.player;
 			p=(inherit==null?gc.chosenPlayer.clone():inherit);
 			this.rep=new Replay(p.clone());
+			this.rep.difficulty=gc.chosenDifficulty;
 			this.rep.registerRNG(System.currentTimeMillis());
 		}
 		
@@ -439,7 +441,7 @@ public class MainScreen implements Screen {
 	@Override
 	public void render(float arg0) {
 		
-		if( Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)){
+		if(Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)){
 			if(isKeyFrame){
 				isKeyFrame=false;
 				render(0);
